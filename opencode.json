@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "username": "FernandoMay",
+  "instructions": ["research-backlog/BACKLOG.md", "research-backlog/WORKFLOW.md"],
+  "agent": {
+    "research-assistant": {
+      "description": "Helps manage research backlog, paper writing, and conference submissions for Prof. Fernando May",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-6",
+      "permission": {
+        "edit": "allow",
+        "bash": { "git *": "allow", "*": "ask" }
+      }
+    }
+  }
+}

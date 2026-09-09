@@ -333,37 +333,39 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 
 ---
 
-## Priority Queue (Next Actions — Chronological)
+## Priority Queue (Reviewed 2026-09-09)
 
-### 🔴 THIS WEEK (Aug 28 – Sep 1)
-1. **Aug 30:** Register IEEE ETCM early-bird (E-01 paper)
-2. **Sep 1:** CCIOT deadline — submit I-01 (LEO Edge) + I-02 (Diffusion Covert)
+### Submission windows requiring immediate verification
 
-### 🟡 NEXT WEEK (Sep 2 – Sep 8)
-3. **Sep 5:** WSSE deadline — submit S-01 (CRL) + S-02 (Semantic THz)
-4. **Sep 5:** ICMV deadline — submit V-01 (Quantum Cognitive Networking)
-5. **Sep 5:** ICCPR deadline — P-01/P-02 as backup if needed
+| Priority | Venue | Deadline/status | Assigned work | Action |
+|---|---|---|---|---|
+| P0 | CAIT 2026 | Sep 20, verify CFP | CA-01 Stochastic Beam Management | Confirm portal and template |
+| P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING | Confirm Springer CCIS policy |
+| P1 | ISCMI 2026 | Sep 30, verify CFP | M-01 Diffusion THz Imaging | Confirm paper scope and page limit |
+| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | E-01 Quantum ISAC | Confirm whether paper submission remains open |
+| P1 | AI4Science 2026 | Deadline unknown | A-01 THz propagation | Obtain official CFP before writing |
 
-### 🟡 WEEK 3 (Sep 9 – Sep 15)
-6. **Sep 15:** ICRCV deadline — submit R-01 (Physical Covert THz)
-7. **Sep 15:** AIBT deadline — submit AB-01 (Quantum THz-6G)
-8. **Sep 15-17:** Neurotalk — deliver NT-01 talk in Kyoto
+### Deadlines already passed or requiring alternate venue
 
-### 🟢 WEEK 4+ (Sep 16 – Sep 30)
-9. **Sep 20:** CAIT deadline — submit CA-01 (Stochastic Beam Mgmt)
-10. **Sep 20:** SmartTech-IC deadline — submit ST-01 (NDAN→XING)
-11. **Sep 30:** ISCMI deadline — submit M-01 (Diffusion THz Imaging)
+| Venue | Original deadline | Decision |
+|---|---|---|
+| CCIOT 2026 | Sep 1 | Do not submit unless official extension is confirmed |
+| WSSE 2026 | Sep 5 | Archive as ready package; seek late/next edition only with confirmation |
+| ICMV 2026 | Sep 5 | Archive as ready package; use for journal extension |
+| ICRCV 2026 | Sep 15 | Confirm status immediately before submission |
+| AIBT 2026 | Sep 15 | Confirm status immediately before submission |
+| ITFT 2026 | Jul 15 | Transfer LEO package to next ITS/NTN CFP |
 
-### 🟢 OCTOBER+
-12. **Oct 22-24:** IEEE ETCM — present E-01 in Guayaquil
-13. **Oct 31:** SmartTech-IC notification
-14. **Nov-Dec:** Complete remaining papers + camera-ready versions
+### Next doctoral development sequence
 
-### 🔵 2027+ PhD Portfolio (Journals)
-15. Begin PHD-01: World-Model-Driven Cognitive Networking
-16. Begin PHD-02: Self-Evolving Cognitive Networks
-17. Begin PHD-03: Semantic State Synchronization
-18. Begin FT papers: Target IEEE Transactions
+1. **LEO-01:** Extend `leo-routing-itft2026-package` into predictive multi-objective NTN routing with repeated seeds and failure sweeps.
+2. **XING-01:** Use `xing-core` conformance tests and `xing-iccia2026` raw CSV to build the Cognitive Runtime / World Model paper.
+3. **ADAN-01:** Merge the ADAN degradation model with the CRL artifact and report stressed trials rather than benign completion.
+4. **SEM-01:** Upgrade `sc-ieee-package` into the semantic THz paper with matched raw/latent baselines and adversarial channel sweeps.
+5. **RIS-01:** Extend `ems-ieee-package` into STAR-RIS/near-field physical-layer security, retaining the current RIS simulator as baseline.
+6. **BCI-01:** Combine `fcstn`, `ndan`, `neurogrid`, and `generative-narrative-bci-ieee-package` into a validated NDAN/BCI paper with real-data provenance.
+7. **Q-01:** Use `qce-ieee-package`, `quantum-k-sat-ieee-package`, and `sra-ieee-package` as separate quantum-inspired optimization baselines, not one undifferentiated paper.
+8. **BIO-01:** Treat `biohealy-ipn` as a separate hardware/biomedical validation line requiring ethics, electrical safety, and human-study governance.
 
 ---
 
@@ -371,7 +373,7 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 
 | Category | Count | Status |
 |----------|-------|--------|
-| Conference Papers (Sep-Dec 2026) | 12 | ⏳ Active |
+| Conference Papers (Sep-Dec 2026) | 12 | ⏳ Verify CFP status |
 | PhD+ Level Papers (2027+) | 9 | 📋 Proposed |
 | Frontier Telematics Papers (2027+) | 11 | 📋 Proposed |
 | Speaking Engagements | 1 | ⏳ Pending |
@@ -380,3 +382,31 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 ---
 
 *This file is the single source of truth for the research pipeline. Update statuses as papers progress.*
+
+---
+
+## Repository-Backed Asset Map
+
+| Repository | Verified assets | Research use | Readiness |
+|---|---|---|---|
+| `leo-routing-itft2026-package` | NSGA-II, Q-learning, simulator, JSON metrics, figures, CCIS PDF | LEO/NTN routing and ITS | Ready baseline; needs repeated seeded trials |
+| `xing-core` | RFCs, runtime, WASM sandbox, memory, observatory, conformance tests | XING runtime and world-model infrastructure | Strong architecture base |
+| `xing-iccia2026` | Stochastic simulator, CSV, RAI/GRE/CRL figures | Reproducible XING evaluation | Strong empirical base |
+| `fcstn` | Fractal engine, metric tensor, NDAN/BCI, coalitions, 22 tests | Cognitive digital twins and NDAN | Runnable; CPU performance limits documented |
+| `adan-ieee-package` | Degradation model, CRL operators, C kernel, paper package | Cognitive resilience under progressive failure | Candidate for stressed CRL paper |
+| `sc-ieee-package` | Semantic autoencoder, terrestrial/LEO/hybrid paths, jamming model | Semantic communication baseline | Candidate for S-02 extension |
+| `ems-ieee-package` | RIS array model, C kernel, secrecy metrics, Monte Carlo | RIS physical-layer security | Candidate for R-01/FT-07 extension |
+| `generative-narrative-bci-ieee-package` | Diffusion/BCI simulator, metrics, figures, PDF | Generative BCI narratives and ICCPR/CAIT | Needs real-data provenance check |
+| `qce-ieee-package` | Quantum-classical optimizer, RL predictor, C kernel | Embedded quantum-inspired optimization | Candidate for ICITES/future IEEE |
+| `quantum-k-sat-ieee-package` | QAOA simulator, noise models, mitigation figures | Quantum optimization methodology | Separate methods paper |
+| `sra-ieee-package` | Event-driven stochastic scheduler, C kernel | Distributed OS and quantum resources | Candidate for ICITES/future systems venue |
+| `icft2026-package` | HMM, wavelets, ensemble, RL thresholding | Financial anomaly detection | Separate finance venue |
+| `biohealy-ipn` | ESP32-S3 firmware, hardware design, impedance monitor | Biomedical embedded systems | Requires safety/ethics gate |
+| `ReproduceLab-AI` | PDF-to-protocol multi-agent workflow, cost estimation | Automated reproducibility layer for all papers | Tooling, not a scientific result by itself |
+
+## Safety and Credential Policy
+
+- Use only public repositories and datasets by default.
+- Never copy GitHub tokens, API keys, deployment secrets, or private data into papers or experiments.
+- Do not connect to additional machines on the local network until the machine, account, workload, and data scope are explicitly authorized.
+- Record hardware, GPU model, package versions, random seeds, dataset hashes, and command lines for every published result.

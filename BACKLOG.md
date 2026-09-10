@@ -252,6 +252,12 @@ These are grouped into reusable research programs rather than assigned to multip
 | N-05 | Multi-Agent Reinforcement Learning for Coherent Calibration of Distributed THz Antenna Systems | 90% | IEEE TAP/TWC / ICMV successor | `ems-ieee-package`, `v01-quantum-cognitive-networking` |
 | N-06 | Stochastic Modeling of Quantum-Attack Vulnerabilities in Post-Quantum Image Communication Security | 88% | AIBT / ICITES / IEEE TIFS | `quantum-k-sat-ieee-package`, `sra-ieee-package`, `i02-diffusion-covert-detection` |
 
+### Program D — AI for Science
+
+| ID | Working title | Priority | Primary next venue | Existing assets |
+|---|---|---:|---|---|
+| N-07 | Agentic Scientific Intelligence for Autonomous Discovery in Distributed 6G and LEO Edge Networks | 96% | AI4Science 2026 | `ai4science-2026-agentic-science`, `leo-01`, `xing-core` |
+
 ### Assignment Rules
 
 - N-01 is the strongest immediate development candidate because it unifies edge computing, THz channels, stochastic diffusion, and existing LEO code.
@@ -395,12 +401,12 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 |---|---|---|---|---|
 | P0 | ICRCV 2026 | Sep 15, verify CFP | R-01 Physical Covert THz | Confirm whether late submission is open |
 | P0 | AIBT 2026 | Sep 15, verify CFP | AB-01 Quantum THz-6G | Confirm portal and ACM policy |
-| P0 | ICMV 2026 SS2 | Original Sep 5; special-session route to verify | Dedicated ICMV SS2 quantum cognitive package | Contact SS2 chairs immediately |
+| P0 | ICMV 2026 SS2 | **Submitted Sep 10 — Submission 146** | Dedicated ICMV SS2 quantum cognitive package | Await review/decision |
 | P0 | CAIT 2026 | Sep 20, verify CFP | CA-01 Stochastic Beam Management | Confirm portal and template |
 | P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING; SEM-01 | Confirm Springer CCIS policy |
 | P1 | ISCMI 2026 | Sep 30, verify CFP | M-01 Diffusion THz Imaging | Confirm paper scope and page limit |
-| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | E-01 Quantum ISAC; QCE | Confirm whether paper submission remains open |
-| P1 | AI4Science 2026 | Deadline unknown | A-01 THz propagation; PI-LDM | Obtain official CFP before writing |
+| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | E-01 Quantum ISAC; QCE package | Confirm whether late paper submission remains open |
+| P1 | AI4Science 2026 | Deadline unknown | Agentic Scientific Intelligence package | Obtain official CFP before writing |
 | P2 | ICCPR 2026 | Conference Oct 29-Nov 1 | H.266 DRL; BCI narrative | Confirm extension/status only |
 | P2 | ICITES 2026 | Deadline unknown | QCE; SRA; quantum-K-SAT | Obtain official CFP |
 
@@ -434,6 +440,8 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 | **SS4 — Machine Vision Meets Agriculture 5.0** | New V-03 THz Image Communication for Precision Agriculture | Connects image transmission, sensing, and agricultural decision support | Use an agricultural image dataset and report SSIM/PSNR/task accuracy |
 
 **Final assignment:** V-01 is assigned to SS2. The dedicated package is `icmv-ss2-quantum-cognitive-ai`; verify whether the original Sep 5 deadline is extended and request the SS2 submission link. SS3 and SS4 remain future variants, not current submissions.
+
+**Submission record:** EasyChair `ICMV 2026 Submission 146`, title `Quantum-Inspired Cognitive Networking for AI-Native Information Technologies: Candidate-Route Diversity under Dynamic Network Conditions`, submitted September 10, 2026.
 
 ---
 

@@ -264,7 +264,7 @@
 | # | Paper | Conference | Deadline |
 |---|-------|------------|----------|
 | S-02 | Semantic-Aware THz Communication for 6G Swarms | WSSE 2026 | Sep 5 |
-| V-01 | Quantum-Inspired Cognitive Networking for AI-Native 6G | ICMV 2026 | Sep 5 |
+| V-01 | Quantum-Inspired Cognitive Networking for AI-Native Information Technologies | ICMV 2026 SS2 | Sep 5 / extension verify |
 | R-01 | Physical-Layer Covert Communications in Sub-THz | ICRCV 2026 | Sep 15 |
 | CA-01 | Stochastic Game-Theoretic Beam Management | CAIT 2026 | Sep 20 |
 | E-01 | Quantum-Inspired ISAC Waveform Synthesis | IEEE ETCM 2026 | Oct 22 |
@@ -341,7 +341,7 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 |---|---|---|---|---|
 | P0 | ICRCV 2026 | Sep 15, verify CFP | R-01 Physical Covert THz | Confirm whether late submission is open |
 | P0 | AIBT 2026 | Sep 15, verify CFP | AB-01 Quantum THz-6G | Confirm portal and ACM policy |
-| P0 | ICMV 2026 | Original Sep 5; special sessions to verify | V-01, V-02, or THz imaging variant | Contact SS2/SS3/SS4 chairs immediately |
+| P0 | ICMV 2026 SS2 | Original Sep 5; special-session route to verify | Dedicated ICMV SS2 quantum cognitive package | Contact SS2 chairs immediately |
 | P0 | CAIT 2026 | Sep 20, verify CFP | CA-01 Stochastic Beam Management | Confirm portal and template |
 | P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING; SEM-01 | Confirm Springer CCIS policy |
 | P1 | ISCMI 2026 | Sep 30, verify CFP | M-01 Diffusion THz Imaging | Confirm paper scope and page limit |
@@ -379,7 +379,7 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 | **SS3 — Transformers in Remote Sensing** | New V-02 THz Remote-Sensing Reconstruction, derived from M-01 | THz imaging and remote sensing are stronger than generic networking | Replace generic diffusion claims with a transformer/remote-sensing task and dataset |
 | **SS4 — Machine Vision Meets Agriculture 5.0** | New V-03 THz Image Communication for Precision Agriculture | Connects image transmission, sensing, and agricultural decision support | Use an agricultural image dataset and report SSIM/PSNR/task accuracy |
 
-**Action:** verify whether the original Sep 5 deadline is extended for SS3/SS4 and request the correct submission link from the special-session chairs. Do not submit V-01 unchanged to SS3 or SS4.
+**Final assignment:** V-01 is assigned to SS2. The dedicated package is `icmv-ss2-quantum-cognitive-ai`; verify whether the original Sep 5 deadline is extended and request the SS2 submission link. SS3 and SS4 remain future variants, not current submissions.
 
 ---
 

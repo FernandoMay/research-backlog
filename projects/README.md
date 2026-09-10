@@ -7,6 +7,7 @@ These projects extend the previously presented packages. The earlier conference 
 | [`leo-01-predictive-routing`](https://github.com/FernandoMay/leo-01-predictive-routing) | Predictive multi-objective routing for LEO/NTN | `leo-routing-itft2026-package` | IEEE JSAC/TWC or future NTN/ITS CFP |
 | [`xing-adan-resilience`](https://github.com/FernandoMay/xing-adan-resilience) | XING + ADAN cognitive resilience under degradation | `xing-core`, `xing-iccia2026`, `adan-ieee-package` | IEEE TNSM/TDSC or software systems venue |
 | [`sem-01-adversarial-semantic`](https://github.com/FernandoMay/sem-01-adversarial-semantic) | Semantic communication over heterogeneous adversarial paths | `sc-ieee-package`, `s02-semantic-thz` | IEEE TCOM/TWC/JSAC |
+| [`icmv-ss2-quantum-cognitive-ai`](https://github.com/FernandoMay/icmv-ss2-quantum-cognitive-ai) | ICMV SS2 AI-native cognitive networking | `v01-quantum-cognitive-networking` | ICMV 2026 SS2 |
 
 ## Delivery Contract
 

@@ -154,7 +154,7 @@
 
 | # | Paper Title | Status | Assignee | Notes |
 |---|-------------|--------|----------|-------|
-| E-01 | Quantum-Inspired Multi-Objective Waveform Synthesis for Joint Sensing and Communication in 6G THz Networks | ⏳ Developing | Dr. May | ISAC + quantum annealing + THz |
+| E-01 | Quantum-Inspired Multi-Objective Waveform Synthesis for Joint Sensing and Communication in 6G THz Networks | ✅ Submitted to ICITES | Dr. May | Publication-locked; do not resubmit unchanged to ETCM |
 
 ---
 
@@ -327,7 +327,7 @@ These are grouped into reusable research programs rather than assigned to multip
 | V-01 | Quantum-Inspired Cognitive Networking for AI-Native Information Technologies | ICMV 2026 SS2 | Sep 5 / extension verify |
 | R-01 | Physical-Layer Covert Communications in Sub-THz | ICRCV 2026 | Sep 15 |
 | CA-01 | Stochastic Game-Theoretic Beam Management | CAIT 2026 | Sep 20 |
-| E-01 | Quantum-Inspired ISAC Waveform Synthesis | IEEE ETCM 2026 | Oct 22 |
+| E-01 | Quantum-Inspired ISAC Waveform Synthesis | ICITES 2026 (submitted) | Publication-locked; ETCM only for a distinct extension |
 | M-01 | Diffusion-Guided THz Image Reconstruction | ISCMI 2026 | Sep 30 |
 | **FT-01** | **Quantum Variational Semantic Coding for THz** | IEEE Trans. Comm | 2027 |
 | **FT-02** | **Near-Field ISAC with Quantum-Inspired Neural Networks** | IEEE JSAC | 2027 |
@@ -405,8 +405,8 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 | P0 | CAIT 2026 | Sep 20, verify CFP | CA-01 Stochastic Beam Management | Confirm portal and template |
 | P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING; SEM-01 | Confirm Springer CCIS policy |
 | P1 | ISCMI 2026 | Sep 30, verify CFP | M-01 Diffusion THz Imaging | Confirm paper scope and page limit |
-| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | E-01 Quantum ISAC; QCE package | Confirm whether late paper submission remains open |
-| P1 | AI4Science 2026 | Deadline unknown | Agentic Scientific Intelligence package | Obtain official CFP before writing |
+| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | Distinct new extension only | E-01/QCE already assigned to ICITES; no duplicate submission |
+| P1 | AI4Science 2026 | Deadline unknown | Agentic Scientific Intelligence package | Obtain official CFP and upload procedure |
 | P2 | ICCPR 2026 | Conference Oct 29-Nov 1 | H.266 DRL; BCI narrative | Confirm extension/status only |
 | P2 | ICITES 2026 | Deadline unknown | QCE; SRA; quantum-K-SAT | Obtain official CFP |
 

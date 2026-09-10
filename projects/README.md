@@ -9,8 +9,8 @@ These projects extend the previously presented packages. The earlier conference 
 | [`sem-01-adversarial-semantic`](https://github.com/FernandoMay/sem-01-adversarial-semantic) | Semantic communication over heterogeneous adversarial paths | `sc-ieee-package`, `s02-semantic-thz` | IEEE TCOM/TWC/JSAC |
 | [`icmv-ss2-quantum-cognitive-ai`](https://github.com/FernandoMay/icmv-ss2-quantum-cognitive-ai) | ICMV SS2 AI-native cognitive networking | `v01-quantum-cognitive-networking` | ICMV 2026 SS2 |
 | [`n01-diffusion-thz-edge`](https://github.com/FernandoMay/n01-diffusion-thz-edge) | Diffusion-inspired THz edge resource allocation | `leo-01`, `sem-01` | SmartTech-IC / CAIT |
-| [`etcm-2026-qce`](https://github.com/FernandoMay/etcm-2026-qce) | Quantum-classical embedded error mitigation | `qce-ieee-package` | ETCM late-submission inquiry |
-| [`nanox-2026-ndan`](https://github.com/FernandoMay/nanox-2026-ndan) | NDAN/BCI distinguished-speaker abstract | `fcstn`, `ndan` | NanoX 2026 due diligence |
+| [`etcm-2026-qce`](https://github.com/FernandoMay/etcm-2026-qce) | Quantum-classical embedded error mitigation | `qce-ieee-package` | ICITES-submitted; ETCM no-reuse lock |
+| [`nanox-2026-ndan`](https://github.com/FernandoMay/nanox-2026-ndan) | Deep NDAN/BCI nanotechnology-ready paper and speaker package | `fcstn`, `ndan` | NanoX 2026 due diligence |
 | [`ai4science-2026-agentic-science`](https://github.com/FernandoMay/ai4science-2026-agentic-science) | Scientific Experiment Graph for autonomous discovery | `leo-01`, `xing-core` | AI4Science 2026 |
 
 ## Delivery Contract

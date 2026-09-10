@@ -235,7 +235,7 @@ These are grouped into reusable research programs rather than assigned to multip
 
 | ID | Working title | Priority | Primary next venue | Existing assets |
 |---|---|---:|---|---|
-| N-01 | Diffusion-Based Intelligent Optimization for THz-Enabled Edge Computing Resource Allocation in 6G Networks | 95% | SmartTech-IC / ISCMI / IEEE TWC | `leo-01-predictive-routing`, `sem-01-adversarial-semantic` |
+| N-01 | Diffusion-Based Intelligent Optimization for THz-Enabled Edge Computing Resource Allocation in 6G Networks | 95% | SmartTech-IC / ISCMI / IEEE TWC | [`n01-diffusion-thz-edge`](https://github.com/FernandoMay/n01-diffusion-thz-edge), `leo-01-predictive-routing`, `sem-01-adversarial-semantic` |
 | N-02 | Generative Diffusion Models for Synthetic THz Channel Data in Security Evaluation | 89% | ISCMI / IEEE TIFS | `i02-diffusion-covert-detection`, `r01-physical-covert-thz` |
 
 ### Program B — THz Sensing, Images, and Security

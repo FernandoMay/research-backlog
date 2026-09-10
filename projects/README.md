@@ -8,6 +8,7 @@ These projects extend the previously presented packages. The earlier conference 
 | [`xing-adan-resilience`](https://github.com/FernandoMay/xing-adan-resilience) | XING + ADAN cognitive resilience under degradation | `xing-core`, `xing-iccia2026`, `adan-ieee-package` | IEEE TNSM/TDSC or software systems venue |
 | [`sem-01-adversarial-semantic`](https://github.com/FernandoMay/sem-01-adversarial-semantic) | Semantic communication over heterogeneous adversarial paths | `sc-ieee-package`, `s02-semantic-thz` | IEEE TCOM/TWC/JSAC |
 | [`icmv-ss2-quantum-cognitive-ai`](https://github.com/FernandoMay/icmv-ss2-quantum-cognitive-ai) | ICMV SS2 AI-native cognitive networking | `v01-quantum-cognitive-networking` | ICMV 2026 SS2 |
+| [`n01-diffusion-thz-edge`](https://github.com/FernandoMay/n01-diffusion-thz-edge) | Diffusion-inspired THz edge resource allocation | `leo-01`, `sem-01` | SmartTech-IC / CAIT |
 
 ## Delivery Contract
 

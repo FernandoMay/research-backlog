@@ -2,18 +2,29 @@
 
 This file separates confirmed invitations from venue hypotheses. A venue is not considered submission-ready until its official CFP, deadline, publisher, page limit, and submission portal are verified.
 
-## Active or Reusable 2026 Targets
+## Active From 2026-09-09
 
 | Venue | Known information | Candidate paper/package | Status |
 |---|---|---|---|
+| ICRCV 2026 | Jiangyin, Nov 6-8; deadline Sep 15 in invitation | R-01 Physical Covert THz | Confirm late/open portal |
+| AIBT 2026 | Shanghai, Nov 27-29; deadline Sep 15 in invitation | AB-01 Quantum THz-6G | Confirm portal |
 | CAIT 2026 | Guiyang, Nov 13-15; deadline Sep 20 in invitation | CA-01 stochastic beam management | Verify portal |
 | SmartTech-IC 2026 | Quito, Dec 1-3; deadline Sep 20 in invitation | ST-01 NDAN/XING; SEM-01 semantic communication | Verify official CFP |
 | ISCMI 2026 | Vienna, Nov 18-20; deadline Sep 30 in invitation | M-01 diffusion THz imaging; ICFT financial anomaly variant | Verify scope |
 | IEEE ETCM 2026 | Guayaquil, Oct 22-24; hybrid | E-01 quantum ISAC; QCE embedded optimization | Confirm paper window |
 | AI4Science 2026 | Shenzhen, Oct 23-25; deadline not supplied | THz propagation; physics-informed imaging | Obtain official deadline |
-| ICCS 2026 | Hangzhou, Sep 18-21 in `amso-ieee-package` | AMSO semantic communication | Confirm CFP and portal |
+| ICCPR 2026 | Wuxi, Oct 29-Nov 1; prior deadline Sep 5 | H.266 DRL; BCI narrative | Verify extension/status only |
 | ICITES 2026 | Mentioned by `qce-ieee-package` | QCE; SRA; quantum-K-SAT methods | Obtain official CFP |
-| ICCPR 2026 | Wuxi, Oct 29-Nov 1; prior deadline Sep 5 | H.266/VVC DRL package; generative narrative BCI | Verify extension/status |
+
+## Archived Before 2026-09-09
+
+| Venue | Reason |
+|---|---|
+| IC&C 2026 | Deadline Aug 30 passed |
+| CCIOT 2026 | Deadline Sep 1 passed |
+| WSSE 2026 | Deadline Sep 5 passed |
+| ICMV 2026 | Deadline Sep 5 passed |
+| ITFT 2026 | Deadline Jul 15 passed |
 
 ## Future and Journal Targets
 

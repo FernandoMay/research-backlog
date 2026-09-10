@@ -333,30 +333,33 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 
 ---
 
-## Priority Queue (Reviewed 2026-09-09)
+## Priority Queue (Active From 2026-09-09)
 
-### Submission windows requiring immediate verification
+### Active submission windows requiring immediate verification
 
 | Priority | Venue | Deadline/status | Assigned work | Action |
 |---|---|---|---|---|
+| P0 | ICRCV 2026 | Sep 15, verify CFP | R-01 Physical Covert THz | Confirm whether late submission is open |
+| P0 | AIBT 2026 | Sep 15, verify CFP | AB-01 Quantum THz-6G | Confirm portal and ACM policy |
 | P0 | CAIT 2026 | Sep 20, verify CFP | CA-01 Stochastic Beam Management | Confirm portal and template |
-| P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING | Confirm Springer CCIS policy |
+| P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING; SEM-01 | Confirm Springer CCIS policy |
 | P1 | ISCMI 2026 | Sep 30, verify CFP | M-01 Diffusion THz Imaging | Confirm paper scope and page limit |
-| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | E-01 Quantum ISAC | Confirm whether paper submission remains open |
-| P1 | AI4Science 2026 | Deadline unknown | A-01 THz propagation | Obtain official CFP before writing |
+| P1 | IEEE ETCM 2026 | Oct 22-24, registration/program | E-01 Quantum ISAC; QCE | Confirm whether paper submission remains open |
+| P1 | AI4Science 2026 | Deadline unknown | A-01 THz propagation; PI-LDM | Obtain official CFP before writing |
+| P2 | ICCPR 2026 | Conference Oct 29-Nov 1 | H.266 DRL; BCI narrative | Confirm extension/status only |
+| P2 | ICITES 2026 | Deadline unknown | QCE; SRA; quantum-K-SAT | Obtain official CFP |
 
-### Deadlines already passed or requiring alternate venue
+### Historical deadlines and archived packages
 
 | Venue | Original deadline | Decision |
 |---|---|---|
-| CCIOT 2026 | Sep 1 | Do not submit unless official extension is confirmed |
-| WSSE 2026 | Sep 5 | Archive as ready package; seek late/next edition only with confirmation |
-| ICMV 2026 | Sep 5 | Archive as ready package; use for journal extension |
-| ICRCV 2026 | Sep 15 | Confirm status immediately before submission |
-| AIBT 2026 | Sep 15 | Confirm status immediately before submission |
-| ITFT 2026 | Jul 15 | Transfer LEO package to next ITS/NTN CFP |
+| IC&C 2026 | Aug 30 | Archived; transfer quantum LEO/MEC work |
+| CCIOT 2026 | Sep 1 | Archived; use I-01/I-02 as journal or extension baselines |
+| WSSE 2026 | Sep 5 | Archived; use S-01/S-02 as successor baselines |
+| ICMV 2026 | Sep 5 | Archived; use V-01 as journal/next-edition baseline |
+| ITFT 2026 | Jul 15 | Archived; continue LEO-01 for next NTN/ITS venue |
 
-### Next doctoral development sequence
+### Active doctoral development sequence
 
 1. **LEO-01:** Extend `leo-routing-itft2026-package` into predictive multi-objective NTN routing with repeated seeds and failure sweeps.
 2. **XING-01:** Use `xing-core` conformance tests and `xing-iccia2026` raw CSV to build the Cognitive Runtime / World Model paper.

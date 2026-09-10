@@ -168,7 +168,7 @@
 
 | # | Candidate | Status | Notes |
 |---|-----------|--------|-------|
-| NX-01 | NeuroDigital Interfaces and Adaptive Cognitive Networking | 📋 Talk/abstract candidate | Strongest fit through BCI, nanosensors, and cognitive interfaces |
+| NX-01 | Nano-Interface-Ready Neuro-Semantic State Communication for Privacy-Preserving Human-AI Cognitive Networks | 📋 Talk/abstract candidate | New follow-up to WITCOM 2025; not a duplicate of the published NDAN paper |
 
 **Risk control:** Do not treat NanoX as an archival indexed-paper venue until publisher, proceedings, indexing, fees, and review policy are independently verified.
 

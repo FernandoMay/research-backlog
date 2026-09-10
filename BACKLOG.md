@@ -145,7 +145,10 @@
 ### 10. IEEE ETCM 2026 — Ecuador Technical Chapters Meeting
 - **Dates:** Oct 22–24, 2026 | Guayaquil, Ecuador
 - **Format:** Hybrid
-- **Registration:** Early-bird by Aug 30
+- **Paper length:** 4–6 pages including references
+- **Review:** Double-blind
+- **Official paper deadline:** Jun 13, 2026 (passed)
+- **Official camera-ready:** Aug 23, 2026 (passed)
 - **Publisher:** IEEE
 - **Topics:** 13 tracks (Communications, Computational Intelligence, Robotics, etc.)
 
@@ -155,7 +158,23 @@
 
 ---
 
-### 11. AIBT 2026 — Artificial Intelligence and Blockchain Technology
+### 11. NanoX 2026 — Global Conference on Advanced Nanotechnology and Nanomaterials
+- **Dates:** Oct 26–27, 2026 | Amsterdam, Netherlands
+- **Type:** Distinguished Speaker / Abstract invitation
+- **Website:** nanotechconferences.com
+- **Submission:** Abstract form; deadline not stated in supplied material
+- **Status:** ⏳ Due diligence required
+- **Topics:** Nanoscience, nanomaterials, AI, nanosensors, robotics, nano and big data
+
+| # | Candidate | Status | Notes |
+|---|-----------|--------|-------|
+| NX-01 | NeuroDigital Interfaces and Adaptive Cognitive Networking | 📋 Talk/abstract candidate | Strongest fit through BCI, nanosensors, and cognitive interfaces |
+
+**Risk control:** Do not treat NanoX as an archival indexed-paper venue until publisher, proceedings, indexing, fees, and review policy are independently verified.
+
+---
+
+### 12. AIBT 2026 — Artificial Intelligence and Blockchain Technology
 - **Dates:** Nov 27–29, 2026 | Shanghai, China
 - **Submission Deadline:** Sep 15, 2026 🟡
 - **Publication:** ACM (Ei Compendex & Scopus)
@@ -205,6 +224,41 @@
 | # | Topic | Priority | Status | Notes |
 |---|-------|----------|--------|-------|
 | D-01 | Recursos de Estudio: modelo aplicado para estudio e investigación | 🟢 Low | 📋 Backlog | Modern communication theory |
+
+---
+
+## New Research Proposals — September 2026 Intake
+
+These are grouped into reusable research programs rather than assigned to multiple venues simultaneously.
+
+### Program A — Generative THz Edge Intelligence
+
+| ID | Working title | Priority | Primary next venue | Existing assets |
+|---|---|---:|---|---|
+| N-01 | Diffusion-Based Intelligent Optimization for THz-Enabled Edge Computing Resource Allocation in 6G Networks | 95% | SmartTech-IC / ISCMI / IEEE TWC | `leo-01-predictive-routing`, `sem-01-adversarial-semantic` |
+| N-02 | Generative Diffusion Models for Synthetic THz Channel Data in Security Evaluation | 89% | ISCMI / IEEE TIFS | `i02-diffusion-covert-detection`, `r01-physical-covert-thz` |
+
+### Program B — THz Sensing, Images, and Security
+
+| ID | Working title | Priority | Primary next venue | Existing assets |
+|---|---|---:|---|---|
+| N-03 | THz Perception-Enhanced Covert Communication for Distributed Image Networks | 92% | ICRCV / ICCPR successor / IEEE TIFS | `r01-physical-covert-thz`, `sem-01-adversarial-semantic` |
+| N-04 | Reinforcement Learning-Optimized DSP for Integrated THz Sensing and Communication | 90% | IEEE ETCM successor / IEEE TWC | `E-01`, `sra-ieee-package`, `ems-ieee-package` |
+
+### Program C — Antennas, Quantum Security, and Calibration
+
+| ID | Working title | Priority | Primary next venue | Existing assets |
+|---|---|---:|---|---|
+| N-05 | Multi-Agent Reinforcement Learning for Coherent Calibration of Distributed THz Antenna Systems | 90% | IEEE TAP/TWC / ICMV successor | `ems-ieee-package`, `v01-quantum-cognitive-networking` |
+| N-06 | Stochastic Modeling of Quantum-Attack Vulnerabilities in Post-Quantum Image Communication Security | 88% | AIBT / ICITES / IEEE TIFS | `quantum-k-sat-ieee-package`, `sra-ieee-package`, `i02-diffusion-covert-detection` |
+
+### Assignment Rules
+
+- N-01 is the strongest immediate development candidate because it unifies edge computing, THz channels, stochastic diffusion, and existing LEO code.
+- N-02 and N-03 must share channel-generation infrastructure but remain separate papers: one studies synthetic data utility, the other studies covert image communication.
+- N-04 and N-05 should not claim hardware validation without DSP/antenna measurements; begin as simulation papers.
+- N-06 is a modeling paper and must not claim a real quantum attack or post-quantum security certification.
+- Only one venue receives each manuscript at a time; rejected versions may become revised extensions.
 
 ---
 

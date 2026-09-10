@@ -6,7 +6,13 @@
 - **Venue:** Hotel Oro Verde, Guayaquil, Ecuador
 - **Format:** Hybrid
 - **Submission Deadline:** TBD (paper submission closed; registration open)
+- **Submission Deadline (official page):** June 13, 2026
+- **Notification:** July 22, 2026
+- **Camera-Ready:** August 23, 2026
 - **Early-Bird Registration:** August 30, 2026
+- **Paper Length:** 4-6 pages including references and illustrations
+- **Review:** Double-blind
+- **Submission:** EasyChair link from the official ETCM page
 - **Publisher:** IEEE
 - **Organizer:** IEEE Ecuador Section
 - **Co-organizers:** Instituto Superior Universitario Bolivariano de Tecnología (ITB), Universidad Bolivariana del Ecuador (UBE)
@@ -50,8 +56,13 @@
 - **Status:** 📋 Proposed
 
 ## Action Items
-- [ ] Check paper submission status (may be closed)
+- [x] Check paper submission status: official dates have passed
+- [ ] Ask organizers whether late/special submissions are accepted
 - [ ] Register early-bird by Aug 30 (if attending)
 - [ ] Confirm hybrid participation options
-- [ ] Check if poster/abstract submissions still open
+- [ ] Submit only an anonymized 4-6 page IEEE version if late submission is explicitly authorized
 - [ ] Plan travel to Guayaquil if attending in-person
+
+## Editorial Decision
+
+ETCM is retained as a historical/late-submission opportunity, not an active normal-deadline target. Any paper must be shortened to the IEEE 4-6 page format and anonymized for double-blind review.

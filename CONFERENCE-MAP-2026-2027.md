@@ -15,6 +15,7 @@ This file separates confirmed invitations from venue hypotheses. A venue is not 
 | SmartTech-IC 2026 | Quito, Dec 1-3; deadline Sep 20 in invitation | ST-01 NDAN/XING; SEM-01 semantic communication | Verify official CFP |
 | ISCMI 2026 | Vienna, Nov 18-20; deadline Sep 30 in invitation | M-01 diffusion THz imaging; ICFT financial anomaly variant | Verify scope |
 | IEEE ETCM 2026 | Guayaquil, Oct 22-24; hybrid | E-01 quantum ISAC; QCE embedded optimization | Confirm paper window |
+| NanoX 2026 | Amsterdam, Oct 26-27; speaker/abstract invitation | NX-01 NDAN/BCI talk | Due diligence; not yet archival paper |
 | AI4Science 2026 | Shenzhen, Oct 23-25; deadline not supplied | THz propagation; physics-informed imaging | Obtain official deadline |
 | ICCPR 2026 | Wuxi, Oct 29-Nov 1; prior deadline Sep 5 | H.266 DRL; BCI narrative | Verify extension/status only |
 | ICITES 2026 | Mentioned by `qce-ieee-package` | QCE; SRA; quantum-K-SAT methods | Obtain official CFP |

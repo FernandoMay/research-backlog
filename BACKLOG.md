@@ -341,6 +341,7 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 |---|---|---|---|---|
 | P0 | ICRCV 2026 | Sep 15, verify CFP | R-01 Physical Covert THz | Confirm whether late submission is open |
 | P0 | AIBT 2026 | Sep 15, verify CFP | AB-01 Quantum THz-6G | Confirm portal and ACM policy |
+| P0 | ICMV 2026 | Original Sep 5; special sessions to verify | V-01, V-02, or THz imaging variant | Contact SS2/SS3/SS4 chairs immediately |
 | P0 | CAIT 2026 | Sep 20, verify CFP | CA-01 Stochastic Beam Management | Confirm portal and template |
 | P0 | SmartTech-IC 2026 | Sep 20, verify CFP | ST-01 NDAN to XING; SEM-01 | Confirm Springer CCIS policy |
 | P1 | ISCMI 2026 | Sep 30, verify CFP | M-01 Diffusion THz Imaging | Confirm paper scope and page limit |
@@ -356,7 +357,7 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 | IC&C 2026 | Aug 30 | Archived; transfer quantum LEO/MEC work |
 | CCIOT 2026 | Sep 1 | Archived; use I-01/I-02 as journal or extension baselines |
 | WSSE 2026 | Sep 5 | Archived; use S-01/S-02 as successor baselines |
-| ICMV 2026 | Sep 5 | Archived; use V-01 as journal/next-edition baseline |
+| ICMV 2026 | Sep 5 | Original deadline passed; special-session route is active pending confirmation |
 | ITFT 2026 | Jul 15 | Archived; continue LEO-01 for next NTN/ITS venue |
 
 ### Active doctoral development sequence
@@ -369,6 +370,16 @@ Gen 1  Gen 2  Gen 3         Gen 4                    Gen 5                     G
 6. **BCI-01:** Combine `fcstn`, `ndan`, `neurogrid`, and `generative-narrative-bci-ieee-package` into a validated NDAN/BCI paper with real-data provenance.
 7. **Q-01:** Use `qce-ieee-package`, `quantum-k-sat-ieee-package`, and `sra-ieee-package` as separate quantum-inspired optimization baselines, not one undifferentiated paper.
 8. **BIO-01:** Treat `biohealy-ipn` as a separate hardware/biomedical validation line requiring ethics, electrical safety, and human-study governance.
+
+### ICMV 2026 Special-Session Assignment
+
+| Special session | Candidate research | Rationale | Required adaptation |
+|---|---|---|---|
+| **SS2 — Information Technologies and Artificial Intelligence** | V-01 Quantum-Inspired Cognitive Networking | AI-native routing and heuristic optimization fit the IT/AI scope | Reframe toward machine-vision data pipelines and report matched classical baselines |
+| **SS3 — Transformers in Remote Sensing** | New V-02 THz Remote-Sensing Reconstruction, derived from M-01 | THz imaging and remote sensing are stronger than generic networking | Replace generic diffusion claims with a transformer/remote-sensing task and dataset |
+| **SS4 — Machine Vision Meets Agriculture 5.0** | New V-03 THz Image Communication for Precision Agriculture | Connects image transmission, sensing, and agricultural decision support | Use an agricultural image dataset and report SSIM/PSNR/task accuracy |
+
+**Action:** verify whether the original Sep 5 deadline is extended for SS3/SS4 and request the correct submission link from the special-session chairs. Do not submit V-01 unchanged to SS3 or SS4.
 
 ---
 

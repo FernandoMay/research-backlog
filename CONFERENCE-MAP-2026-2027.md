@@ -8,6 +8,9 @@ This file separates confirmed invitations from venue hypotheses. A venue is not 
 |---|---|---|---|
 | ICRCV 2026 | Jiangyin, Nov 6-8; deadline Sep 15 in invitation | R-01 Physical Covert THz | Confirm late/open portal |
 | AIBT 2026 | Shanghai, Nov 27-29; deadline Sep 15 in invitation | AB-01 Quantum THz-6G | Confirm portal |
+| ICMV 2026 SS2 | Information Technologies and Artificial Intelligence | V-01 Quantum-Inspired Cognitive Networking | Confirm special-session route |
+| ICMV 2026 SS3 | Transformers in Remote Sensing | V-02 THz remote-sensing reconstruction | Develop session-specific version |
+| ICMV 2026 SS4 | Machine Vision Meets Agriculture 5.0 | V-03 THz image communication for precision agriculture | Develop dataset-backed version |
 | CAIT 2026 | Guiyang, Nov 13-15; deadline Sep 20 in invitation | CA-01 stochastic beam management | Verify portal |
 | SmartTech-IC 2026 | Quito, Dec 1-3; deadline Sep 20 in invitation | ST-01 NDAN/XING; SEM-01 semantic communication | Verify official CFP |
 | ISCMI 2026 | Vienna, Nov 18-20; deadline Sep 30 in invitation | M-01 diffusion THz imaging; ICFT financial anomaly variant | Verify scope |

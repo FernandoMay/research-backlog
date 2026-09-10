@@ -11,7 +11,7 @@ These projects extend the previously presented packages. The earlier conference 
 | [`n01-diffusion-thz-edge`](https://github.com/FernandoMay/n01-diffusion-thz-edge) | Diffusion-inspired THz edge resource allocation | `leo-01`, `sem-01` | SmartTech-IC / CAIT |
 | [`etcm-2026-qce`](https://github.com/FernandoMay/etcm-2026-qce) | Quantum-classical embedded error mitigation | `qce-ieee-package` | ICITES-submitted; ETCM no-reuse lock |
 | [`nanox-2026-ndan`](https://github.com/FernandoMay/nanox-2026-ndan) | Deep NDAN/BCI nanotechnology-ready paper and speaker package | `fcstn`, `ndan` | NanoX 2026 due diligence |
-| [`ai4science-2026-agentic-science`](https://github.com/FernandoMay/ai4science-2026-agentic-science) | Scientific Experiment Graph for autonomous discovery | `leo-01`, `xing-core` | AI4Science 2026 |
+| [`ai4science-2026-agentic-science`](https://github.com/FernandoMay/ai4science-2026-agentic-science) | Causal Experiment Graphs for verified scientific discovery | `leo-01`, `xing-core` | AI4Science 2026 |
 
 ## Delivery Contract
 

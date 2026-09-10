@@ -256,7 +256,7 @@ These are grouped into reusable research programs rather than assigned to multip
 
 | ID | Working title | Priority | Primary next venue | Existing assets |
 |---|---|---:|---|---|
-| N-07 | Agentic Scientific Intelligence for Autonomous Discovery in Distributed 6G and LEO Edge Networks | 96% | AI4Science 2026 | `ai4science-2026-agentic-science`, `leo-01`, `xing-core` |
+| N-07 | Causal Experiment Graphs for Verified Scientific Discovery under Intermittently Connected LEO-Edge Infrastructure | 96% | AI4Science 2026 | `ai4science-2026-agentic-science`, `leo-01`, `xing-core` |
 
 ### Assignment Rules
 

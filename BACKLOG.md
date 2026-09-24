@@ -262,7 +262,7 @@ These are grouped into reusable research programs rather than assigned to multip
 
 | ID | Draft | Venue | Status | Evidence gate |
 |---|---|---|---|---|
-| SD-01 | Fuzzy-Calibrated Conformal Prediction for Adaptive Uncertainty-Aware AI | ISCMI 2026 | Audit complete | Public dataset, code, seeds, regenerated ECE/Brier tables |
+| SD-01 | Fuzzy-Calibrated Conformal Prediction for Adaptive Uncertainty-Aware AI | ISCMI 2026 | [Package ready](https://github.com/FernandoMay/iscmi-01-fuzzy-conformal) | Public proxy dataset, code, seed, regenerated ECE/Brier/conformal tables |
 | SD-02 | Semantic-Aware Joint Source-Channel Coding for Ultra-Low-Latency Mobile Edge Networks | INCC 2026 | Audit complete | Rayleigh channel, matched baselines, raw metrics |
 | SD-03 | Spatial-Temporal Transformer Swarms for Real-Time Multimodal BCI Decoding | ICCIT 2026 | Audit complete | Subject-wise EEG split, latency benchmark, provenance |
 

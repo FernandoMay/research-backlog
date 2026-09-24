@@ -258,6 +258,14 @@ These are grouped into reusable research programs rather than assigned to multip
 |---|---|---:|---|---|
 | N-07 | Causal Experiment Graphs for Verified Scientific Discovery under Intermittently Connected LEO-Edge Infrastructure | 96% | AI4Science 2026 | `ai4science-2026-agentic-science`, `leo-01`, `xing-core` |
 
+### Program E — Strategic Drafts Requiring Reproduction
+
+| ID | Draft | Venue | Status | Evidence gate |
+|---|---|---|---|---|
+| SD-01 | Fuzzy-Calibrated Conformal Prediction for Adaptive Uncertainty-Aware AI | ISCMI 2026 | Audit complete | Public dataset, code, seeds, regenerated ECE/Brier tables |
+| SD-02 | Semantic-Aware Joint Source-Channel Coding for Ultra-Low-Latency Mobile Edge Networks | INCC 2026 | Audit complete | Rayleigh channel, matched baselines, raw metrics |
+| SD-03 | Spatial-Temporal Transformer Swarms for Real-Time Multimodal BCI Decoding | ICCIT 2026 | Audit complete | Subject-wise EEG split, latency benchmark, provenance |
+
 ### Assignment Rules
 
 - N-01 is the strongest immediate development candidate because it unifies edge computing, THz channels, stochastic diffusion, and existing LEO code.

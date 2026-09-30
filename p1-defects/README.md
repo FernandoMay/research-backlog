@@ -8,7 +8,8 @@ Defect reports from the P1 research-hardening sweep: audit of research packages 
 
 | ID | Packages | Finding class | Status |
 |---|---|---|---|
-| [001](DEFECT-001-LEO.md) | `leo-routing-itft2026-package`, `i01-leo-edge-orchestration` | U3 correspondence failure; problem-definition, within-document contradiction, temporal provenance | Open, nothing corrected |
+| [001](DEFECT-001-LEO.md) | `leo-routing-itft2026-package`, `i01-leo-edge-orchestration` | U3 correspondence failure; problem-definition, within-document contradiction, temporal provenance; ablation design not identifiable | Open, nothing corrected |
+| [002](DEFECT-002-CRL.md) | `s01-crl-metacognitive` | Instrument failure — baseline has no causal path from stressor to metric; dormant mechanism; absent stressed mode | Open, nothing corrected |
 
 ## Method
 
@@ -27,3 +28,5 @@ A report is written before any repair. Repairs are designed against the complete
 ## What these reports are for
 
 DEFECT-001 established a controlled contrast: two packages, both reproducible, with opposite failure modes. That is an empirical argument for keeping reproduction and correspondence as independent layers rather than one quality score, and it connects directly to the layered method in `../papers/artifact-to-claim-integrity/`.
+
+DEFECT-002 adds a third profile, and it is the one that a reproducibility check cannot see at all: a package that reproduces perfectly, whose paper correctly refuses to interpret its own result, and whose prescribed next experiment does not exist. Nothing about that is detectable by re-running anything.

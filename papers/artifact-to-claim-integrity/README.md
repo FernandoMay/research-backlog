@@ -6,10 +6,10 @@ quantitative claim in the manuscript traces to a file on disk, and the figure
 script **parses the frozen dataset at build time**, re-derives every value it
 draws from it, and aborts without writing anything if any of them disagrees.
 
-**Status: compiled and verified.** 21 pages, three `pdflatex` passes, zero
+**Status: compiled and verified.** 26 pages, three `pdflatex` passes, zero
 errors, zero undefined references, zero undefined citations, zero overfull
-boxes, zero LaTeX and package warnings. Both figures are embedded as vector PDF
-Form XObjects (2 Form XObjects, 0 Image XObjects, 0 JPEG/DCTDecode streams).
+boxes, zero LaTeX warnings. Both figures are embedded as vector PDF Form
+XObjects (2 Form XObjects, 0 Image XObjects, 0 JPEG/DCTDecode streams).
 
 ---
 
@@ -73,7 +73,9 @@ the toolchain is discovered.
 
 ## What the paper claims
 
-Four claims, in descending order of how much I would defend them.
+Nine claims. C1--C4 are the empirical and taxonomic results, in descending order
+of how much I would defend them; C5--C9 are the methodological claims this
+revision promotes from implementation notes to first-class results.
 
 **C1 --- Correct numerical output is not sufficient evidence of
 artifact-to-claim integrity.** In a frozen corpus of 13 scored rows over 12
@@ -139,6 +141,102 @@ the build. Seven defects in total are logged rather than quietly amended. Eight
 evaluator self-corrections are in the record, three of them methodologically
 material.
 
+**C5 — The non-arithmetic defects are one phenomenon, not a list.** The paper's
+seven logged defects are three arithmetic errors and four non-arithmetic ones.
+The four are a single loss of the semantic condition that makes a number, a
+label, or a check mean what the document says it means; only the carrier
+differs. They are presented as **five instances**, because the figure-pipeline
+defect is visible in two places (a published guarantee and an implementation
+that does not deliver it are the same loss at two points in the chain) and
+because the circularity of the self-check is a fifth instance the series
+documents in its own instrument rather than in the correction log. The paper
+states this as its unifying claim in **§1.2 (Two principles)** and develops it
+in **§4.5 (One phenomenon, observed five times)**. The two principles are:
+
+> An integrity check cannot establish correspondence if its inputs are
+> themselves an unaudited transcription of the claims being checked.
+
+> Verification should be derived from evidence, not from a transcription of the
+> claim under verification.
+
+The contrast with the three arithmetic defects is what gives the claim its
+content: a wrong sum is caught by recomputing the sum, because the number still
+means what it says. In the five above there is no wrong number to recompute —
+there is a correct number, or a correct build, attached to a description that
+does not survive inspection, and the description is the part no arithmetic check
+reads.
+
+**C6 — The evidence-chain correction is a case study, not a maintenance note.**
+It is **§7.1 (The evidence chain: a claim left standing)**, placed beside the
+three failure-class cases rather than in a methods footnote, because it is the
+paper's most instructive result: a correspondence failure of the paper's own
+third class, inside the instrument built to detect exactly that class, found by
+an audit with no access to the working tree. Four points it establishes: the
+instrument asserted an independence it did not have (the dataset was not in the
+dependency graph at all); the falsification demonstrated it with a corruption
+the build should have caught and did not; **the published claim was not
+weakened** — the pipeline was rebuilt until the claim became true, because the
+claim described the machine that should have been running and the machine was
+what was wrong; and the person who found the circularity was not the person who
+built the instrument. That last point is the methodological one: an author
+cannot independently derive the expectation for a check on his own
+transcription, because he wrote the transcription and knows what it was
+supposed to say.
+
+**C7 — Clean-clone falsification is a rule of practice (§3.10).** Stated as a
+methodological rule with its reasons, because the rule generalises and the
+accident does not. A working tree can hold unpublished fixes the published
+package does not contain, generated files, a modified dataset, uncommitted
+work, local dependencies, or simply be at a different commit from the object
+under evaluation — any of which makes a passing check uninformative. The clean
+clone fixes the audit object. Four conditions make a falsification valid: clean
+public clone; no working-tree access; no imports from the artifact under test;
+independent re-derivation. The third is the one most often skipped: running a
+paper's own verifier is circular, because it is a check *pointed at the layer
+it came from*. This series already contains the demonstration.
+
+**C8 — The three-layer instrument hierarchy (§3.8).** Stated as a hierarchy
+because each layer answers a different question, and none is inflated:
+
+| Layer | Question | This repository's instance |
+|---|---|---|
+| Regression guard | Detects known failure modes | `verify_dataset.py` |
+| Independent derivation | Tests quantitative correspondence | The three batch reports; the audit of §5.6 |
+| Clean-clone falsification | Tests whether the published package survives adversarial reproduction | The independent audit |
+
+`verify_dataset.py` is a **regression guard, not a discovery mechanism**: it
+detects strings previously recorded as defects and cannot find an unrecorded
+one. Its A6 patterns are now parsed out of the correction log at run time, which
+widens it to every correction the log records, but the residual limitation is
+unchanged and is stated in the script's own docstring. The mispaired rate was
+invisible to the instrument set of the time for exactly this reason. The paper
+owns the limit rather than implying more.
+
+**C9 — What the independent re-derivation found (§5.6).** The audit re-derived
+**35 published quantities by its own path, and 32 matched**. This is the
+finding's most valuable part and the paper leads with it, because an audit
+reporting only three discrepancies would be a defect-finder, and a defect-finder
+that finds three things tells a reader nothing about the other thirty-two. The
+32 matching is what makes the three failures *specific* rather than ambient.
+The three are conceptually distinct and **all three are U3** — which is the
+point, since the same layer produced three unrelated mechanisms:
+
+| Discrepancy | Mechanism | What check finds it |
+|---|---|---|
+| De-scoped rate | Denominator / granularity failure | A span check |
+| Caption naming a panel the generator does not draw | Description ↔ representation correspondence | A text-to-artifact check |
+| Untraceable "three reproduce bit-for-bit" count | A claim with no evidence in the dataset | Nothing but an independent derivation |
+
+A value-check finds none. A span check finds the first. A text-to-artifact
+correspondence check finds the second. Only an instrument that asks whether a
+number has any evidence behind it at all finds the third — and that is the one
+an author transcribing his own counts cannot supply.
+
+**32/35 is not a reproducibility rate and must not become one.** It is a result
+of one audit, on one corpus, under one protocol. It is not a percentage, not a
+population estimate, not a score for the artifact. Its value is in *which*
+discrepancies it found and *how*. A headline metric would discard both.
+
 ---
 
 ## What the paper does not claim
@@ -148,6 +246,13 @@ Stated plainly, because these are the claims a reviewer will test first.
 - **No prevalence claim.** Nothing here describes packages outside the 13
   audited rows. Per rubric rules R5 and R6, every rate carries its denominator
   and none is extrapolated.
+- **No general reproducibility rate from the 32/35 audit result.** The 32
+  matched quantities of §5.6 are reported as a result of one audit, on one
+  corpus, under one protocol. The paper does not write it as a percentage, as a
+  population estimate, or as a score for the artifact, and states that
+  explicitly in the same subsection. Its value is in which three discrepancies
+  it isolated and in the fact that it established the other thirty-two by a
+  path that did not go through our own transcription.
 - **No defect rate.** `70.1% of claims correct` is **not** presented as a
   defect-complement rate. The 375-claim pool mixes two claim granularities, so
   the figure is descriptive only. See `TODO(single-granularity
@@ -250,6 +355,26 @@ the evidence base it names, and carry the per-package mechanism detail.
 | Post-publication figure pipeline never opened the dataset | exit 0 and byte-identical PDFs on a corrupted dataset | throwaway-copy corruption test | entry 5 |
 | Declined inherited numbers | 69.27, 63.37, 56.71, 64.79, 61.23 | `E1-DATASET-v1.0.md`, evaluator discipline item 2 |
 | Total evaluator self-corrections | 8 across 3 batches | `E1-DATASET-v1.0.md` |
+
+### Independent falsification audit
+
+One further source exists for the audit results only, and it is a secondary
+auditor's account of the corpus rather than a substitute for the sources of
+record above. No corpus quantity and no per-package figure in `main.tex` comes
+from it.
+
+| Quantity | Value | Source |
+|---|---|---|
+| Quantities re-derived by the audit's own path | 35 | independent falsification report, §2 |
+| Matched | 32 | same; the report's own reconciliation (35 − 3 discrepancies) |
+| Discrepancies isolated | 3 | same; report rows #27, #34, #35 |
+| — de-scoped rate | `47.6%` derived, `34.6%` stated | same, #27. Now correction-log entry 4 |
+| — caption naming a panel the generator does not draw | panel (c) absent from the PDF | same, #34. Now correction-log entry 5, item 3 |
+| — untraceable bit-for-bit count | "three reproduce bit-for-bit", no source in the corpus | same, #35. Now resolved to 5/13 by the dataset's per-row block |
+
+**The 32/35 figure is a result, not a rate.** The paper does not convert it to a
+percentage, a population estimate, or a score. See "What the paper does not
+claim".
 
 ### Per-package mechanism evidence
 
@@ -443,14 +568,14 @@ to the first adjudicator's findings. The statistic does not exist in the frozen
 record and cannot be reconstructed from it.
 
 **4. `TODO(novelty assessment)`** --- Section 8.7, and stated first-class in
-Section 1.5.
+Section 1.6.
 *Wants:* a positioning review against published work on artifact evaluation
 and reproducibility measurement, with a comparison table against prior
 taxonomies of artifact-to-claim failure.
 *Blocked because:* requires a literature search, an inclusion criterion, and
 verification of the subject packages' own references. None exists in the
 available material, and inventing citations was prohibited for this series.
-This is the gap a reviewer will press hardest, which is why Section 1.5 now
+This is the gap a reviewer will press hardest, which is why Section 1.6 now
 states in the introduction that the contribution is a reproducible evaluation
 instrument and a primary dataset rather than a demonstrated advance.
 
@@ -460,8 +585,8 @@ instrument and a primary dataset rather than a demonstrated advance.
 
 | Path | Lines | What it is |
 |---|---:|---|
-| `main.tex` | 2101 | The manuscript. ACM `sigconf`, `review` option, single-column 506.3 pt text block. |
-| `main.pdf` | --- | Compiled output, 21 pages. |
+| `main.tex` | 2610 | The manuscript. ACM `sigconf`, `review` option, single-column 506.3 pt text block. |
+| `main.pdf` | --- | Compiled output, 26 pages. |
 | `README.md` | --- | This file. |
 | `requirements.txt` | 18 | Lists nothing, and says so, so nobody has to guess whether a step was missed. |
 | `build.sh` | 134 | Finds `pdflatex`, runs three passes, and gates on LaTeX errors, undefined references, undefined citations and overfull boxes. Explains how to install TeX per platform if it cannot find one. |

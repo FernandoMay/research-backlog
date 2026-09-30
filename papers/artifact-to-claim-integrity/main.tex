@@ -15,6 +15,16 @@
 %  batch report that measured it. Anything not so supported carries a
 %  literal TODO marker. There is no other source for a number here.
 %
+%  ONE FURTHER SOURCE, for the audit results only: the independent
+%  falsification report of the published package. It supplies the count of
+%  quantities the audit re-derived, the count that matched, and the three
+%  discrepancies it isolated (Section 7.5), and the two instrument-level
+%  findings named in Sections 3.9 and 3.10. No corpus quantity and no
+%  per-package figure comes from it; the row table, the derived-metrics
+%  block and the three batch reports remain the sources of record for
+%  those, and the report is quoted as a secondary auditor's account of
+%  them rather than as a substitute for them.
+%
 %  PROVENANCE OF THE FIGURES: figures/make_figures.py PARSES the frozen
 %  dataset at build time and derives every expected value from it. There
 %  is no RECORDED_* constant in that script. --self-test proves on every
@@ -105,13 +115,27 @@ labels were wrong, one rate attached to the wrong denominator span, and two
 defects in the verification apparatus itself --- a figure pipeline whose
 provenance guarantee was not implemented, and a figure caption describing a
 panel the generator does not draw. All seven are logged rather than quietly
-amended. Two are instructive beyond their own arithmetic. The layer-label
-error was invisible to the procedure that caught the other three, because it
-compares sums against sums. And the last two were invisible to every
-instrument we had, and were found by an independent falsification attempt that
-imported no code of ours --- which is the sharpest evidence in this study that
-a self-verification apparatus cannot be relied upon to detect a
-correspondence failure in itself.
+amended. The three arithmetic defects are one species, and the four
+non-arithmetic ones are not a list but a single phenomenon observed five
+times, once per carrier: a count, a rate, a published guarantee, a check, and
+an implementation. Each is a loss of the semantic condition that makes a
+number, a label, or a check mean what the document says it means. That
+synthesis is the paper's unifying claim, and Section~1.2 states it as two
+principles. The arithmetic three are instructive in a different way. The
+layer-label error was invisible to the procedure that caught the other three,
+because it compares sums against sums. And the apparatus defects were invisible
+to every instrument we had, and were found by an independent falsification
+attempt that imported no code of ours --- which is the sharpest evidence in
+this study that a self-verification apparatus cannot be relied upon to detect
+a correspondence failure in itself. The response to that finding is the paper's
+central methodological case (Section~7.1), and it is a case in which the
+published claim was \emph{not} weakened: the figure pipeline was rebuilt until
+the claim became true, because the claim described the machine we should have
+been running and the machine was the thing that was wrong. The person who found
+the circularity was not the person who built the instrument. That audit
+re-derived thirty-five published quantities by its own path, of which
+thirty-two matched, isolating three specific discrepancies
+(Section~5.6).
 \end{abstract}
 
 % ----------------------------------------------------------------------------
@@ -155,6 +179,51 @@ This is not a story about fabrication. The most reproducible artifact in our
 corpus belongs to a package whose central claim is refuted by a robustness
 file the package itself contains and never cites. Good simulation hygiene buys
 nothing when the defect lives in what the simulation measures.
+
+\subsection{Two principles}
+\label{sec:principles}
+
+Every defect reported in this paper, in the thirteen audited packages and in
+our own apparatus alike, is an instance of one of two statements. We state them
+here because they are the synthesis of the series rather than a summary of it,
+and because a reader who holds them can classify a new defect without our
+taxonomy. Section~\ref{sec:unification} develops them against our own five
+non-arithmetic defects, which is where they earn the status.
+
+\begin{quote}
+\emph{An integrity check cannot establish correspondence if its inputs are
+themselves an unaudited transcription of the claims being checked.}
+\end{quote}
+
+\begin{quote}
+\emph{Verification should be derived from evidence, not from a transcription of
+the claim under verification.}
+\end{quote}
+
+The first principle is about the \emph{provenance} of a check's inputs. A check
+that compares a transcribed copy of a number against a transcribed copy of the
+same number, both made by the same person from the same source, establishes
+that the transcriber was consistent with himself. It is not nothing, and in
+this series it caught a real row-sum error. It is not correspondence, and no
+amount of additional care by the same author can convert it into correspondence,
+because the property that would make it correspondence --- an independent origin
+for the expected value --- is exactly the property it lacks.
+
+The second principle is about the \emph{direction} of derivation, and it is the
+more general of the two. Where a check's expected value is transcribed from the
+document that states the claim, the check is pointed at the layer it came from,
+and a defect in that layer is by construction outside its reach. The first
+principle is a special case: an unaudited transcription of the claims being
+checked is one way of deriving the expected value from the claim under
+verification. We state both because they name two different remedies --- give
+the check an independently derived input, or derive the expectation from
+evidence --- and because a reader repairing a broken apparatus needs to know
+which of the two is missing before choosing.
+
+Both are stated as findings rather than as advice. Neither was known to us
+before the series ran: each is an account of why a specific instrument of ours
+was weaker than its own documentation claimed, and
+Section~\ref{sec:tax-apparatus} gives the evidence for each.
 
 \subsection{The artifact-to-claim gap}
 \label{sec:intro-gap}
@@ -218,15 +287,21 @@ layer-label shift in which no count was wrong, one a rate attached to the wrong
 denominator span, and two in the apparatus, one of which is a provenance
 guarantee this paper published and did not implement. Three surfaced only after
 the freeze, and two only under an independent falsification attempt that
-imported no code of ours --- which is itself part of the contribution, because
-it is the direct evidence for the limitation we now state as a finding: an
-apparatus whose checked source is a constant transcribed by its own author
-cannot be relied upon to detect a correspondence failure in itself.
-Third, a frozen dataset of thirteen scored rows over twelve distinct
-packages, with a per-row audit trail and a claim-granularity limitation
-reported rather than buried. Fourth, a taxonomy of three failure classes with
-worked cases, including a near-positive case that answers the obvious
-objection that a corpus of failures is not evidence of anything.
+imported no code of ours. The four non-arithmetic defects are then shown to be
+one phenomenon observed five times --- once per carrier --- rather than five
+unrelated mistakes, and the
+two principles of Section~\ref{sec:principles} are stated as its general form.
+The falsification attempt is itself part of the contribution, because it is the
+direct evidence for the limitation we now state as a finding: an apparatus
+whose checked source is a constant transcribed by its own author cannot be
+relied upon to detect a correspondence failure in itself. We report how we
+responded to that finding as a case of its own (Section~\ref{sec:case-chain}):
+the claim was left standing and the evidence chain was raised until the claim
+became true. Third, a frozen dataset of thirteen scored rows over twelve
+distinct packages, with a per-row audit trail and a claim-granularity
+limitation reported rather than buried. Fourth, a taxonomy of three failure
+classes with worked cases, including a near-positive case that answers the
+obvious objection that a corpus of failures is not evidence of anything.
 
 \subsection{Scope of the contribution}
 \label{sec:intro-scope}
@@ -531,6 +606,64 @@ explicitly in every package and its \emph{absence} was recorded where the
 absence held, because a hazard checklist that only produces hits is not a
 check.
 
+\subsection{Three layers of instrumentation, and what each can do}
+\label{sec:method-instruments}
+
+This study uses three kinds of instrument, and the temptation to treat them as
+one --- or to quote the strength of the strongest for the whole apparatus ---
+is the error Section~\ref{sec:selftest} documents in our own. They are a
+hierarchy because each answers a different question, and none of them is a
+substitute for another.
+
+\begin{quote}
+\ttfamily
+Regression guard\\
+\hspace*{1.5em}detects known failure modes.\\[0.6em]
+Independent derivation\\
+\hspace*{1.5em}tests quantitative correspondence.\\[0.6em]
+Clean-clone falsification\\
+\hspace*{1.5em}tests whether the published package survives adversarial reproduction.
+\end{quote}
+
+\paragraph{Regression guard.} The instrument of this kind in this repository is
+\texttt{verify\_dataset.py}. It detects strings and shapes previously recorded
+as defects: its stale-figure patterns are parsed out of the dataset's own
+correction log at run time, so logging a correction arms a guard without
+editing the script, and its layer-label and cross-batch-span assertions encode
+two specific defects found by hand. We say plainly what this is and is not. It
+is a regression guard, not a discovery mechanism. It can find a defect that has
+been written down somewhere; it cannot find one that has not. The falsification
+of Section~\ref{sec:case-chain} is the demonstration, not a hypothetical: the
+mispaired rate of Section~\ref{sec:correction} was invisible to the instrument
+set of the time because no string in the script could have contained a value it
+had never been told about. A guard built only from the defect record has no
+coverage over the part of the space the record does not describe, and that part
+is the part an integrity instrument is bought for.
+
+\paragraph{Independent derivation.} This is the batch reports, and the audit
+in Section~\ref{sec:res-rederivation}. Its question is quantitative: does this
+number, recomputed by a path that does not go through the author's
+transcription, agree? It is the only layer of the three that established the
+correspondence of the thirteen-row table to the three primary records, and it
+is the layer that isolated three discrepancies from thirty-five quantities in
+Section~\ref{sec:res-rederivation}. It cannot establish correspondence, which
+is a question about meaning rather than about value.
+
+\paragraph{Clean-clone falsification.} The question is whether the published
+package, as a third party receives it, survives an adversarial attempt to break
+it. This is the only layer that examined the manuscript rather than the data,
+and the only layer that found the pipeline's provenance guarantee to be
+unimplemented. It is also the only one whose findings were not available to us
+at the time we wrote the pipeline, which is its entire methodological point and
+is developed in Sections~\ref{sec:case-chain} and~\ref{sec:selftest}.
+
+The three are not ranked, and we resist any phrasing that would rank them. The
+guard is cheapest and covers the least; the falsification is most expensive and
+covers the most; the derivation sits between them and is the only one that
+produces the corpus. A finding of this paper is only as strong as the weakest
+instrument that could have missed it, and the useful question about any single
+check is always which of the three layers it belongs to.
+
 \subsection{What the generated figures prove, and what they do not}
 \label{sec:method-figures}
 
@@ -574,7 +707,10 @@ in the dependency graph at all: the check compared a CSV against constants
 that the same author had transcribed from the same markdown. It now exits
 non-zero and writes nothing, and \texttt{make\_figures.py --self-test} proves
 that on every build by mutating the dataset text five ways and requiring the
-checks to fail each time.
+checks to fail each time. That rebuild is not a maintenance note. It is the
+subject of the case study in Section~\ref{sec:case-chain}, which is where we
+report what the instrument asserted, what the audit demonstrated, why the
+published claim was left standing rather than weakened, and who found it.
 
 The boundary is narrower than the word \emph{generated} invites a reader to
 assume, so we name it rather than leave it implied. The script does not read
@@ -589,6 +725,67 @@ correction log and not a cell-by-cell diff, and a reviewer should read it as
 such. Section~\ref{sec:tax-apparatus} states what that residual limit cost us,
 because it is the sharpest evidence this study has that the problem
 generalises.
+
+\subsection{Clean-clone falsification as a rule of practice}
+\label{sec:method-falsify}
+
+The falsification attempt reported in Section~\ref{sec:case-chain} was run
+against a clean public clone, and we now state that as a rule of practice
+rather than as an accident of how this one attempt happened, because the rule
+is what generalises and the accident does not.
+
+\paragraph{Why the audit object must be fixed.} A working tree is not a
+reliable object to audit. It can hold unpublished fixes that the published
+package does not contain, so an audit run against it tests a version no reader
+receives. It can hold generated files, build outputs, or a modified dataset
+that overwrote the committed one, so the tree differs from its own history in
+ways no status output summarises. It can hold uncommitted work, local
+dependencies, an installed package shadowing a vendored one, or credentials and
+caches that make a script's environment unlike any reader's. And it can simply
+be at a different commit from the object under evaluation, which is the
+ordinary case rather than an exceptional one, because a working tree moves
+every day and a publication does not. Any of these makes a passing check
+uninformative: the check may have passed because the artifact is sound, or
+because the auditor was looking at something the reader will never see. A
+clean clone of the published state removes the ambiguity, because there is
+exactly one thing the reader could have received and the auditor tested that
+thing.
+
+\paragraph{The conditions under which a falsification is valid.} Four, and we
+state them because an attempt that satisfies three of them is easy to mistake
+for one that satisfies four. \emph{Clean public clone}: the audit runs against
+the published commit, with no access to the author's working tree.
+\emph{No working-tree access}: the auditor does not consult unpublished
+material, so the audit cannot be contaminated by knowledge of a fix already in
+progress. \emph{No imports from the artifact under test}: the auditor's
+derivation code shares no module, constant, or helper with the package it
+checks, so a shared bug cannot be silently agreed with. \emph{Independent
+re-derivation}: quantities are recomputed from the primary records by the
+auditor's own path, not read out of the package's own outputs, so agreement
+between the two is evidence rather than tautology.
+
+The third condition is the one that is most often skipped and that changes what
+the result means. Running a paper's own verifier is circular, and not merely
+in the weak sense that it is a check by the checked party: it is a check
+\emph{pointed at the layer it came from}. A verifier whose expected values are
+transcribed from the same table the paper quotes will confirm a transcription
+error in that table, because the error is present in both sides of the
+comparison. This series already contains the demonstration, and it is not a
+hypothetical one: the figure pipeline of Section~\ref{sec:method-figures}
+compared two CSVs against constants that the same author had transcribed from
+the same markdown, and the audit of Section~\ref{sec:case-chain} established
+that the dataset was not in its dependency graph at all. No corruption of the
+dataset could have been detected by it, and none was.
+
+\paragraph{What the rule does not license.} It does not make a falsification
+sufficient. A clean-clone falsification reports what survived and what did
+not, and its negative findings are as sample-specific as any other audit of a
+thirteen-row corpus. It does not license a prevalence claim, and we make
+none. It is also not free of the authorship concern of
+Section~\ref{sec:method-bias}: the auditor was not a third party to the field
+and the corpus is still author-selected, which is why the claim we draw from
+the attempt is a claim about \emph{instruments} and not about the population
+of research packages.
 
 % ----------------------------------------------------------------------------
 % 4. DATASET
@@ -894,7 +1091,11 @@ belongs, as a limitation of the method rather than as a defect in one artifact:
 Section~\ref{sec:selftest} sets out why an apparatus whose checked source is a
 constant transcribed by its own author cannot be relied upon to detect a
 correspondence failure in itself, what the two structural fixes are, and which
-one we have made.
+one we have made. The sixth defect is developed as a case of its own in
+Section~\ref{sec:case-chain}, and what the audit established about the published
+quantities as a whole is reported in Section~\ref{sec:res-rederivation}. The
+non-arithmetic defects of this section are one phenomenon rather than a list,
+and Section~\ref{sec:unification} states the synthesis.
 
 \begin{table}[t]
 \centering
@@ -973,6 +1174,102 @@ The rate is worth reporting for what it implies about the method rather than
 about the auditor. Corrections of this kind --- an inherited number declined, a
 confounded probe discarded, a rubric premise overturned --- are the observable
 signature of a procedure that was applied rather than performed.
+
+\subsection{One phenomenon, observed five times}
+\label{sec:unification}
+
+The seven defects of Section~\ref{sec:correction} are not seven findings, and
+presenting them as a list understates what the series shows. The three
+arithmetic ones are one species; the other four are a single phenomenon, and
+they are the ones the paper's argument rests on. They appear below as five
+instances, because two of them are visible in more than one place --- a
+published guarantee and the implementation that fails to deliver it are the
+same loss at two different points in the chain --- and because the circularity
+of the self-check is a fifth instance the series documents in its own
+instrument rather than in the correction log. We state the two principles again
+here because this is where they are earned rather than asserted.
+
+\begin{quote}
+\emph{An integrity check cannot establish correspondence if its inputs are
+themselves an unaudited transcription of the claims being checked.}
+
+\emph{Verification should be derived from evidence, not from a transcription of
+the claim under verification.}
+\end{quote}
+
+Each of the five is a loss of one condition: \emph{the semantic condition that
+makes a number, a label, or a check mean what the document says it means.} What
+varies across the five is only the carrier. A count is a carrier, a rate is a
+carrier, a published guarantee is a carrier, a check is a carrier, and an
+implementation is a carrier. In each case the value was present, the file was
+present, the build passed, and the thing that failed was the link between what
+the document says and what the artifact contains.
+
+\begin{enumerate}
+\setlength{\topsep}{2pt}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}
+
+\item \textbf{The layer-label shift.} Every label from \texttt{L3} upward in a
+headline table was off by one, and every count was correct. The row the summary
+labelled \texttt{L6 --- Internal consistency}, carrying $1$ of $13$, is
+\texttt{L7 --- Internal consistency} under the rubric and in all three batch
+reports. The number did not mean what the sentence said it meant, because the
+label attached to it named another layer. \emph{Lost: which layer a count
+measured.}
+
+\item \textbf{The de-scoped rate.} A rate of $34.6\%$ was correct arithmetic
+over four packages and was attached to a span of five scored rows, which gives
+$47.6\%$. The percentage was right and the set it was claimed over was wrong.
+The direction was not neutral: it inflated the apparent granularity gap from
+31.3 points to 44.3. \emph{Lost: over how many rows the rate was computed.}
+
+\item \textbf{The false capability claim.} This paper published the guarantee
+that the figure build aborts if the transcription and the frozen dataset
+diverge. The build did not do that, because the dataset was not in its
+dependency graph at all. The guarantee was a claim about what the instrument
+contained, and the instrument did not contain it. \emph{Lost: what is in the
+dependency graph.}
+
+\item \textbf{The circular self-check.} The structure behind the third is the
+one that made it: the self-check and the thing it checks shared an author and
+a timestamp. A block of constants transcribed from the dataset was compared
+against a CSV transcribed from the same dataset by the same transcriber. The
+check was real code and could fail, but what it verified was the consistency of
+a single person with himself, and it could not in principle observe a
+transcription error, because both sides of the comparison carried it. The
+disjointness assertion the same audit found is the same structure in its purest
+form: two disjoint sets, one of which is empty, are trivially disjoint, so the
+assertion is subsumed by an assertion already made. \emph{Lost: that a check
+can fail for a reason other than the one it names.}
+
+\item \textbf{The defective pipeline.} \texttt{figures/make\_figures.py} read
+two CSVs and compared them to constants in its own source, so corrupting the
+dataset left it exiting zero and writing byte-identical figures. The
+implementation did not do what its own documentation said it did --- which is
+the same loss as the third, one level down, and is why the two are one defect
+in two carriers rather than two defects. \emph{Lost: that the code implements
+the guarantee the document attaches to it.}
+
+\end{enumerate}
+
+The seventh defect of Section~\ref{sec:correction}, the caption describing a
+panel the generator does not draw, is the same loss in a sixth carrier: the
+manuscript's description of its own artifact. It is held separate above because
+it is the third of the three discrepancies the independent audit isolated
+(Section~\ref{sec:res-rederivation}) rather than one of the five instances the
+correction log counts, and because it is this paper's own third failure class
+occurring inside its own apparatus. Treating it as an instance of the same loss
+is what makes the series a finding rather than a list.
+
+The contrast with the arithmetic three is what gives the claim its content. A
+wrong sum is caught by recomputing the sum: the number is wrong, but the number
+still means exactly what it says, and reconciliation against the rows finds it
+every time. In the five above there is no wrong number to recompute. There is a
+correct number, or a correct build, or a correct set of counts, attached to a
+description that does not survive inspection --- and the description is the part
+no arithmetic check reads. That is the sense in which this is the same failure
+one level up as the corpus it audits, and it is why the method of
+Section~\ref{sec:method-instruments} distinguishes a guard that detects known
+defects from a derivation that can reach an unrecorded one.
 
 % ----------------------------------------------------------------------------
 % 5. RESULTS
@@ -1225,6 +1522,68 @@ significance evidence it offers, and the central advantage claimed in its
 abstract --- and the refutation of that advantage is in the package's own
 unreferenced file. A package can be perfectly reproducible and still be wrong,
 and reproduction tells you nothing about which.
+
+\subsection{What the independent re-derivation found}
+\label{sec:res-rederivation}
+
+The clean-clone falsification of Section~\ref{sec:method-falsify} re-derived
+thirty-five published quantities by its own path, without reading the paper,
+the committed CSVs, or the author's scripts, and thirty-two of the thirty-five
+matched. That is the most valuable part of the audit and we lead with it for
+the reason it is easy to get backwards. An audit that reported only three
+discrepancies would be a defect-finder, and a defect-finder that finds three
+things tells a reader nothing about the other thirty-two. The thirty-two
+matching is what establishes that the chain holds everywhere the auditor
+expected it to hold, and it is what makes the three failures specific rather
+than ambient: they are three named breaks in an otherwise verified chain, not
+a general observation that the numbers are shaky.
+
+Both derivation paths the auditor used --- re-parsing the dataset's own row
+table and derived-metrics block, and re-rolling the per-package layer rows from
+the three batch reports --- agree with each other on every row-level and
+layer-level quantity. The three discrepancies are where the auditor's results
+and the published artifact diverge, and they are conceptually distinct, which
+is what makes them useful instead of a count:
+
+\begin{itemize}
+\setlength{\topsep}{2pt}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}
+
+\item \textbf{The de-scoped rate} of Section~\ref{sec:correction}: a percentage
+attached to a span it was not computed over. A denominator and granularity
+failure --- the arithmetic is right and the set is wrong.
+
+\item \textbf{A figure caption describing a panel the generator does not
+draw.} A failure of correspondence between a description and its
+representation: the caption names a third panel, the artifact contains two, and
+the content the caption assigns to the third exists only as an unlabelled note
+column.
+
+\item \textbf{An untraceable bit-for-bit count.} The paper asserted a count of
+rows reproducing byte-for-bit that appeared in no artifact in the corpus and in
+no field of the frozen record. A claim with no evidence behind it, which is
+the strictest form of the loss: there was nothing to check, and the number was
+not a transcription error but an assertion with no referent.
+
+\end{itemize}
+
+All three are U3. That is the point, and it is the reason the taxonomy of
+Section~\ref{sec:taxonomy} is organised around the relation unit rather than
+around arithmetic. The three mechanisms are unrelated --- one loses a
+denominator, one loses a representation, one loses the evidence itself --- and
+no single check would have found more than one of them. A value-check finds
+none. A span check finds the first. A text-to-artifact correspondence check
+finds the second. Only an instrument that asks whether a number has any
+evidence behind it at all finds the third, and that is the one an author
+transcribing his own counts cannot supply.
+
+\paragraph{What this result is not.} Thirty-two of thirty-five is a result of
+one audit, on one corpus, under one protocol, and we do not convert it into a
+rate. It is not a reproducibility percentage, it does not estimate anything
+about packages outside these thirteen rows, and it must not be read as a score
+for the artifact. Its entire value lies in which three discrepancies it
+isolated and in the fact that it established the other thirty-two by a path
+that did not go through our own transcription. A headline metric would discard
+both and keep only the part that looks like a number.
 
 % ----------------------------------------------------------------------------
 % 6. FAILURE TAXONOMY
@@ -1481,7 +1840,9 @@ emphasised methodological finding is that a summary layer can reconcile
 perfectly while mislabelling what its counts mean, and until the falsification
 attempt we had not applied that finding to our own pipeline. That omission is
 itself an instance of the class, and burying it would have been the failure
-class the paper is about.
+class the paper is about. Section~\ref{sec:unification} states the general form
+of this pattern as the two principles of Section~\ref{sec:principles}, and
+Section~\ref{sec:case-chain} develops what we did about it.
 
 The fix is not a longer list of known-bad strings, and it is not a more
 careful review pass. It is one of two structural changes, and we have made
@@ -1508,7 +1869,14 @@ failure in itself, and the failure it could not detect was in the same layer,
 of the same species, as the failures it was built to catch.} An integrity
 instrument whose coverage is reported only by its author should be read as
 covering less than its author believes, and the only available test of that
-coverage is an attempt to falsify it written by someone else.
+coverage is an attempt to falsify it written by someone else. The findings of
+that attempt that bear on our own apparatus are precisely the ones
+Section~\ref{sec:method-instruments} classifies as unreachable by a regression
+guard, and the rule for running the layer of the apparatus that can reach them
+--- clean public clone, no working-tree access, no imports from the artifact
+under test, independent re-derivation --- is stated as a rule of practice in
+Section~\ref{sec:method-falsify} rather than left as a description of one
+audit.
 
 % ----------------------------------------------------------------------------
 % 7. CASE STUDIES
@@ -1517,8 +1885,106 @@ coverage is an attempt to falsify it written by someone else.
 \label{sec:cases}
 
 The cases are chosen to make the taxonomy concrete and to answer the obvious
-objection to a corpus of negative findings. Each is drawn from the batch
+objection that a corpus of negative findings. Each is drawn from the batch
 report that measured it.
+
+The first case is not a corpus package. It is this paper's own figure pipeline,
+and it is placed here rather than in a methods footnote because it is the most
+instructive result in the study: it is a correspondence failure of the paper's
+own third class, inside the instrument built to detect exactly that class, found
+by an audit with no access to the working tree --- and the response to it is
+the paper's methodological result rather than a repair.
+
+\subsection{The evidence chain: a claim left standing}
+\label{sec:case-chain}
+
+\paragraph{The instrument asserted an independence it did not have.} The figure
+pipeline for this paper claimed, in the manuscript and in its own
+documentation, that it recomputes every derived value it draws and aborts with
+a non-zero exit writing neither file if any recomputed value disagrees with the
+frozen record. The stated consequence was explicit: if the transcription and
+the frozen dataset diverged, the build would fail rather than print a number.
+That is a claim about the independence of the check, and the claim was false.
+The script opened two CSVs, both transcribed by its own author from the dataset,
+and compared them against a block of constants in its own source, transcribed by
+the same author from the same file. The dataset was not in the dependency graph
+at all. Independence is a property of where the expected value came from, and
+this expected value came from the same author's reading of the same document
+the check was supposed to police. This is the first principle of
+Section~\ref{sec:principles} stated as a property of code rather than of
+method: an integrity check whose inputs are an unaudited transcription of the
+claims being checked cannot establish correspondence, and cannot fail for the
+reason it advertises.
+
+\paragraph{The falsification demonstrated it with a corruption the build should
+have caught.} The independent attempt of Section~\ref{sec:method-falsify} took
+a throwaway copy of the published package, corrupted the dataset's claim total
+and its cross-batch rate, and ran the build. The build exited zero and wrote
+figures byte-identical to the committed ones. That is the strongest possible
+form of the demonstration, and it is worth being precise about why it is
+stronger than a reported disagreement. A build that aborts on divergence is
+asserted by its documentation; a build that emits identical output from a
+corrupted source of record demonstrates, by construction, that the source of
+record was never an input. The instrument did not merely fail to catch the
+defect. It could not have caught it, for any value of the defect, because it
+was not looking at the file the defect was in.
+
+\paragraph{The claim was not weakened.} This is the decision the case turns on,
+and it is the one a reader should hold us to. The available responses to a
+published guarantee that the implementation does not support are to correct the
+claim, to correct the code, or to leave both standing and describe the gap. We
+took the second, and the reason is that the claim was the right description of
+the machine we should have been running. A build that aborts when the
+transcription and the dataset diverge is the correct guarantee for a figure
+pipeline. The defect was not in the assertion; it was in the dependency graph,
+which contained a block of constants where it should have contained the
+dataset. So the pipeline was rebuilt: \texttt{make\_figures.py} now locates the
+frozen dataset, parses its row table, its derived-metrics block, its gradient
+block, its cross-batch block, its class-name list and its correction log, and
+derives every expected value from that parse. There is no recorded-value
+constant in the script. The two committed CSVs are diffed against the dataset's
+own table cell by cell, so a transcription error is caught against the source
+rather than against another column of the same file. And
+\texttt{--self-test} proves on every run that five distinct corruptions of the
+dataset each abort the build, by mutating the real dataset text in memory and
+requiring the real check to return failures --- because a check that cannot
+fail is not a check, and this one is required to fail.
+
+The published claim is therefore now true, and it is true because the
+implementation was raised to meet it rather than because the sentence was
+lowered to meet the implementation. A softened claim would have left the
+pipeline with the defect it has and the reader with a weaker promise; the
+defect was the thing worth removing. The claim was left standing, the chain
+was raised, and the build now aborts where it previously could not.
+
+\paragraph{The falsification was run by someone without access to the working
+tree.} The person who found the circularity was not the person who built the
+instrument, and the separation is not a detail of provenance --- it is what
+makes the finding available at all. Every instrument in this series was
+authored by the same person as the corpus it checks. An author cannot
+independently derive the expectation for a check on his own transcription,
+because he wrote the transcription and knows what it was supposed to say, and
+that knowledge is exactly what a falsification has to be able to do without.
+The auditor had the published clone, wrote their own derivation code, imported
+no module of ours, and never opened our working tree --- so the unpublished
+fixes, the local environment, and the author's own recollection were all
+structurally unavailable as evidence. Under the rules of
+Section~\ref{sec:method-falsify} this is what makes the result admissible: the
+audit object is fixed, and the auditor's expectation could not have been
+contaminated by knowledge of the defect.
+
+\paragraph{What the case shows.} It is the sharpest evidence in this study for
+the paper's own thesis, and it is sharper than any of the thirteen corpus cases
+because there is no alternative explanation available. The pipeline was not
+carelessly written, was not maintained by someone else, and did not fail on a
+machine unlike the author's. It was correct code doing exactly what it was
+written to do, and the thing it was written to do was not the thing the paper
+said it did. That is a semantic relation failure --- Section~\ref{sec:tax-semantic}
+--- in the paper's own apparatus, in the third class the paper names, and the
+paper's own instrument had no capacity to detect it. An evaluation instrument
+that adjudicates correspondence in thirteen packages and not in its own
+reporting is applying its rubric selectively, and the only available test of
+whether it is doing so is an attempt to falsify it written by someone else.
 
 \subsection{\pkg{isac}: circular validation with the best reproduction in the set}
 \label{sec:case-isac}
@@ -1925,6 +2391,22 @@ found by asking what the code does, not by asking whether the numbers agree,
 and two of the three are undetectable at every other unit. An evaluation
 instrument without a relation unit will pass all three.
 
+A fourth follows from the defects in our own apparatus rather than from the
+corpus, and it concerns the instrument rather than the rubric. Distinguish what
+kind of check you are running, and do not report a guard's coverage as an
+instrument's coverage. The three layers of
+Section~\ref{sec:method-instruments} answer three different questions, and the
+failure we documented is what happens when a regression guard --- which detects
+the defects someone wrote down --- is described in the documentation of a
+derivation, or of a falsification. Our own \texttt{verify\_dataset.py} is a
+regression guard and we now say so plainly: it can find a defect that has been
+recorded somewhere, and it cannot find one that has not, and the mispaired rate
+of Section~\ref{sec:correction} was invisible to it for exactly that reason. It
+is still worth running, and the two assertions it gained from being pointed at
+the batch reports and at the dataset's own block make it stronger than a
+blocklist. It is simply not a discovery mechanism, and an instrument whose
+strongest layer is a guard should say so before a reader infers otherwise.
+
 What survived is the other half of the recommendation, and we state it as
 plainly as the failures. Section~\ref{sec:survived} records what held.
 
@@ -2058,6 +2540,20 @@ fifth shows that even a check which is not arithmetic is not sufficient on its
 own. A summary layer must be checked against the instrument it summarises, and
 a rate must be checked against the span it is claimed over.
 
+Read together, the four non-arithmetic defects of this series are not a list
+but one phenomenon observed five times, once per carrier, and it is the
+phenomenon this paper is about. Each is a loss of the semantic condition that makes a number, a
+label, or a check mean what the document says it means, and only the carrier
+differs: a count, a rate, a published guarantee, a check, an implementation.
+The general form is stated as two principles in Section~\ref{sec:principles} ---
+\emph{an integrity check cannot establish correspondence if its inputs are
+themselves an unaudited transcription of the claims being checked}, and
+\emph{verification should be derived from evidence, not from a transcription of
+the claim under verification} --- and Section~\ref{sec:unification} develops
+both against the five instances. A reader who holds those two statements can
+classify a defect we have not seen, which is the test of whether a series of
+failures has produced a finding or a list.
+
 Two further defects are in the verification apparatus rather than in the
 dataset, and they are the reason this paper now states a limitation of its own
 method rather than only of its corpus. The figure pipeline advertised a
@@ -2077,6 +2573,27 @@ parsed at build time, and five distinct corruptions of it each abort the build
 on every run --- and we do not claim the second, which would be a manuscript
 that is itself a committed input to a check authored by someone other than its
 author.
+
+The response to that failure is the methodological result we would most ask a
+reviewer to weigh, and Section~\ref{sec:case-chain} develops it. The published
+claim was not weakened. The pipeline was rebuilt until the claim became true,
+because the claim described the machine that should have been running and the
+machine was what was wrong. The person who found the circularity was not the
+person who built the instrument, and that separation is the only reason the
+finding was available: an author cannot independently derive the expectation
+for a check on his own transcription. What the same audit established about the
+rest of the published chain is reported in Section~\ref{sec:res-rederivation}
+--- thirty-five quantities re-derived by its own path, thirty-two matching, and
+three specific discrepancies isolated. Those three are a de-scoped rate, a
+caption describing a representation the generator does not produce, and a count
+with no evidence behind it; they are three unrelated mechanisms at one unit, and
+we report them as such rather than as a score for the artifact. Thirty-two of
+thirty-five is the result of one audit on one corpus under one protocol, and it
+is not convertible into a rate: the corpus is not a probability sample of a
+defined population, and the design licenses no such inference
+(Section~\ref{sec:threat-n}). Its value is in which three discrepancies it
+found and in the fact that it established the other thirty-two by a path that
+did not go through our own transcription.
 
 Four limitations are load-bearing and are stated as such. The corpus is
 author-controlled, which is a weakness for any prevalence claim and the only

@@ -1,0 +1,366 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 700 529] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> /ProcSet [/PDF /Text] >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 5307 >>
+stream
+q
+1 0 0 1 0 -271.00 cm
+0.0000 0.0000 0.0000 rg
+BT
+/F2 12.00 Tf
+40.00 760.00 Td
+(Soroban escrow lifecycle fees on Stellar testnet) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 8.00 Tf
+40.00 744.00 Td
+(Contract CB7I2GURQDV4Q7YAT2PZAG3ZNFQJ37GI6MWZ4P3W7SUCJZPSHP2G6L6J) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 8.00 Tf
+40.00 733.00 Td
+(Single observed lifecycle, n=1 per step. Source: E2E-PROOF.md:70-95, Stellar testnet, single observed lifecycle \(n=1\).) Tj
+ET
+0.3500 0.3500 0.3500 rg
+BT
+/F1 8.00 Tf
+40.00 722.00 Td
+(Ledger sequence numbers are ordinal, not timestamps. These data contain no wall-clock timing, so no duration is claimed here.) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 10.00 Tf
+40.00 723.00 Td
+(\(a\) All seven recorded lifecycle steps) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+148.00 525.00 m 148.00 697.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+146.12 512.00 Td
+(0) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+276.00 525.00 m 276.00 697.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+262.88 512.00 Td
+(100,000) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+404.00 525.00 m 404.00 697.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+390.88 512.00 Td
+(200,000) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+532.00 525.00 m 532.00 697.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+518.88 512.00 Td
+(300,000) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+660.00 525.00 m 660.00 697.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+646.88 512.00 Td
+(400,000) Tj
+ET
+0.3500 0.3500 0.3500 RG
+0.70 w
+148.00 525.00 m 660.00 525.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 8.00 Tf
+40.00 688.60 Td
+(S1  deploy_asset_and_sac) Tj
+ET
+0.6200 0.6800 0.7400 rg
+148.00 684.00 234.52 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 8.00 Tf
+387.52 688.60 Td
+(183,215) Tj
+ET
+0.3500 0.3500 0.3500 rg
+BT
+/F1 8.00 Tf
+40.00 664.60 Td
+(S2  buyer_trust_sac) Tj
+ET
+0.6200 0.6800 0.7400 rg
+148.00 660.00 18.18 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 8.00 Tf
+171.18 664.60 Td
+(14,202) Tj
+ET
+0.3500 0.3500 0.3500 rg
+BT
+/F1 8.00 Tf
+40.00 640.60 Td
+(S3  seller_trust_sac) Tj
+ET
+0.6200 0.6800 0.7400 rg
+148.00 636.00 18.18 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 8.00 Tf
+171.18 640.60 Td
+(14,202) Tj
+ET
+0.3500 0.3500 0.3500 rg
+BT
+/F1 8.00 Tf
+40.00 616.60 Td
+(S4  mint_base_units) Tj
+ET
+0.6200 0.6800 0.7400 rg
+148.00 612.00 11.70 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 8.00 Tf
+164.70 616.60 Td
+(9,140) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+40.00 592.60 Td
+(S5  create_escrow) Tj
+ET
+0.1600 0.3600 0.6000 rg
+148.00 588.00 210.80 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+363.80 592.60 Td
+(164,691) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+40.00 568.60 Td
+(S6  fund_escrow) Tj
+ET
+0.1600 0.3600 0.6000 rg
+148.00 564.00 469.68 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+622.68 568.60 Td
+(366,938) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+40.00 544.60 Td
+(S7  release_funds) Tj
+ET
+0.1600 0.3600 0.6000 rg
+148.00 540.00 22.77 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+175.77 544.60 Td
+(17,791) Tj
+ET
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+148.00 500.00 Td
+(network fee \(stroops, 1e-8 XLM units\)) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 10.00 Tf
+40.00 484.00 Td
+(\(b\) Escrow operations only \(setup steps excluded\)) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+148.00 382.00 m 148.00 458.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+146.12 369.00 Td
+(0) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+276.00 382.00 m 276.00 458.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+262.88 369.00 Td
+(100,000) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+404.00 382.00 m 404.00 458.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+390.88 369.00 Td
+(200,000) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+532.00 382.00 m 532.00 458.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+518.88 369.00 Td
+(300,000) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.50 w
+660.00 382.00 m 660.00 458.00 l S
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+646.88 369.00 Td
+(400,000) Tj
+ET
+0.3500 0.3500 0.3500 RG
+0.70 w
+148.00 382.00 m 660.00 382.00 l S
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+40.00 449.60 Td
+(S5  create_escrow) Tj
+ET
+0.1600 0.3600 0.6000 rg
+148.00 445.00 210.80 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+363.80 449.60 Td
+(164,691) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+40.00 425.60 Td
+(S6  fund_escrow) Tj
+ET
+0.1600 0.3600 0.6000 rg
+148.00 421.00 469.68 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+622.68 425.60 Td
+(366,938) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+40.00 401.60 Td
+(S7  release_funds) Tj
+ET
+0.1600 0.3600 0.6000 rg
+148.00 397.00 22.77 15.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.00 Tf
+175.77 401.60 Td
+(17,791) Tj
+ET
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+148.00 357.00 Td
+(network fee \(stroops, 1e-8 XLM units\)) Tj
+ET
+0.8700 0.8700 0.8700 RG
+0.60 w
+40.00 341.00 m 660.00 341.00 l S
+0.7200 0.2400 0.1800 rg
+BT
+/F2 8.50 Tf
+40.00 329.00 Td
+(fund_escrow / release_funds = 366,938 / 17,791 = 20.6x) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.50 Tf
+40.00 318.00 Td
+(Escrow operations account for 47.6% of the 770,179 stroop total of this lifecycle; fund_escrow alone is the largest single item.) Tj
+ET
+0.1600 0.3600 0.6000 rg
+40.00 302.00 9.00 7.00 re
+f
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+54.00 303.00 Td
+(escrow contract operation) Tj
+ET
+0.6200 0.6800 0.7400 rg
+156.00 302.00 9.00 7.00 re
+f
+0.3500 0.3500 0.3500 rg
+BT
+/F1 7.50 Tf
+170.00 303.00 Td
+(bootstrap / onboarding step) Tj
+ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000279 00000 n 
+0000000376 00000 n 
+0000000478 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+5837
+%%EOF

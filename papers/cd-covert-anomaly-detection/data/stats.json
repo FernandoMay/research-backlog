@@ -1,0 +1,461 @@
+{
+ "source": "data/metrics.json (upstream figures/metrics.json, verbatim)",
+ "monte_carlo": {
+  "Energy": {
+   "n_trials": 20,
+   "mean_auc": 0.998775,
+   "std_auc_ddof0": 0.0030630356674384526,
+   "std_auc_ddof1": 0.0031426082864565536,
+   "min_auc": 0.9894999999999999,
+   "max_auc": 1.0,
+   "mean_pd": 0.999375,
+   "mean_pfa": 0.0025,
+   "ci95_low": 0.9973042140484906,
+   "ci95_high": 1.0002457859515093,
+   "n_trials_at_ceiling": 16
+  },
+  "Autoencoder": {
+   "n_trials": 20,
+   "mean_auc": 0.9772000000000001,
+   "std_auc_ddof0": 0.01637659343392272,
+   "std_auc_ddof1": 0.016802030344104588,
+   "min_auc": 0.942,
+   "max_auc": 1.0,
+   "mean_pd": 0.999375,
+   "mean_pfa": 0.025500000000000002,
+   "ci95_low": 0.9693364077433885,
+   "ci95_high": 0.9850635922566117,
+   "n_trials_at_ceiling": 2
+  },
+  "OC-SVM": {
+   "n_trials": 20,
+   "mean_auc": 0.99848125,
+   "std_auc_ddof0": 0.004764496792684411,
+   "std_auc_ddof1": 0.004888270567873354,
+   "min_auc": 0.98,
+   "max_auc": 1.0,
+   "mean_pd": 1.0,
+   "mean_pfa": 0.002,
+   "ci95_low": 0.9961934689522031,
+   "ci95_high": 1.0007690310477968,
+   "n_trials_at_ceiling": 17
+  },
+  "IForest": {
+   "n_trials": 20,
+   "mean_auc": 1.0,
+   "std_auc_ddof0": 0.0,
+   "std_auc_ddof1": 0.0,
+   "min_auc": 1.0,
+   "max_auc": 1.0,
+   "mean_pd": 1.0,
+   "mean_pfa": 0.0,
+   "ci95_low": 1.0,
+   "ci95_high": 1.0,
+   "n_trials_at_ceiling": 20
+  },
+  "Cyclostationary": {
+   "n_trials": 20,
+   "mean_auc": 0.636675,
+   "std_auc_ddof0": 0.03322147272473031,
+   "std_auc_ddof1": 0.034084511839960696,
+   "min_auc": 0.55525,
+   "max_auc": 0.70925,
+   "mean_pd": 0.619375,
+   "mean_pfa": 0.375,
+   "ci95_low": 0.62072295742622,
+   "ci95_high": 0.65262704257378,
+   "n_trials_at_ceiling": 0
+  }
+ },
+ "sweep": {
+  "Energy": {
+   "powers": [
+    -120.0,
+    -115.0,
+    -110.0,
+    -105.0,
+    -100.0,
+    -95.0,
+    -90.0,
+    -85.0,
+    -80.0
+   ],
+   "aucs": [
+    0.5865,
+    0.5945,
+    0.612,
+    0.649875,
+    0.7543749999999999,
+    0.913125,
+    0.979375,
+    0.9894999999999999,
+    0.9994999999999999
+   ],
+   "pds": [
+    0.6,
+    0.55,
+    0.65,
+    0.55,
+    0.65,
+    0.8375,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "max_auc": 0.9994999999999999,
+   "argmax_power": -80.0,
+   "first_power_auc_ge_0p90": -95.0,
+   "first_power_auc_ge_0p95": -90.0,
+   "first_power_auc_ge_0p99": -80.0,
+   "ever_reaches_0p99": true
+  },
+  "Autoencoder": {
+   "powers": [
+    -120.0,
+    -115.0,
+    -110.0,
+    -105.0,
+    -100.0,
+    -95.0,
+    -90.0,
+    -85.0,
+    -80.0
+   ],
+   "aucs": [
+    0.474125,
+    0.47412499999999996,
+    0.46900000000000003,
+    0.487875,
+    0.6028749999999999,
+    0.831375,
+    0.9145,
+    0.9426249999999999,
+    0.9658749999999999
+   ],
+   "pds": [
+    0.5375,
+    0.55,
+    0.5,
+    0.5,
+    0.6625,
+    0.975,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "max_auc": 0.9658749999999999,
+   "argmax_power": -80.0,
+   "first_power_auc_ge_0p90": -90.0,
+   "first_power_auc_ge_0p95": -80.0,
+   "first_power_auc_ge_0p99": null,
+   "ever_reaches_0p99": false
+  },
+  "OC-SVM": {
+   "powers": [
+    -120.0,
+    -115.0,
+    -110.0,
+    -105.0,
+    -100.0,
+    -95.0,
+    -90.0,
+    -85.0,
+    -80.0
+   ],
+   "aucs": [
+    0.5177499999999999,
+    0.52325,
+    0.520375,
+    0.523625,
+    0.526375,
+    0.840125,
+    0.9748749999999999,
+    0.999625,
+    1.0
+   ],
+   "pds": [
+    0.5,
+    0.5125,
+    0.45,
+    0.55,
+    0.525,
+    0.8125,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "max_auc": 1.0,
+   "argmax_power": -80.0,
+   "first_power_auc_ge_0p90": -90.0,
+   "first_power_auc_ge_0p95": -90.0,
+   "first_power_auc_ge_0p99": -85.0,
+   "ever_reaches_0p99": true
+  },
+  "IForest": {
+   "powers": [
+    -120.0,
+    -115.0,
+    -110.0,
+    -105.0,
+    -100.0,
+    -95.0,
+    -90.0,
+    -85.0,
+    -80.0
+   ],
+   "aucs": [
+    0.493375,
+    0.49800000000000005,
+    0.53825,
+    0.676875,
+    0.8799999999999999,
+    0.9994999999999999,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "pds": [
+    0.6125,
+    0.5625,
+    0.6125,
+    0.7125,
+    0.95,
+    0.9875,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "max_auc": 1.0,
+   "argmax_power": -90.0,
+   "first_power_auc_ge_0p90": -95.0,
+   "first_power_auc_ge_0p95": -95.0,
+   "first_power_auc_ge_0p99": -95.0,
+   "ever_reaches_0p99": true
+  },
+  "Cyclostationary": {
+   "powers": [
+    -120.0,
+    -115.0,
+    -110.0,
+    -105.0,
+    -100.0,
+    -95.0,
+    -90.0,
+    -85.0,
+    -80.0
+   ],
+   "aucs": [
+    0.4922500000000001,
+    0.492375,
+    0.49112500000000003,
+    0.485875,
+    0.49312500000000004,
+    0.4927500000000001,
+    0.5395,
+    0.626625,
+    0.7647499999999999
+   ],
+   "pds": [
+    0.5875,
+    0.575,
+    0.55,
+    0.5,
+    0.3875,
+    0.425,
+    0.475,
+    0.575,
+    0.725
+   ],
+   "max_auc": 0.7647499999999999,
+   "argmax_power": -80.0,
+   "first_power_auc_ge_0p90": null,
+   "first_power_auc_ge_0p95": null,
+   "first_power_auc_ge_0p99": null,
+   "ever_reaches_0p99": false
+  }
+ },
+ "derived": {
+  "paired_IForest_minus_OC-SVM": {
+   "per_trial": [
+    0.0003750000000000142,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.010000000000000009,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.020000000000000018,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "mean_diff": 0.001518750000000002,
+   "std_diff_ddof1": 0.0048882705678733535,
+   "n_tied_exactly_zero": 17
+  },
+  "paired_IForest_minus_Energy": {
+   "per_trial": [
+    0.010500000000000065,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.004125000000000045,
+    0.0,
+    0.0,
+    0.0,
+    0.009500000000000064,
+    0.0,
+    0.0,
+    0.0,
+    0.0003750000000000142,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "mean_diff": 0.0012250000000000095,
+   "std_diff_ddof1": 0.0031426082864565536,
+   "n_tied_exactly_zero": 16
+  },
+  "paired_IForest_minus_Autoencoder": {
+   "per_trial": [
+    0.057375000000000065,
+    0.0,
+    0.0010000000000000009,
+    0.031000000000000028,
+    0.022500000000000075,
+    0.020000000000000018,
+    0.019874999999999976,
+    0.05800000000000005,
+    0.010000000000000009,
+    0.020000000000000018,
+    0.04887500000000011,
+    0.010000000000000009,
+    0.029000000000000026,
+    0.029125000000000068,
+    0.020500000000000074,
+    0.019874999999999976,
+    0.029249999999999998,
+    0.0,
+    0.009624999999999995,
+    0.020000000000000018
+   ],
+   "mean_diff": 0.022800000000000025,
+   "std_diff_ddof1": 0.016802030344104588,
+   "n_tied_exactly_zero": 2
+  },
+  "transition_width": {
+   "Energy": {
+    "chance_from_dBm": -120.0,
+    "transition_width_dB": 40.0
+   },
+   "Autoencoder": {
+    "chance_from_dBm": -100.0,
+    "transition_width_dB": null
+   },
+   "OC-SVM": {
+    "chance_from_dBm": -120.0,
+    "transition_width_dB": 35.0
+   },
+   "IForest": {
+    "chance_from_dBm": -110.0,
+    "transition_width_dB": 15.0
+   },
+   "Cyclostationary": {
+    "chance_from_dBm": -90.0,
+    "transition_width_dB": null
+   }
+  },
+  "head_to_head_vs_Energy": {
+   "Autoencoder": {
+    "n_powers_where_below_Energy": 9,
+    "n_powers_total": 9,
+    "powers_below_Energy": [
+     -120.0,
+     -115.0,
+     -110.0,
+     -105.0,
+     -100.0,
+     -95.0,
+     -90.0,
+     -85.0,
+     -80.0
+    ],
+    "max_auc_advantage": -0.033625000000000016,
+    "min_auc_advantage": -0.16199999999999998
+   },
+   "OC-SVM": {
+    "n_powers_where_below_Energy": 7,
+    "n_powers_total": 9,
+    "powers_below_Energy": [
+     -120.0,
+     -115.0,
+     -110.0,
+     -105.0,
+     -100.0,
+     -95.0,
+     -90.0
+    ],
+    "max_auc_advantage": 0.01012500000000005,
+    "min_auc_advantage": -0.22799999999999987
+   },
+   "IForest": {
+    "n_powers_where_below_Energy": 3,
+    "n_powers_total": 9,
+    "powers_below_Energy": [
+     -120.0,
+     -115.0,
+     -110.0
+    ],
+    "max_auc_advantage": 0.125625,
+    "min_auc_advantage": -0.09649999999999997
+   },
+   "Cyclostationary": {
+    "n_powers_where_below_Energy": 9,
+    "n_powers_total": 9,
+    "powers_below_Energy": [
+     -120.0,
+     -115.0,
+     -110.0,
+     -105.0,
+     -100.0,
+     -95.0,
+     -90.0,
+     -85.0,
+     -80.0
+    ],
+    "max_auc_advantage": -0.09424999999999994,
+    "min_auc_advantage": -0.439875
+   }
+  },
+  "signal_model": {
+   "fs_hz": 20000000.0,
+   "noise_floor_dbm_per_hz": -100.0,
+   "noise_total_dbm": -26.989700043360187,
+   "snr_offset_dB": 26.989700043360187,
+   "periodogram_fft_size": 512,
+   "samples_used_for_psd": 512,
+   "samples_per_observation": 20480,
+   "fraction_of_observation_used_for_psd": 0.025,
+   "frequency_resolution_hz": 39062.5,
+   "n_features_total": 41,
+   "n_constant_features": 2,
+   "constant_feature_names": [
+    "ac_0",
+    "ac_max"
+   ]
+  }
+ }
+}

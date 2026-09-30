@@ -1,0 +1,8 @@
+step,operation,phase,contract_op,fee_stroops,ledger
+S1,deploy_asset_and_sac,bootstrap,false,183215,4869181
+S2,buyer_trust_sac,onboarding,false,14202,4869189
+S3,seller_trust_sac,onboarding,false,14202,4869192
+S4,mint_base_units,onboarding,false,9140,4869199
+S5,create_escrow,escrow,true,164691,4869212
+S6,fund_escrow,escrow,true,366938,4869217
+S7,release_funds,escrow,true,17791,4869223

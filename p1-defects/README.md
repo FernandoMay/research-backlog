@@ -12,6 +12,7 @@ Defect reports from the P1 research-hardening sweep: audit of research packages 
 | [002](DEFECT-002-CRL.md) | `s01-crl-metacognitive` | Instrument failure — baseline has no causal path from stressor to metric; dormant mechanism; absent stressed mode | Open, nothing corrected |
 | [003](DEFECT-003-QCE.md) | `qce-ieee-package` | Category misattribution — supervised logistic regression labelled RL; "Pareto-optimal" with no referent; QAOA ansatz that is exhaustive enumeration | Open, nothing corrected |
 | [004](DEFECT-004-SGN.md) | `sgn-ieee-package` | Decoder indexing error — `np.unpackbits` dilutes 1 bit/pixel to 8, publishing chance as a result; artifact holds no numbers | Open, nothing corrected |
+| [005](DEFECT-005-ISAC.md) | `isac-jasc-ieee` | Circular validation — estimation error drawn from the CRLB it validates; Fisher derivation absent; σ² consumed as σ; range-Doppler figure is noise | Open, nothing corrected |
 
 ## Method
 
@@ -35,6 +36,10 @@ DEFECT-002 adds a third profile, and it is the one that a reproducibility check 
 
 DEFECT-003 adds a fourth: an artifact that is sound, numbers that are real and correctly traced, and a defect located entirely in the vocabulary attached to them — and disclosed rather than concealed. Across four reports the defect has appeared in the function that computes the number, in the instrument that measures it, in the document that describes it, and in the words that name it. Only one of those four is reachable by re-running the code.
 
-**The sweep's own standing conclusion:** reproducibility is not a scientific verdict. Every package in this corpus reproduces, and the five reports locate the defect in five different places: the function that computes the number, the instrument that measures it, the document that describes it, the words that name it, and the decoder that reads it back.
+**The sweep's own standing conclusion:** reproducibility is not a scientific verdict. Every package in this corpus reproduces, and the reports locate the defect in six different places: the function that computes the number, the instrument that measures it, the document that describes it, the words that name it, and the decoder that reads it back.
 
 Only the first of those is reachable by re-running the code. A package can be fully reproducible and still have no result worth trusting.
+
+`isac-jasc-ieee` is the sharpest case in the set. Its artifact is the most bit-faithful in the sweep, and its central claim is a validation that cannot in principle fail: the estimation error is drawn from the Cramér-Rao bound it is compared against. Reproducing that package exactly reproduces the circularity exactly. It also conceals a second defect — a variance consumed as a standard deviation — because against a real estimator that confusion would have surfaced as an estimator beating the bound.
+
+**A validation that cannot fail also cannot report the failures it would otherwise expose.**

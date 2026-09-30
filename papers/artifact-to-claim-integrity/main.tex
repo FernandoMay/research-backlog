@@ -8,11 +8,21 @@
 %  Binary: /Library/TeX/texbin/pdflatex (TeX Live, macOS arm64).
 %
 %  NUMBER PROVENANCE: every quantity in this manuscript is recorded in
-%  the frozen dataset research-audit/E1-DATASET-v1.0.md, or in one of the
+%  the frozen dataset audit/E1-DATASET-v1.0.md (published layout) or
+%  research-audit/E1-DATASET-v1.0.md (author's tree), or in one of the
 %  three batch reports it names, or is derived from a row table by
 %  arithmetic shown inline. Per-package mechanism evidence is cited to the
 %  batch report that measured it. Anything not so supported carries a
 %  literal TODO marker. There is no other source for a number here.
+%
+%  PROVENANCE OF THE FIGURES: figures/make_figures.py PARSES the frozen
+%  dataset at build time and derives every expected value from it. There
+%  is no RECORDED_* constant in that script. --self-test proves on every
+%  run that five distinct corruptions of the dataset each abort the build.
+%  Section 3.8 states the shape of that guarantee and section 6.4 states
+%  the limit of it, which is a limitation of this method: an apparatus
+%  whose checked source is a constant transcribed by its own author cannot
+%  be relied upon to detect a correspondence failure in itself.
 %
 %  KNOWN TOOLCHAIN CONSTRAINTS, honoured throughout:
 %    * seqsplit.sty is not installed and is not used. Long alphanumeric
@@ -77,21 +87,31 @@ different claim granularities and therefore reported as descriptive rather
 than as a defect rate. The packages fail at the layer above arithmetic, and
 three recurring failure classes are invisible to any reproduction check.
 \emph{Circular validation}: an artifact reproduces a property derived from the
-assumption it purports to validate. \emph{Contradictory verification}: a
+assumption it purports to validate. \emph{Self-contradicting verification}: a
 supplied verifier compiles, runs, exits cleanly, and disagrees with the claim
-it exists to confirm. \emph{Semantic correspondence failure}: an artifact
+it exists to confirm. \emph{Semantic relation failure}: an artifact
 exists, runs, and may even contain structures named after the claim, but
-implements a different mechanism from the one it names. Because the corpus is
-author-controlled, the same fact that limits generalisation is what makes
-mechanism attribution possible: it is the only way to separate a badly
-designed artifact from one designed to mislead. We report what survived as
-carefully as what failed, and we report four defects in our own dataset's
-aggregation layer: three arithmetic errors, one caught before publication and
-two after the freeze by row-level reconciliation, and one layer-label error in
-which every count was correct and only the labels were wrong. All four are
-logged in the dataset's correction log rather than quietly amended. The fourth
-is the instructive one, because the procedure that caught the other three
-compares sums against sums and therefore could not have found it.
+implements a different mechanism from the one it names. The class names are
+the frozen dataset's own, unmodified; an earlier draft of this paper renamed
+two of the three between the dataset and the publication, which is the same
+failure it was describing. Because the corpus is author-controlled, the same
+fact that limits generalisation is what makes mechanism attribution possible:
+it is the only way to separate a badly designed artifact from one designed to
+mislead. We report what survived as carefully as what failed, and we report
+seven defects in our own dataset's aggregation layer and evaluation apparatus,
+across five entries of its correction log: three arithmetic errors in a summary
+block, one layer-label error in which every count was correct and only the
+labels were wrong, one rate attached to the wrong denominator span, and two
+defects in the verification apparatus itself --- a figure pipeline whose
+provenance guarantee was not implemented, and a figure caption describing a
+panel the generator does not draw. All seven are logged rather than quietly
+amended. Two are instructive beyond their own arithmetic. The layer-label
+error was invisible to the procedure that caught the other three, because it
+compares sums against sums. And the last two were invisible to every
+instrument we had, and were found by an independent falsification attempt that
+imported no code of ours --- which is the sharpest evidence in this study that
+a self-verification apparatus cannot be relied upon to detect a
+correspondence failure in itself.
 \end{abstract}
 
 % ----------------------------------------------------------------------------
@@ -112,12 +132,24 @@ result in the body. Those are three different questions. Only the first is a
 reproducibility question.
 
 The gap between the two is not a matter of degree. In our corpus, ten of
-thirteen artifacts reproduce under auditor execution, and three reproduce
-bit-for-bit. Not one of the thirteen packages is fully supported. The
-reproduced group and the fully-supported group are disjoint, and the
-disjointness is machine-checked rather than asserted:
-\texttt{figures/make\_figures.py} aborts if any row both reproduces and
-carries a \texttt{SUPPORTED} verdict, and no row does.
+thirteen artifacts reproduce under auditor execution, and five of the thirteen
+scored rows reproduce bit-for-bit, with a sixth doing so on every scientific
+field but one wall-clock field. Not one of the thirteen packages is fully
+supported. The reproduced group and the fully-supported group are disjoint, and
+we should be precise about what establishes that, because an earlier version
+of this paragraph called it machine-checked and it was not. The two sets are
+disjoint because the \texttt{SUPPORTED} column is empty; two disjoint sets of
+which one is empty are trivially disjoint, and an assertion that no row both
+reproduces and carries a \texttt{SUPPORTED} verdict is fully subsumed by the
+assertion that no row carries a \texttt{SUPPORTED} verdict. The check that
+carries content, and can fail, is the joint distribution: of the ten
+reproducing rows seven are \texttt{PARTIALLY SUPPORTED} and three are
+\texttt{CONTRADICTED}, and of the three that do not reproduce one is
+\texttt{PARTIALLY SUPPORTED} and two are \texttt{CONTRADICTED}. Reproduction
+is not a usable proxy for integrity, and it is not even weakly predictive of
+the verdict. \texttt{figures/make\_figures.py} recomputes that joint
+distribution on every run and aborts if a single reproduced row comes back
+\texttt{SUPPORTED}.
 
 This is not a story about fabrication. The most reproducible artifact in our
 corpus belongs to a package whose central claim is refuted by a robustness
@@ -180,11 +212,16 @@ layer rubric, v1.0 of our own, lacked, and a demonstration that the two
 failure classes living
 in the relation are exactly the ones a reproduction check cannot see. Second,
 a frozen, versioned rubric that fixes the unit of analysis before adjudication
-begins, and a correction log that records four defects in the aggregate layer
-of our own dataset across three entries, three of them arithmetic and one a
-layer-label shift in which no count was wrong. Three surfaced only after the
-freeze, when this paper reconciled its own summary block against its own row
-table and then compared the aggregate's layer labels against the rubric.
+begins, and a correction log that records seven defects in our own aggregation
+layer and verification apparatus across five entries: three arithmetic, one a
+layer-label shift in which no count was wrong, one a rate attached to the wrong
+denominator span, and two in the apparatus, one of which is a provenance
+guarantee this paper published and did not implement. Three surfaced only after
+the freeze, and two only under an independent falsification attempt that
+imported no code of ours --- which is itself part of the contribution, because
+it is the direct evidence for the limitation we now state as a finding: an
+apparatus whose checked source is a constant transcribed by its own author
+cannot be relied upon to detect a correspondence failure in itself.
 Third, a frozen dataset of thirteen scored rows over twelve distinct
 packages, with a per-row audit trail and a claim-granularity limitation
 reported rather than buried. Fourth, a taxonomy of three failure classes with
@@ -207,7 +244,7 @@ Section~\ref{sec:threat-novelty} carries the same statement as a standing
 limitation and keeps the marker for the work that is outstanding. We would
 rather a reviewer reach for the reference list and find it empty than find it
 full of plausible citations to work we did not search, because that second
-outcome is this paper's own third failure class --- semantic correspondence
+outcome is this paper's own third failure class --- semantic relation
 failure, in which a structure is named after something it does not contain ---
 applied to the manuscript itself.
 
@@ -256,15 +293,21 @@ scope and not a nitpick.
 The relation asks whether the artifact actually evidences the claim. This is
 the unit the earlier layer rubric lacked, and it is where the consequential
 failures live. Two artifacts can both exist and both run, and the relation
-between one of them and its claim can be entirely absent. Three of the four
-packages in our corpus that hold a bit-identical artifact contain at least
-one claim whose named mechanism is not implemented: a thirty-two-state
+between one of them and its claim can be entirely absent. Four packages in our
+corpus exhibit it, and two of the four hold the strongest reproduction results
+in their own batches: one reproduces its artifact bit-for-bit, and one
+reproduces it byte-for-byte on every scientific field with a single wall-clock
+field differing. The four mechanisms are a thirty-two-state
 exhaustive enumeration described as a variational ansatz, with its mixer
 Hamiltonian and its four variational angles each constructed and never read;
 a pair of noisy-basis quantum parameters described as a variational
-optimiser, executed as a uniform random search; a set of three published
-detector names cited in the bibliography and replaced in code by three
-weighted clipped z-scores.
+optimiser, executed as a uniform random search; a constellation model that
+does not build the geometry its headline finding is a consequence of; and a set
+of three published detector names cited in the bibliography and replaced in
+code by three weighted clipped z-scores. The remaining two reproduce their
+artifacts with differences of one or two units in the last place, so the class
+is not an artefact of imperfect reproduction either --- it is present at every
+level of reproduction fidelity in the corpus.
 
 Relation failures are not arithmetic errors. They survive reproduction and
 they survive a number check, and they are the failure mode a conventional
@@ -510,18 +553,42 @@ cannot audit. The chain of provenance from the row data to the printed figure
 is verified; the chain from the printed figure to scientific truth is not, and
 is not claimed.
 
+The guarantee is only as good as the dependency graph behind it, and this one
+was rebuilt during this series because its first version did not support the
+claim above. The script locates the frozen dataset on disk and \emph{parses
+it}: the row table, the derived-metrics block, the gradient block, the
+cross-batch block, the class-name list and the correction log are all read out
+of the dataset file at build time, and every expected value is compared against
+what that parse produced. There is no expected value written as a literal in
+the script. The two committed CSVs are then diffed against the dataset's own
+table cell by cell, so a transcription error is caught against the source
+rather than against another column of the same file. Bit-for-bit reproduction
+is not a column of the row table, so its count is parsed from the dataset's own
+per-row block and every repository it names is asserted to be a scored row.
+
+This is the difference between a script that verifies and a script that
+confirms. Corrupting the dataset in a throwaway copy --- the claim total and
+the cross-batch rate --- leaves the script exiting zero and writing
+byte-identical figures under the previous design, because the dataset was not
+in the dependency graph at all: the check compared a CSV against constants
+that the same author had transcribed from the same markdown. It now exits
+non-zero and writes nothing, and \texttt{make\_figures.py --self-test} proves
+that on every build by mutating the dataset text five ways and requiring the
+checks to fail each time.
+
 The boundary is narrower than the word \emph{generated} invites a reader to
-assume, so we name it rather than leave it implied. The script reads the row
-table committed beside it and compares what it derives against constants
-transcribed from the frozen dataset. It does not read this manuscript.
-Table~\ref{tab:rows} is typeset by hand from that same transcription, so the
-script's guarantee runs from the row data to the figures and does not cover
-the typeset table. What covers the typeset table is a weaker instrument and we
-name it as weaker: the cross-file scan in \texttt{verify\_dataset.py} reads
-this manuscript on every run and rejects it if it carries a pre-correction
-figure or a layer label that disagrees with the rubric. That is a guard
-against the defects we know about and not a cell-by-cell diff, and a reviewer
-should read it as such.
+assume, so we name it rather than leave it implied. The script does not read
+this manuscript. \texttt{Table~\ref{tab:rows}} is typeset by hand from the same
+transcription, so the script's guarantee runs from the frozen dataset to the
+figures and does not cover the typeset table. What covers the typeset table is
+a weaker instrument and we name it as weaker: the cross-file scan in
+\texttt{verify\_dataset.py} reads this manuscript on every run and rejects it if
+it carries a pre-correction figure or a layer label that disagrees with the
+rubric. That is a guard against the defects recorded in the dataset's own
+correction log and not a cell-by-cell diff, and a reviewer should read it as
+such. Section~\ref{sec:tax-apparatus} states what that residual limit cost us,
+because it is the sharpest evidence this study has that the problem
+generalises.
 
 % ----------------------------------------------------------------------------
 % 4. DATASET
@@ -535,8 +602,13 @@ should read it as such.
 Table~\ref{tab:rows} is the frozen row table of the dataset of record. It is
 reproduced verbatim, and every aggregate in Section~\ref{sec:results} is
 recomputed from the same row data by the committed figure script, which aborts
-on disagreement. Section~\ref{sec:method-figures} states exactly how far that
-guarantee reaches.
+on disagreement. Two further instruments guard the corpus itself and neither is
+discretionary: \texttt{verify\_dataset.py} joins every cell of the frozen row
+table against the per-row claim columns of the three batch reports, which are
+primary records written by three separate evaluators, and re-derives the
+cross-batch split from the row table per span. Section~\ref{sec:method-figures}
+states exactly how far the figure script's guarantee reaches, and
+Section~\ref{sec:selftest} states what the limit of that guarantee cost.
 
 \begin{table}[t]
 \centering
@@ -600,12 +672,22 @@ of a magnitude that could be attributed to toolchain drift.
 
 The per-claim rates in rows 1--8 and rows 9--13 were produced at
 \emph{different claim granularities}. Batch~3 split compound sentences into
-separate atomic claims, which yields 34.6\% against batches~1--2's 78.9\%
-over the same denominator definition. This is a difference in counting
-convention and not in package quality, and the batch~3 evaluator flagged it
-unprompted before it was reconciled. Reporting the change rather than
-suppressing it is the point; the alternative was a trend line that would have
-been an artefact of the splitter.
+separate atomic claims, which yields $50$ of $105$ at 47.6\% over batch~3's
+five scored rows against batches~1--2's $213$ of $270$ at 78.9\% over rows
+1--8. This is a difference in counting convention and not in package quality,
+and the batch~3 evaluator flagged it unprompted before it was reconciled.
+Reporting the change rather than suppressing it is the point; the alternative
+was a trend line that would have been an artefact of the splitter.
+
+Batch~3's report carries a second denominator as well, $28$ of $81$ at 34.6\%,
+in which the \pkg{cd} programme is counted once as its upstream manuscript
+rather than as two scored rows. It is a different denominator and not an
+alternative value for the same one, and the two are not interchangeable. An
+earlier version of this paper paired the four-package rate with the five-row
+span, which inflated the apparent granularity gap from 31.3 points to 44.3;
+Section~\ref{sec:correction} records that as the fourth defect in the
+aggregation layer. The error was in a sentence of the summary layer and in no
+row, and it was in the direction that makes the finding more dramatic.
 
 The pooled figures of $375$ adjudicated, $263$ correct, $95$ contradicted and
 $17$ unsupported are therefore an aggregate across two conventions. We report
@@ -623,18 +705,21 @@ A paper on integrity cannot ship a dataset whose own summary fails an
 arithmetic check, so the correction record is part of the dataset rather than
 an appendix to it. The dataset was frozen on 2026-09-29, before any drafting.
 
-Four defects were found in the aggregation layer of this study's own dataset,
-across three entries of its correction log. Three were arithmetic and one was
-not, and the division is the result rather than an incidental detail. The
-three arithmetic defects were all found by one procedure --- reconcile the
-summary block against the thirteen per-package rows --- and that procedure is
-now part of the method. The fourth was a semantic correspondence failure inside
-the evaluation apparatus: every count in the summary was correct, and every
-label attached to those counts was attached to the wrong layer. We present the
-arithmetic three first and briefly, and the fourth at length, because the
-arithmetic ones constrain nothing. The same check finds them every time and
-will find them again; the fourth is the one that changed what the method has
-to check.
+Seven defects have been found in the aggregation layer and evaluation
+apparatus of this study, across five entries of the dataset's correction log.
+Four were in the aggregation layer: three arithmetic, and one not. Three were in
+the verification apparatus, and were found by an independent falsification
+attempt rather than by any instrument we had. The division is the result rather
+than an incidental detail. The three arithmetic defects were all found by one
+procedure --- reconcile the summary block against the thirteen per-package rows
+--- and that procedure is now part of the method. The fourth aggregation defect
+was a semantic relation failure inside the evaluation apparatus: every count in
+the summary was correct, and every label attached to those counts was attached
+to the wrong layer. We present the arithmetic three first and briefly, the
+fourth at length, and the apparatus three last and at more length still,
+because the arithmetic ones constrain nothing and the apparatus ones changed
+what the method has to check. The same reconciliation finds the arithmetic
+defects every time and will find them again.
 
 \textbf{The pre-freeze aggregate error.} The first draft of the
 derived-metrics block stated $315$ claims adjudicated, $94$ contradicted, and
@@ -643,7 +728,11 @@ gives $375$ adjudicated, $95$ contradicted, and $70.1\%$ correct. The error was
 in the summary block only: every row total in the table was correct, and each
 row summed correctly. It was caught by hand-check against the rows before any
 figure was cited anywhere, corrected in place, and the pre-correction values
-are not quoted in this series. The methodological point is not that a mistake
+are used nowhere in this series as results. They are quoted in this paragraph
+and in the dataset's own correction log, because a correction record that does
+not state what was wrong is not a correction record; an earlier version of this
+sentence claimed they were quoted nowhere, which the sentence itself
+contradicted. The methodological point is not that a mistake
 was made. It is that the aggregation layer requires the same audit as the
 artifacts, and that a dataset which fails its own consistency check is the
 same failure class this paper describes, one level up.
@@ -747,6 +836,66 @@ measurements it reported was broken while its arithmetic held perfectly.
 Section~\ref{sec:tax-apparatus} argues why we treat it as an instance of a
 class already in the taxonomy rather than as a class of its own.
 
+\textbf{The fifth defect, a rate attached to the wrong denominator span.}
+This one is in the aggregation layer again, and it is the fourth time that
+layer has failed, so it is worth being precise about why it survived the
+procedure that caught the other three. The dataset's cross-batch section
+attributed $34.6\%$ to batch~3 while naming rows 9--13 as batch~3's rows.
+Batch~3 contributes five rows, not four, because the \pkg{cd} programme
+contributes both its upstream row and its audit-manuscript row; the
+four-package figure of $34.6\%$ counts \pkg{cd} once. Rows 9--13 give $50$ of
+$105$ at $47.6\%$. The correct rate for the span the section names is
+$47.6\%$, and the section now states both denominators and says which is which.
+
+Row-level reconciliation passes on this. The rows sum correctly, the summary
+block agrees with them, and the rate itself is arithmetically right for the
+count beside it. What is wrong is the pairing of a rate with a span, and
+reconciliation compares sums against sums: it has no way to ask which rows a
+percentage is claimed over. The first three defects were caught by a human
+re-deriving the numbers by hand. This one was caught by an auditor who
+re-derived the cross-batch split from the row table and compared the
+re-derived rate against the rate the sentence attached to the span --- and that
+check now runs on every invocation of \texttt{verify\_dataset.py}, joined
+against the per-row claim columns of the three batch reports, which are primary
+records written by three different evaluators and are never transcribed by us.
+
+Two features of this defect are worth recording because they bear on the
+method. The origin is traceable and the loss is not the batch-3 evaluator's:
+that report states both denominators explicitly, twice, and names them
+``Denominator A'' and ``Denominator B''. The primary record was right and the
+error entered on the way in. And the error was not neutral in direction ---
+pairing the four-package rate with the five-row span inflated the apparent
+granularity gap from 31.3 points to 44.3 --- which is the same asymmetry the
+aggregate report records for the verdict roll-up, and it is why we state here
+that every one of the thirteen rows was correct before this correction and is
+correct after it, and that the granularity caveat of
+Section~\ref{sec:granularity} is unchanged by it: $47.6\%$ is still a rate
+conditioned by a different claim convention and is still not a defect rate.
+
+\textbf{The sixth and seventh defects, in the verification apparatus.} Both
+were found by the same independent falsification attempt and neither is a
+number in the dataset. The sixth is that the figure pipeline's provenance
+guarantee was not implemented: the script read two CSVs and compared them
+against constants transcribed by its own author from the same file, so
+corrupting the dataset left it exiting zero and writing byte-identical
+figures. The seventh is that the caption for Figure~\ref{fig:gradient}
+described a panel the generator does not draw, which is this paper's own third
+failure class occurring inside its own apparatus. Two further items found in the
+same pass --- a derived column cross-checked against another column of the same
+file, and a disjointness assertion that cannot fail because one of the two sets
+is empty --- are instrument defects rather than dataset defects and are
+described where they arise: the first in Section~\ref{sec:method-figures} and
+the second in Section~\ref{sec:intro-not}. The taxonomy renames and the dead
+rubric citation that the same pass surfaced are described in
+Section~\ref{sec:taxonomy} and in the dataset's correction log.
+
+The methodological consequence of the sixth and seventh is stated where it
+belongs, as a limitation of the method rather than as a defect in one artifact:
+Section~\ref{sec:selftest} sets out why an apparatus whose checked source is a
+constant transcribed by its own author cannot be relied upon to detect a
+correspondence failure in itself, what the two structural fixes are, and which
+one we have made.
+
 \begin{table}[t]
 \centering
 \caption{The two arithmetic corrections, both caught by row-level reconciliation
@@ -833,10 +982,10 @@ signature of a procedure that was applied rather than performed.
 
 Table~\ref{tab:metrics} gives the derived metrics, each with its own
 denominator. Every row of that table is recomputed from the same row data as
-Table~\ref{tab:rows} by \texttt{figures/make\_figures.py}, which exits
-non-zero and writes nothing
-if any recomputed value disagrees with the frozen record. The gradient of
-Figure~\ref{fig:gradient} is the same computation rendered.
+Table~\ref{tab:rows} by \texttt{figures/make\_figures.py}, which parses the
+frozen dataset at build time, compares each recomputed value against what that
+parse produced, and exits non-zero writing nothing on any disagreement. The
+gradient of Figure~\ref{fig:gradient} is the same computation rendered.
 
 \begin{table}[t]
 \centering
@@ -880,17 +1029,26 @@ Metric & Count & Rate \\
 \centering
 \includegraphics[width=\textwidth]{figures/fig_layer_gradient.pdf}
 \caption{The four-layer gradient and the denominators it depends on. (a) The
-categorical layer verdicts, denominator 13 and constant across batches. (b)
-The adjudicated claim pool, with the two-granularity conditioning stated in
-the figure rather than only in the caption. (c) The two package-level
-quantities that a reader is most likely to conflate. The note at the foot
-records two arithmetic errors found in the dataset's own aggregate layer by
-row-level reconciliation, both corrected with the row table left untouched. A
-third correction to the same layer --- a layer-label shift carrying no
-arithmetic error at all --- postdates this figure and is written up in
-Section~\ref{sec:correction}.
-Generated by \texttt{figures/make\_figures.py} from
-\texttt{figures/data/e1\_rows.csv}.}
+categorical layer verdicts, denominator 13 and constant across batches. Its
+third rung is labelled by rubric~v1.0's layer name, \texttt{L7 internal},
+because the frozen row table's column carries that name; the other three rungs
+are named by rubric~v1.1's units, so the axis mixes two naming systems and the
+mixing is the dataset's, not ours. (b) The adjudicated claim pool, with the
+two-granularity conditioning stated in the figure rather than only in the
+caption. Beneath the two panels is a note row of three columns, not a third
+panel: granularity conditioning, verdict against containment, and the
+aggregate reconciliation. The last records two arithmetic errors found in the
+dataset's own aggregate layer by row-level reconciliation, both corrected with
+the row table left untouched; a third correction to the same layer --- a
+layer-label shift carrying no arithmetic error at all --- and two further
+corrections postdate this figure and are written up in
+Section~\ref{sec:correction}. An earlier revision of this caption described a
+panel~(c) that the generator does not draw, which is a correspondence failure
+of the third class inside our own apparatus; it is logged as such rather than
+quietly amended.
+Generated by \texttt{figures/make\_figures.py}, which parses
+\texttt{E1-DATASET-v1.0.md} at build time and diffs
+\texttt{figures/data/e1\_rows.csv} against it cell by cell.}
 \label{fig:gradient}
 \end{figure}
 
@@ -901,9 +1059,11 @@ Of 375 adjudicated claims, 263 are correct, 95 are contradicted and 17 are
 unsupported. We do not report $70.1\%$ as a defect-complement rate, for the
 reason given in Section~\ref{sec:granularity}: the 375 is a pool of two
 counting conventions, and the split is $213$ of $270$ at 78.9\% for
-batches~1--2 against $28$ of $81$ at 34.6\% for batch~3 over four packages,
-or $50$ of $105$ at 47.6\% when batch~3's fifth row is included. The
-direction of the split is a property of the splitter.
+batches~1--2 over rows~1--8 against $50$ of $105$ at 47.6\% for batch~3 over
+its five scored rows, rows~9--13. Batch~3's four-package denominator is a
+different quantity, $28$ of $81$ at 34.6\%, and is reported in
+Section~\ref{sec:granularity} rather than here because it is not a split of
+the same pool. The direction of the split is a property of the splitter.
 
 What the claim-level data does support is a distributional statement that is
 insensitive to the convention. The \texttt{UNSUPPORTED} category is 17 claims
@@ -921,18 +1081,32 @@ quantity is \texttt{CORRECT} at U1 and worthless at U3, and the
 
 Every one of the thirteen rows ships a committed artifact: 13 of 13. Ten of
 thirteen reproduce under auditor execution, and among the reproducing group
-the reproduction is frequently exact. Four of the ten regenerate their artifact
-byte-identically with no qualification: the covert-detection upstream package
-and the audit manuscript's copy of that same artifact, which agree with the
-regenerated file by a three-way SHA-256 ---
+the reproduction is frequently exact. Bit-for-bit reproduction is a strictly
+stronger statement than \emph{reproduces} --- a committed JSON that regenerates
+across toolchain versions with the last digit of a float changed reproduces
+under the rubric --- and it is not a column of the frozen row table. It was
+measured per package by each batch's evaluator, it had no recorded field
+anywhere in this series until the correction pass that
+Section~\ref{sec:correction} describes added one, and an earlier version of
+this paper therefore quoted a count of it that no source in the corpus
+supported. The corrected figure, derived from the dataset's per-row block and
+parsed by the figure script on every run, is \textbf{five of the thirteen
+scored rows}: the covert-detection upstream package and the audit manuscript's
+copy of that same artifact, which agree with the regenerated file by a
+three-way SHA-256 --- all three hashing to
 \texttt{4242d117dff67c716523e694704ca918f2537d47}\allowbreak
-\texttt{56cf1d4161938a629c237675} for the regenerated copy, the committed
-upstream copy and the audit manuscript's committed copy; the scheduling
-package, whose forty-five rows and five fields match exactly; and the co-design
-package, whose four policies and eight fields each match exactly. A fifth, the
+\texttt{56cf1d4161938a629c237675}, which is what makes it a three-way
+agreement rather than two files and an assertion; the
+reinforcement-learning package, byte-identical on every scientific field
+across two independent full process runs; the scheduling package, whose
+forty-five rows and five fields match exactly; and the co-design package,
+whose four policies and eight fields each match exactly. A sixth, the
 video-coding package, matches byte-for-byte on every scientific field with a
 single wall-clock field differing, which is a measurement of the machine rather
-than a result.
+than a result. Batch~1 contributes none of the five: the first package in it
+reproduces to $2.2\times10^{-16}$, the second to $1.8\times10^{-12}$, and the
+third reproduces 540 of 720 records bit-exactly while failing on precisely the
+180 carrying its recommended operating point.
 
 Three packages do not regenerate. Two of them diverge because the committed
 artifact is valid for one library release and for no other: in both cases the
@@ -1007,7 +1181,7 @@ manuscript, which holds 22 of 24 claims and whose one contradicted claim is a
 standard-deviation estimator disclosure. Reporting the verdict distribution
 without the $13$ of $13$ understates the finding. Reporting the $13$ of $13$
 as though it were the verdict misdescribes the adjudication. Both appear,
-separately, in the dataset and in Figure~\ref{fig:gradient}(c).
+separately, in the dataset and in the note row of Figure~\ref{fig:gradient}.
 
 A pre-freeze draft of the aggregate summary stated ``12 of 13 packages have
 claims contradicted by their own artifacts''. That figure was wrong in both
@@ -1016,14 +1190,17 @@ directions of its construction and is superseded.
 \subsection{Cross-layer disagreement}
 \label{sec:res-disagree}
 
-The most consequential result in the study is a joint one, and it is
-machine-checked. Of the ten rows whose artifact reproduces under auditor
-execution, \emph{zero} are \texttt{SUPPORTED}: seven are
-\texttt{PARTIALLY SUPPORTED} and three are \texttt{CONTRADICTED}. Of the
-three rows that do not reproduce, one is \texttt{PARTIALLY SUPPORTED} and two
-are \texttt{CONTRADICTED}, and again none is \texttt{SUPPORTED}. Reproduction
-is not a usable proxy for integrity, and in this corpus it is not even
-weakly predictive of the verdict: the two groups have the same shape.
+The most consequential result in the study is a joint one, and it is the one
+result in this paper that a machine check can fail. Of the ten rows whose
+artifact reproduces under auditor execution, \emph{zero} are
+\texttt{SUPPORTED}: seven are \texttt{PARTIALLY SUPPORTED} and three are
+\texttt{CONTRADICTED}. Of the three rows that do not reproduce, one is
+\texttt{PARTIALLY SUPPORTED} and two are \texttt{CONTRADICTED}, and again none
+is \texttt{SUPPORTED}. Reproduction is not a usable proxy for integrity, and
+in this corpus it is not even weakly predictive of the verdict: the two groups
+have the same shape. \texttt{figures/make\_figures.py} recomputes both blocks
+of that joint distribution on every run and aborts if either contains a single
+\texttt{SUPPORTED} verdict.
 
 The sharpest instance is one package, and it is worth stating precisely
 because it is the case a reviewer will ask about. Its committed metrics file
@@ -1107,7 +1284,7 @@ parameter, because the reduction is the definition rather than the finding,
 and the paper's mechanistic conclusion, that measurement errors dominate gate
 errors, is drawn from the multiplier table and has no support in the code.
 
-\subsection{Contradictory verification}
+\subsection{Self-contradicting verification}
 \label{sec:tax-contradictory}
 
 The artifact is executable and reproducible, and its result contradicts the
@@ -1140,13 +1317,18 @@ as generated by the simulator. The absence of the advertisement is what keeps
 it out of the class above, and it is recorded in the audit as a
 negative finding on a suspected defect.
 
-\subsection{Semantic correspondence failure}
+\subsection{Semantic relation failure}
 \label{sec:tax-semantic}
 
 The artifact exists, can produce results, may even contain structures named
 after the claim, and the implemented mechanism does not correspond to the
 described one. Four packages in the corpus exhibit it, and the variety is
-instructive because the naming is intact in every case.
+instructive because the naming is intact in every case. The three class names
+used throughout this section are the frozen dataset's own, and the figure
+script now parses them out of that file and fails the build if either side
+renames one; an earlier version of this paper published two of the three under
+different names from the dataset that is their source of record, which is this
+class applied to the taxonomy that names it.
 
 A package titled as variational optimisation on a noisy basis is a full
 classical state-vector simulation in an array library: sixteen thousand
@@ -1262,6 +1444,71 @@ correspondence failed inside the evaluation apparatus while arithmetic held
 perfectly, which makes it the sharpest available answer to the objection that
 a taxonomy of relation failures is a distinction without a difference. The
 apparatus is not exempt from the apparatus's own rubric.
+
+\paragraph{A limitation of the method, found by applying the method to itself.}
+\label{sec:selftest}
+The strongest form of this paper's thesis is not that summary layers can fail
+their own checks, but that \emph{no self-check can be relied on to detect a
+failure in itself}. We did not have to argue that; we had to undergo it. The
+figure pipeline advertised that it aborts with a non-zero exit if any
+recomputed value disagrees with the frozen record, and Section~\ref{sec:method-figures}
+repeated the guarantee twice, in strong terms. It was false. The script read
+two CSVs, both transcribed by its own author from the dataset, and compared
+them against a block of constants transcribed by the same author from the same
+file in the same script. The dataset was not in the dependency graph at all.
+An independent falsification attempt corrupted the dataset in a throwaway
+copy --- the claim total and the cross-batch rate --- and the script exited
+zero and wrote figures byte-identical to the committed ones. A fifth defect,
+the rate attached to the wrong denominator span, was likewise invisible to
+every instrument we had; the blocklist of known-bad strings that guarded the
+typeset table could not contain a value it had never been told about. And a
+sixth, the caption for Figure~\ref{fig:gradient} describing a panel the
+generator does not draw, was a semantic relation failure inside our own
+apparatus --- this paper's own third failure class --- that no instrument could
+have caught, because no instrument read the manuscript.
+
+The pattern behind all three is structural rather than incidental, and it is
+the one thing we would ask a reviewer to take from this section.
+\textbf{The self-check and the thing it checks shared an author and a
+timestamp.} A block of constants transcribed from a markdown table, checked
+against a CSV transcribed from the same markdown table by the transcriber,
+verifies that the transcriber was consistent with himself. That is not
+nothing --- it caught a real row-sum error during our own testing --- but it
+is a far weaker instrument than the phrase ``aborts if any recomputed value
+disagrees with the frozen record'' implies, and it is weaker in a way no
+amount of additional care by the same author can fix. This paper's most
+emphasised methodological finding is that a summary layer can reconcile
+perfectly while mislabelling what its counts mean, and until the falsification
+attempt we had not applied that finding to our own pipeline. That omission is
+itself an instance of the class, and burying it would have been the failure
+class the paper is about.
+
+The fix is not a longer list of known-bad strings, and it is not a more
+careful review pass. It is one of two structural changes, and we have made
+the first. \emph{Either} the checked source becomes a committed input rather
+than a constant, so that divergence between transcription and source is
+observable --- which is what \texttt{figures/make\_figures.py} now does, by
+parsing the dataset at build time, diffing the CSVs against it cell by cell,
+and proving on every run via \texttt{--self-test} that five distinct
+corruptions of the dataset each abort the build. \emph{Or} the verifying
+instrument is authored independently of the artifact it checks, so that the
+two do not share an author and a timestamp --- which is what found every one of
+the defects listed above, in a scratch clone, with derivation code that imports
+no module of ours and never opened our working tree. The first change is now in
+place for the figure pipeline. Neither is in place for the manuscript:
+\texttt{main.tex} is still typeset by hand, the guard over it is a
+correction-log-derived scan rather than a diff, and we do not claim otherwise.
+A dependency graph in which the manuscript is a committed input would close
+that gap; nothing in this series closes it today.
+
+The honest generalisation is therefore a negative one, and we state it as a
+limitation of the method rather than a result about the corpus: \emph{this
+study's own self-verification apparatus could not detect a correspondence
+failure in itself, and the failure it could not detect was in the same layer,
+of the same species, as the failures it was built to catch.} An integrity
+instrument whose coverage is reported only by its author should be read as
+covering less than its author believes, and the only available test of that
+coverage is an attempt to falsify it written by someone else.
 
 % ----------------------------------------------------------------------------
 % 7. CASE STUDIES
@@ -1489,8 +1736,9 @@ rows is not on its own a sufficient check on a summary layer.
 
 The claim-level figures pool two counting conventions, as
 Section~\ref{sec:granularity} states. The pooled $375$ and the $70.1\%$ derived
-from it are descriptive, and the split between batches --- $78.9\%$ against
-$34.6\%$ --- is a property of the convention rather than of the packages. The
+from it are descriptive, and the split between batches --- $78.9\%$ over rows
+1--8 against $47.6\%$ over batch~3's five scored rows --- is a property of the
+convention rather than of the packages. The
 categorical layer and package verdicts do not depend on granularity and are
 the results this paper rests on. A second corpus scored under a fixed
 granularity is required before any claim-level rate from this line of work
@@ -1748,27 +1996,27 @@ Correct numerical output is not sufficient evidence of artifact-to-claim
 integrity, and the separation is not a matter of degree. In a frozen corpus
 of thirteen scored rows, ten artifacts reproduce under auditor execution and
 zero packages are fully supported; every package in the corpus contains at
-least one claim contradicted by its own artifacts; and the reproduced group
-and the supported group are disjoint, which the committed figure script
-verifies mechanically on every run. The claim-level pool of 375 adjudicated
+least one claim contradicted by its own artifacts; and no reproducing row is
+\texttt{SUPPORTED}, which the committed figure script recomputes from the joint
+distribution on every run. The claim-level pool of 375 adjudicated
 claims, of which 263 hold, is reported as descriptive and is conditioned by
 two counting conventions, and it is not the result this paper rests on.
 
 The gap decomposes into three classes that a reproduction check cannot detect
 and a number check cannot detect either: circular validation, in which the
 artifact reproduces a property derived from the assumption it purports to
-validate; contradictory verification, in which a supplied verifier runs and
-disagrees; and semantic correspondence failure, in which an artifact runs and
+validate; self-contradicting verification, in which a supplied verifier runs
+and disagrees; and semantic relation failure, in which an artifact runs and
 implements a different mechanism from the one it names. Each was found by
 asking what the code does, not by asking whether the numbers agree, and each
 lives in the relation between an artifact and a claim, which is the unit an
 earlier layer rubric did not have.
 
 The methodological results are the negative ones about our own instrument. The
-dataset's aggregate layer failed its own consistency check four times, in three
-entries of the dataset's correction log. The first three were arithmetic, and
-all three were found by one procedure: sum the thirteen per-package rows, then
-compare the sum against the summary block. The first was caught before the
+dataset's aggregation layer failed its own consistency check four times, across
+four entries of the dataset's correction log. The first three were arithmetic,
+and all three were found by one procedure: sum the thirteen per-package rows,
+then compare the sum against the summary block. The first was caught before the
 freeze and corrected before any figure was cited. The second and third were
 found after the freeze, by the reconciliation this paper runs against its own
 data, and are logged rather than quietly amended: a verdict distribution
@@ -1777,27 +2025,58 @@ internal-consistency count recorded as $2$ of $13$ where the recorded column
 gives $1$ of $13$. In all three cases the thirteen rows were correct and the
 summary was not.
 
-The fourth was not arithmetic, and it is the one that constrains the method.
-The aggregate's headline table carried its layer labels shifted by one from L3
-upward against the frozen rubric and against all three batch reports, so that
-a correct count of $6$ of $13$ was attached to L3 --- Figure where the rubric
-calls it L4. Every count reconciled; only the names moved. Because the
-aggregate file was already public, that correction is post-publication. It was
-found not by reconciliation but by parsing the label sequence and asserting it
-against the rubric, and that assertion now runs in this manuscript's
-verification script. Eight evaluator self-corrections are in the record,
-including an evaluator who overturned the rubric's own premise, an evaluator
-who declined to inherit five numbers that appear in no committed artifact, and
-an evaluator who caught an off-by-one that would have published a false
-contradiction against the rubric's own reference case. The aggregation layer
-requires the same audit as the artifacts, and a dataset that fails its own
-consistency check is the same failure class this paper describes, one level up.
-We report that failure four times over rather than once because two of the
-corrections move the reported gradient in the direction that weakens our own
-claim, and correcting them anyway is the only version of the gradient that is
-citable --- and because the fourth shows that the arithmetic check which caught
-the first three is not sufficient on its own. A summary layer must be checked
-against the instrument it summarises, not only against itself.
+The fourth was not arithmetic, and it is the one that changed what the method
+has to check. The aggregate's headline table carried its layer labels shifted by
+one from L3 upward against the frozen rubric and against all three batch
+reports, so that a correct count of $6$ of $13$ was attached to L3 --- Figure
+where the rubric calls it L4. Every count reconciled; only the names moved.
+Because the aggregate file was already public, that correction is
+post-publication. It was found not by reconciliation but by parsing the label
+sequence and asserting it against the rubric, and that assertion now runs in
+this manuscript's verification script. A fifth aggregation defect, a rate of
+$34.6\%$ attached to batch~3's five scored rows when that rate belongs to a
+four-package denominator and the five rows give $47.6\%$, survived every
+instrument we had: reconciliation passes on it, because a mispaired rate is not
+a wrong sum. Both the label shift and the mispaired rate are now caught by a
+check that joins the frozen row table against the three batch reports --- primary
+records written by three separate evaluators, which we never transcribed --- and
+that re-derives the cross-batch split per span from the row table. Eight
+evaluator self-corrections are in the record, including an evaluator who
+overturned the rubric's own premise, an evaluator who declined to inherit five
+numbers that appear in no committed artifact, and an evaluator who caught an
+off-by-one that would have published a false contradiction against the rubric's
+own reference case.
+
+The aggregation layer requires the same audit as the artifacts, and a dataset
+that fails its own consistency check is the same failure class this paper
+describes, one level up. We report that failure four times over rather than
+once because two of the corrections move the reported gradient in the direction
+that weakens our own claim, and correcting them anyway is the only version of
+the gradient that is citable; because the fourth shows that the arithmetic check
+which caught the first three is not sufficient on its own; and because the
+fifth shows that even a check which is not arithmetic is not sufficient on its
+own. A summary layer must be checked against the instrument it summarises, and
+a rate must be checked against the span it is claimed over.
+
+Two further defects are in the verification apparatus rather than in the
+dataset, and they are the reason this paper now states a limitation of its own
+method rather than only of its corpus. The figure pipeline advertised a
+guarantee it did not implement: it compared a transcription against constants
+in its own source, never opening the dataset, so corrupting the dataset left it
+exiting zero and writing byte-identical figures. And a figure caption described
+a panel the generator does not draw, which is this paper's own third failure
+class inside its own apparatus. Both were found by an independent falsification
+attempt that wrote its own derivation code, imported no module of ours, and
+never opened our working tree. Section~\ref{sec:selftest} draws the conclusion
+we think a reviewer should take from them: an apparatus whose checked source is
+a constant transcribed by its own author cannot be shown to detect a
+correspondence failure in itself, and the only available test of such an
+apparatus is an attempt to falsify it written by someone else. We have made one
+of the two structural fixes --- the checked source is now a committed input,
+parsed at build time, and five distinct corruptions of it each abort the build
+on every run --- and we do not claim the second, which would be a manuscript
+that is itself a committed input to a check authored by someone other than its
+author.
 
 Four limitations are load-bearing and are stated as such. The corpus is
 author-controlled, which is a weakness for any prevalence claim and the only

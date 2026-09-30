@@ -7,7 +7,7 @@ endobj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 520 304] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> /ProcSet [/PDF /Text] >> /Contents 6 0 R >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 520 315] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> /ProcSet [/PDF /Text] >> /Contents 6 0 R >>
 endobj
 4 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
@@ -16,10 +16,10 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 6 0 obj
-<< /Length 5162 >>
+<< /Length 5355 >>
 stream
 q
-1 0 0 1 0 -695.70 cm
+1 0 0 1 0 -685.20 cm
 0.0000 0.0000 0.0000 rg
 BT
 /F2 12.00 Tf
@@ -30,286 +30,292 @@ ET
 BT
 /F1 8.00 Tf
 44.00 944.00 Td
-(Classification and exemplars transcribed from E1-DATASET-v1.0.md \(frozen 2026-09-29, corrected 2026-09-30\), section) Tj
+(Class names are the frozen dataset's own, parsed at build time from E1-DATASET-v1.0.md, section 'The three) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 8.00 Tf
 44.00 933.50 Td
-('The three counterexample classes', and from the cross-package findings in E1-AGGREGATE.md. A cell is a structural) Tj
+(counterexample classes'; a rename in either the dataset or this script's input fails the build rather than shipping two) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 8.00 Tf
 44.00 923.00 Td
-(property of the class definition, not a count: it records whether the class is detectable at that unit at all.) Tj
+(vocabularies. Exemplars are transcribed from that section and from the cross-package findings in E1-AGGREGATE.md.) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 8.00 Tf
+44.00 912.50 Td
+(A cell is a structural property of the class definition, not a count: it records whether the class is detectable at that unit at all.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 7.50 Tf
-44.00 906.50 Td
+44.00 896.00 Td
 (failure class and corpus exemplar) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 7.50 Tf
-199.27 906.50 Td
+196.91 896.00 Td
 (U1) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 7.50 Tf
-226.85 906.50 Td
+224.49 896.00 Td
 (U2) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 7.50 Tf
-254.44 906.50 Td
+252.08 896.00 Td
 (U3) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 7.50 Tf
-282.02 906.50 Td
+279.66 896.00 Td
 (U4) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 7.50 Tf
-318.61 906.50 Td
+316.25 896.00 Td
 (mechanism the method must be able to falsify) Tj
 ET
 0.6200 0.6200 0.6200 RG
 0.70 w
-44.00 908.50 476.00 908.50 m 476.00 908.50 l S
+44.00 898.00 476.00 898.00 m 476.00 898.00 l S
 0.0800 0.0800 0.0800 rg
 BT
 /F2 8.50 Tf
-44.00 892.50 Td
+44.00 882.00 Td
 (Circular validation) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
-44.00 881.50 Td
+44.00 871.00 Td
 (isac-jasc-ieee) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.80 w
-192.27 889.50 23.59 11.00 re
+189.91 879.00 23.59 11.00 re
 S
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.50 Tf
-198.44 892.50 Td
+196.07 882.00 Td
 (NO) Tj
 ET
 0.6200 0.2000 0.1600 rg
-219.85 889.50 23.59 11.00 re
+217.49 879.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-224.14 892.50 Td
+221.78 882.00 Td
 (YES) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.80 w
-247.44 889.50 23.59 11.00 re
+245.08 879.00 23.59 11.00 re
 S
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.50 Tf
-253.61 892.50 Td
+251.24 882.00 Td
 (NO) Tj
 ET
 0.6200 0.2000 0.1600 rg
-275.02 889.50 23.59 11.00 re
+272.66 879.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-279.31 892.50 Td
+276.95 882.00 Td
 (YES) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-318.61 892.50 Td
+316.25 882.00 Td
 (Artifact reproduces a property derived from the) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-318.61 883.00 Td
+316.25 872.50 Td
 (assumption it purports to validate) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.50 w
-44.00 866.50 476.00 866.50 m 476.00 866.50 l S
+44.00 856.00 476.00 856.00 m 476.00 856.00 l S
 0.0800 0.0800 0.0800 rg
 BT
 /F2 8.50 Tf
-44.00 858.50 Td
-(Contradictory verification) Tj
+44.00 848.00 Td
+(Self-contradicting verification) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
-44.00 847.50 Td
+44.00 837.00 Td
 (ems-ieee-package) Tj
 ET
 0.6200 0.2000 0.1600 rg
-192.27 855.50 23.59 11.00 re
+189.91 845.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-196.56 858.50 Td
+194.19 848.00 Td
 (YES) Tj
 ET
 0.6200 0.2000 0.1600 rg
-219.85 855.50 23.59 11.00 re
+217.49 845.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-224.14 858.50 Td
+221.78 848.00 Td
 (YES) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.80 w
-247.44 855.50 23.59 11.00 re
+245.08 845.00 23.59 11.00 re
 S
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.50 Tf
-253.61 858.50 Td
+251.24 848.00 Td
 (NO) Tj
 ET
 0.6200 0.2000 0.1600 rg
-275.02 855.50 23.59 11.00 re
+272.66 845.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-279.31 858.50 Td
+276.95 848.00 Td
 (YES) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-318.61 858.50 Td
+316.25 848.00 Td
 (Verifier executes and its result contradicts the) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-318.61 849.00 Td
+316.25 838.50 Td
 (claim it is supplied to verify) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.50 w
-44.00 832.50 476.00 832.50 m 476.00 832.50 l S
+44.00 822.00 476.00 822.00 m 476.00 822.00 l S
 0.0800 0.0800 0.0800 rg
 BT
 /F2 8.50 Tf
-44.00 824.50 Td
-(Semantic correspondence failure) Tj
+44.00 814.00 Td
+(Semantic relation failure) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
-44.00 813.50 Td
+44.00 803.00 Td
 (quantum-k-sat-ieee-package) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.80 w
-192.27 821.50 23.59 11.00 re
+189.91 811.00 23.59 11.00 re
 S
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.50 Tf
-198.44 824.50 Td
+196.07 814.00 Td
 (NO) Tj
 ET
 0.6200 0.2000 0.1600 rg
-219.85 821.50 23.59 11.00 re
+217.49 811.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-224.14 824.50 Td
+221.78 814.00 Td
 (YES) Tj
 ET
 0.6200 0.2000 0.1600 rg
-247.44 821.50 23.59 11.00 re
+245.08 811.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-251.73 824.50 Td
+249.36 814.00 Td
 (YES) Tj
 ET
 0.6200 0.2000 0.1600 rg
-275.02 821.50 23.59 11.00 re
+272.66 811.00 23.59 11.00 re
 f
 1.0000 1.0000 1.0000 rg
 BT
 /F2 7.50 Tf
-279.31 824.50 Td
+276.95 814.00 Td
 (YES) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-318.61 824.50 Td
+316.25 814.00 Td
 (Artifact exists and runs but implements a) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-318.61 815.00 Td
+316.25 804.50 Td
 (different mechanism from the one it names) Tj
 ET
 0.8800 0.8800 0.8800 RG
 0.50 w
-44.00 798.50 476.00 798.50 m 476.00 798.50 l S
+44.00 788.00 476.00 788.00 m 476.00 788.00 l S
 0.6200 0.2000 0.1600 rg
 BT
 /F2 7.50 Tf
-44.00 784.50 Td
+44.00 774.00 Td
 (Read the four cell columns down the three rows. Class 1 is invisible at U1, U2 and U3 at once: its artifact reproduces to) Tj
 ET
 0.6200 0.2000 0.1600 rg
 BT
 /F2 7.50 Tf
-44.00 774.70 Td
+44.00 764.20 Td
 (1.8e-12, the most reproducible artifact in the set, and no artifact contains a different value for the asserted) Tj
 ET
 0.6200 0.2000 0.1600 rg
 BT
 /F2 7.50 Tf
-44.00 764.90 Td
+44.00 754.40 Td
 (proposition. It is detectable only at U4, and only because the assertion's own construction is the defect.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-44.00 753.10 Td
+44.00 742.60 Td
 (Classes 2 and 3 are both invisible at U2, because reproduction is not what is wrong with them: a verifier that runs and disagrees,) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-44.00 743.30 Td
+44.00 732.80 Td
 (and an artifact that runs and implements something else, both reproduce perfectly. The two failure classes a reproduction check) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.50 Tf
-44.00 733.50 Td
+44.00 723.00 Td
 (cannot see are precisely the two the earlier unit set did not have.) Tj
 ET
 Q
@@ -327,5 +333,5 @@ xref
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-5692
+5885
 %%EOF

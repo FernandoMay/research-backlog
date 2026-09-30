@@ -16,7 +16,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 6 0 obj
-<< /Length 8426 >>
+<< /Length 9027 >>
 stream
 q
 1 0 0 1 0 -604.50 cm
@@ -30,19 +30,19 @@ ET
 BT
 /F1 8.00 Tf
 44.00 944.00 Td
-(13 scored rows over 12 distinct packages. Source: E1-DATASET-v1.0.md \(frozen 2026-09-29, corrected 2026-09-30\).) Tj
+(13 scored rows over 12 distinct packages. Source: E1-DATASET-v1.0.md, parsed at build time by) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 8.00 Tf
 44.00 933.50 Td
-(Every quantity below is recomputed from the frozen row table by figures/make_figures.py, which aborts if any value) Tj
+(figures/make_figures.py, which recomputes every quantity below from the committed row table and aborts without writing) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 8.00 Tf
 44.00 923.00 Td
-(disagrees.) Tj
+(if any of them disagrees with the dataset.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
@@ -165,7 +165,7 @@ ET
 BT
 /F1 7.00 Tf
 44.00 854.10 Td
-(L7 consistent) Tj
+(L7 internal) Tj
 ET
 0.7400 0.6200 0.2800 rg
 106.45 850.50 8.52 13.00 re
@@ -297,19 +297,19 @@ ET
 BT
 /F2 8.50 Tf
 44.00 785.50 Td
-(Granularity conditioning) Tj
+(Note: granularity conditioning) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 8.50 Tf
 193.33 785.50 Td
-(Verdict vs. containment) Tj
+(Note: verdict vs. containment) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F2 8.50 Tf
 342.67 785.50 Td
-(Aggregate reconciliation) Tj
+(Note: aggregate reconciliation) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
@@ -327,43 +327,61 @@ ET
 BT
 /F1 7.00 Tf
 44.00 755.50 Td
-(conventions. Batches 1-2: 213/270 =) Tj
+(conventions. Batches 1-2, rows 1-8:) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
 44.00 746.50 Td
-(78.9%. Batch 3: 28/81 = 34.6% over four) Tj
+(213/270 = 78.9%. Batch 3, rows 9-13:) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
 44.00 737.50 Td
-(packages, 50/105 = 47.6% over five rows.) Tj
+(50/105 = 47.6% over five scored rows;) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
 44.00 728.50 Td
-(The split is a property of the splitter, so the) Tj
+(28/81 = 34.6% over four packages, a) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
 44.00 719.50 Td
-(pooled rate is descriptive and is not a) Tj
+(different denominator in which cd is) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
 44.00 710.50 Td
-(defect rate for this corpus. Only panel \(a\)) Tj
+(counted once. The split is a property of the) Tj
 ET
 0.3800 0.3800 0.3800 rg
 BT
 /F1 7.00 Tf
 44.00 701.50 Td
-(is comparable across batches.) Tj
+(splitter, so the pooled rate is descriptive) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 692.50 Td
+(and is not a defect rate for this corpus.) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 683.50 Td
+(Only panel \(a\) is comparable across) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 674.50 Td
+(batches.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
@@ -429,97 +447,115 @@ ET
 BT
 /F1 7.00 Tf
 193.33 683.50 Td
-(adjudication.) Tj
+(adjudication. The two sets are disjoint, but) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 674.50 Td
+(that follows from the SUPPORTED column) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 665.50 Td
+(being empty and is not an independent) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 656.50 Td
+(check.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 773.50 Td
-(Two arithmetic errors in the frozen) Tj
+(2 arithmetic errors in the frozen dataset's) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 764.50 Td
-(dataset's derived-metrics block, found by) Tj
+(derived-metrics block, found by row-level) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 755.50 Td
-(row-level reconciliation against the thirteen) Tj
+(reconciliation against the 13 per-package) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 746.50 Td
-(per-package rows and corrected with the) Tj
+(rows and corrected with the rows left) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 737.50 Td
-(rows left untouched. U4 verdict) Tj
+(untouched. U4 verdict distribution: block) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 728.50 Td
-(distribution: block recorded 0 / 7 / 6,) Tj
+(recorded 0 / 7 / 6, corrected to 0 / 8 / 5.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 719.50 Td
-(corrected to 0 / 8 / 5. internal consistency:) Tj
+(internal consistency: block recorded 2 of) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 710.50 Td
-(block recorded 2 of 13, corrected to 1 of) Tj
+(13, corrected to 1 of 13. The correction) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 701.50 Td
-(13. The correction makes the gradient) Tj
+(makes the gradient steeper, not flatter: 1) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 692.50 Td
-(steeper, not flatter: 1 of 13 rows are) Tj
+(of 13 rows are internally consistent.) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 683.50 Td
-(internally consistent. Neither correction) Tj
+(Neither correction changes the central) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 674.50 Td
-(changes the central result: 0 of 13) Tj
+(result: 0 of 13 packages are SUPPORTED) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 665.50 Td
-(packages are SUPPORTED and 13 of 13) Tj
+(and 13 of 13 contain a contradicted claim) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 656.50 Td
-(contain a contradicted claim before and) Tj
+(before and after. Section 4.4 gives both) Tj
 ET
 0.0800 0.0800 0.0800 rg
 BT
 /F1 7.00 Tf
 342.67 647.50 Td
-(after. Section 4.4 gives both rounds.) Tj
+(rounds.) Tj
 ET
 Q
 endstream
@@ -536,5 +572,5 @@ xref
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-8956
+9557
 %%EOF

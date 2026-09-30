@@ -1,6 +1,9 @@
 # E1 Aggregate Results
 
-**Rubric:** `ARTIFACT-TO-CLAIM-RUBRIC.md` v1.0
+**Rubric:** `ARTIFACT-TO-CLAIM-RUBRIC-v1.0.md` (layer names and verdicts below are scored
+against v1.0; v1.1 supersedes v1.0 for the *units* of analysis — Claim, Artifact, Relation,
+Package — and introduces the `U1`-`U4` labels used by `E1-DATASET-v1.0.md`. The `L1`-`L8`
+labels in this file are v1.0 layer names and are not renumbered by v1.1.)
 **Date:** 2026-09-29
 **Batches:** 1, 2, 3 — all complete
 **Rows:** 13 (12 distinct packages; `cd` scored twice, once per paper layer)
@@ -44,7 +47,9 @@ package survives whole        0/13    0%
 
 **The per-claim L3 rate is not aggregatable across batches, and must not be quoted as a single figure.**
 
-Batch 3's auditor used a different claim granularity than batches 1 and 2, yielding 34.6% against their 78.9% — a difference in how finely a "claim" was counted, not a difference in the packages. The auditor flagged this unprompted. The **layer verdicts are comparable; the claim rates are not.**
+Batch 3's auditor used a different claim granularity than batches 1 and 2, yielding 50/105 (47.6%) over batch 3's five scored rows against batches 1 and 2's 213/270 (78.9%) over eight — a difference in how finely a "claim" was counted, not a difference in the packages. The auditor flagged this unprompted. The **layer verdicts are comparable; the claim rates are not.**
+
+Batch 3's report also carries a four-package denominator, 81/28 (34.6%), in which `cd` is counted once as its upstream manuscript rather than as two scored rows. That is a different denominator, not an alternative value for the five-row figure. An earlier version of this section quoted the four-package rate against the five-row span; that was a defect in this summary layer, it is recorded in `E1-DATASET-v1.0.md`'s correction log as entry four, and no count in the headline table was ever affected.
 
 ## The three findings that carry the most weight
 

@@ -1,6 +1,12 @@
 # Failure-class taxonomy as recorded in the frozen dataset.
 #
-# `class` and `exemplar` are transcribed from E1-DATASET-v1.0.md, section
+# `class_name` is the dataset's own wording and is checked against it at build
+# time by make_figures.py, which parses the section named below and fails the
+# build if this file renames a class. An earlier revision of this file declared
+# itself transcribed from that section while renaming two of the three classes;
+# the published names are now the dataset's names, unmodified.
+#
+# `exemplar` is transcribed from E1-DATASET-v1.0.md section
 # "The three counterexample classes", and from E1-AGGREGATE.md section
 # "The three findings that carry the most weight".
 #
@@ -18,5 +24,5 @@
 # instrument reproduces, and reproducing is not the problem.
 class_id,class_name,exemplar,u1_contradiction,u2_reproduction,u3_relation_failure,u4_package_failure,mechanism
 1,Circular validation,isac-jasc-ieee,NO,YES,NO,YES,Artifact reproduces a property derived from the assumption it purports to validate
-2,Contradictory verification,ems-ieee-package,YES,YES,NO,YES,Verifier executes and its result contradicts the claim it is supplied to verify
-3,Semantic correspondence failure,quantum-k-sat-ieee-package,NO,YES,YES,YES,Artifact exists and runs but implements a different mechanism from the one it names
+2,Self-contradicting verification,ems-ieee-package,YES,YES,NO,YES,Verifier executes and its result contradicts the claim it is supplied to verify
+3,Semantic relation failure,quantum-k-sat-ieee-package,NO,YES,YES,YES,Artifact exists and runs but implements a different mechanism from the one it names

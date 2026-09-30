@@ -1,0 +1,19 @@
+# Runtime dependencies for the artifact-to-claim-integrity paper.
+#
+# There are none. Both Python scripts in this directory and everything the
+# figure generator does are standard library only, and the generator emits
+# vector PDF with a built-in base-14 font writer rather than a plotting
+# library. This file exists so that a stranger following the README does not
+# have to guess whether `pip install` is a step they missed.
+#
+# Verified on CPython 3.14.3 (macOS arm64). The scripts use only:
+#   argparse, csv, hashlib, os, pathlib, re, subprocess, sys, tempfile
+# and `from __future__ import annotations`, so any CPython 3.8 or later works.
+#
+# To install nothing:
+#     python3 -c "import argparse, csv, hashlib, os, pathlib, re, subprocess, sys, tempfile; print('all stdlib present')"
+#
+# The one external toolchain requirement is a LaTeX installation for the
+# manuscript build, and it is NOT a Python package. See build.sh, which finds
+# pdflatex on PATH or in the usual TeX Live and MacTeX locations and tells you
+# plainly if it cannot.

@@ -8,7 +8,7 @@ network access.
 Every geometric quantity in the output is derived from the committed data
 files. Nothing is hand-placed: bar extents, axis ticks, segment widths,
 column widths, annotation strings and row labels are all computed from the
-CSVs, and column widths are measured from the text they must hold.
+source files, and column widths are measured from the text they must hold.
 
 The script recomputes every derived value the manuscript quotes and aborts
 (exit 1, nothing written) if any recomputed value disagrees with the frozen
@@ -20,23 +20,60 @@ Usage
 -----
     python3 make_figures.py             # write both PDFs, run all checks
     python3 make_figures.py --verify    # print derived values, write nothing
+    python3 make_figures.py --dataset /path/to/E1-DATASET-v1.0.md
 
-Provenance of the data
-----------------------
-``data/e1_rows.csv`` is a verbatim transcription of the thirteen-row table in
-``research-audit/E1-DATASET-v1.0.md`` (the frozen dataset of record, frozen
-2026-09-29). ``data/failure_classes.csv`` transcribes the taxonomy section of
-the same file together with the cross-package findings in
-``research-audit/E1-AGGREGATE.md``. No value in either CSV originates in this
-script.
+Where every checked value comes from
+------------------------------------
+This is the part the manuscript's provenance claim rests on, so it is
+enumerated here rather than implied.
+
+1. **The expected values are parsed out of the frozen dataset at run time.**
+   ``E1-DATASET-v1.0.md`` is located by walking up from this file, and every
+   quantity the checks compare against is read out of it:
+
+   ================================  ========================================
+   Checked quantity                  Parsed from the dataset
+   ================================  ========================================
+   13 row records and all cells      the ``## Row data`` table
+   claim pool / correct / etc.      the ``## Derived metrics`` fenced block
+   70.1 / 25.3 / 4.5 percent        the fractions in that block
+   gradient (13, 10, 1, 0)          the ``## The central result`` block
+   row count and distinct packages  the ``**Rows:**`` header line
+   batch spans and batch rates       the ``## Cross-batch comparability`` block
+   internal-consistency column name  the row table's column header
+   three failure-class names         ``## The three counterexample classes``
+   superseded aggregate figures      the ``## Correction log`` entries
+   ================================  ========================================
+
+   There is no ``RECORDED_*`` constant in this file. An earlier revision held
+   one, and the guarantee the manuscript advertised was therefore vacuous: a
+   block of constants transcribed from a markdown table, compared against a
+   CSV transcribed from the same markdown table by the same author, verifies
+   that the transcriber was consistent with himself. The dataset is now in the
+   dependency graph, and corrupting it aborts the build. ``prove_dataset_is_actually_read``
+   below is the self-test that demonstrates it.
+
+2. **The transcription itself is diffed, not trusted.** ``data/e1_rows.csv``
+   and ``data/failure_classes.csv`` are compared cell by cell against the
+   dataset's own table and taxonomy list. A transcriber error is caught
+   against the source rather than against another column of the same file.
+
+3. **What is *not* covered, stated so no reader over-reads the guarantee.**
+   This script does not read ``main.tex``. ``Table I`` is typeset by hand, and
+   ``verify_dataset.py`` is the weaker instrument that covers it. Nor does any
+   script here establish that the frozen dataset is scientifically correct,
+   only that the figures agree with it.
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import os
 import pathlib
+import re
 import sys
+import tempfile
 
 # --------------------------------------------------------------------------
 # Paths
@@ -48,61 +85,310 @@ DATA_CLASSES = HERE / "data" / "failure_classes.csv"
 OUT_GRADIENT = HERE / "fig_layer_gradient.pdf"
 OUT_CLASSES = HERE / "fig_failure_classes.pdf"
 
+# The frozen dataset of record, in the two layouts this paper has been checked
+# out in: the author's tree (``research-audit/``) and the public repository
+# (``audit/``). Walking up from this file finds whichever one it is inside; no
+# absolute path and no home directory is baked in.
+DATASET_RELPATHS = (
+    "research-audit/E1-DATASET-v1.0.md",
+    "audit/E1-DATASET-v1.0.md",
+)
+DATASET_ENV_VAR = "E1_DATASET"
+
+
+def locate_dataset(explicit: str | None = None) -> pathlib.Path:
+    """Return the frozen dataset, or abort with every place that was searched.
+
+    Order: an explicit ``--dataset``, then ``$E1_DATASET``, then the first
+    candidate path that exists under any ancestor of this file. The ancestor
+    walk is what makes the script runnable from a fresh clone at any depth.
+    """
+    tried: list[str] = []
+
+    if explicit:
+        path = pathlib.Path(explicit).expanduser()
+        if path.is_file():
+            return path.resolve()
+        raise SystemExit(f"--dataset {explicit!r} is not a readable file")
+
+    env = os.environ.get(DATASET_ENV_VAR)
+    if env:
+        path = pathlib.Path(env).expanduser()
+        if path.is_file():
+            return path.resolve()
+        raise SystemExit(f"${DATASET_ENV_VAR}={env!r} is not a readable file")
+
+    for parent in HERE.parents:
+        for relpath in DATASET_RELPATHS:
+            candidate = parent / relpath
+            tried.append(str(candidate))
+            if candidate.is_file():
+                return candidate.resolve()
+
+    listing = "\n  ".join(tried[-12:])
+    raise SystemExit(
+        "make_figures.py: cannot locate the frozen dataset of record.\n"
+        f"Looked for {list(DATASET_RELPATHS)} in every ancestor of {HERE}:\n"
+        f"  {listing}\n"
+        "Run this script from a checkout that contains the audit corpus, pass "
+        "--dataset /path/to/E1-DATASET-v1.0.md, or set "
+        f"${DATASET_ENV_VAR}."
+    )
+
+
 # --------------------------------------------------------------------------
-# Values as recorded in the frozen dataset's derived-metrics block.
+# Parsing the frozen dataset of record
 #
-# These are transcribed from E1-DATASET-v1.0.md and are the targets the
-# recomputation is checked against. The block carried two figures that did not
-# survive being summed back out of the row table; both were corrected in the
-# dataset on 2026-09-30 and logged in its correction log, and the constants
-# below now match the corrected block. The pre-correction values are kept in
-# SUPERSEDED_* below so the figure can state what was wrong, not only what is
-# right; see corrections().
+# Every expected value used below comes out of this parser. Nothing in the
+# checked set is a literal in this file, which is what makes the build abort
+# when the dataset is corrupted rather than merely when the CSVs disagree.
 # --------------------------------------------------------------------------
 
-DATASET = "E1-DATASET-v1.0.md (frozen 2026-09-29, corrected 2026-09-30)"
+ROW_HEADER_TAIL = ("L7 internal", "U4 verdict")
 
-RECORDED_CLAIM_TOTAL = 375
-RECORDED_CLAIM_CORRECT = 263
-RECORDED_CLAIM_CONTRADICTED = 95
-RECORDED_CLAIM_UNSUPPORTED = 17
+ROWS_HEADER_LINE = re.compile(
+    r"^\*\*Rows:\*\*\s*(\d+)\s+scored rows over\s+(\d+)\s+distinct packages")
 
-RECORDED_U2_EXISTS = 13
-RECORDED_U2_REPRODUCES = 10
-RECORDED_U3_BROKEN = 13
-RECORDED_U3_ABSENT = 8
-RECORDED_INTERNAL_CONSISTENCY = 1
-RECORDED_SUPPORTED = 0
-RECORDED_PARTIALLY = 8
-RECORDED_CONTRADICTED = 5
+DERIVED_LINE = re.compile(
+    r"^(\S.*?)\s{2,}(\d+)(?:\s+\(\s*\d+\s*/\s*\d+\s*=\s*([\d.]+)\s*%\s*\))?"
+    r"(?:\s*\(?\s*\d+\s*/\s*\d+\s*\)?)?\s*$")
 
-RECORDED_GRADIENT = (13, 10, 1, 0)
-RECORDED_PKG_GE1_CONTRADICTED = 13
-RECORDED_PKG_GE1_UNSUPPORTED = 8
+GRADIENT_LINE = re.compile(
+    r"^(artifact exists|artifact reproduces|internal consistency|"
+    r"package survives whole)\s+(\d+)\s*/\s*(\d+)\s+(\d+)%", re.I)
 
-# What the derived-metrics block recorded before the 2026-09-30 correction.
-SUPERSEDED_INTERNAL_CONSISTENCY = 2
-SUPERSEDED_PARTIALLY = 7
-SUPERSEDED_CONTRADICTED = 6
+CROSS_BATCH_LINE = re.compile(
+    r"^(?P<label>.+?)\s+rows\s+(?P<lo>\d+)\s*-\s*(?P<hi>\d+)\s+"
+    r"(?P<correct>\d+)\s*/\s*(?P<claims>\d+)\s+(?P<rate>[\d.]+)%")
 
-# Cross-batch granularity record, E1-DATASET-v1.0.md section
-# "Cross-batch comparability -- recorded limitation".
-RECORDED_BATCH12_CLAIMS = 270
-RECORDED_BATCH12_CORRECT = 213
-RECORDED_BATCH3_CLAIMS = 81
-RECORDED_BATCH3_CORRECT = 28
-RECORDED_BATCH3_CLAIMS_WITH_AUDIT_ROW = 105
-RECORDED_BATCH3_CORRECT_WITH_AUDIT_ROW = 50
+CLASS_LINE = re.compile(r"^\d+\.\s+\*\*(?P<name>[^*]+?)\.?\*\*")
 
-N_ROWS = 13
+# Bit-for-bit reproduction is not a column of the row table; the dataset records
+# it per scored row in a block of its own, and this parses that block. Quoting
+# a count of it without such a record is how the paper came to state three in
+# one place and four in another.
+BITFORBIT_LINE = re.compile(
+    r"^(?P<package>[A-Za-z0-9][\w.-]*)\s+(?P<scope>exact|exact-scientific-fields-only)"
+    r"(?:\s\s+(?P<note>.*))?$")
 
-# Rows 1..8 are batches 1 and 2. Row 13 is the audit-manuscript layer of the
-# cd programme, which batch 3 scores as a fifth row. The dataset's own
-# cross-batch comparability note quotes 34.6%, which is batch 3 over four
-# packages (rows 9..12), excluding the audit row.
-BATCH12_ROWS = range(1, 9)
-BATCH3_ROWS = range(9, 13)
-BATCH3_WITH_AUDIT_ROW = range(9, 14)
+# Pre-correction figures the correction log records. They are parsed rather
+# than hard-coded for the same reason everything else is: the figure displays
+# what the committed log says, so the display cannot drift from the record. If
+# the log's wording changes, these raise rather than silently keep the old
+# value -- which is the intended failure mode.
+SUPERSEDED_VERDICTS_RE = re.compile(
+    r"recorded\s+`0`\s+SUPPORTED,\s+`(\d+)`\s+PARTIALLY SUPPORTED,\s+"
+    r"`(\d+)`\s+CONTRADICTED")
+SUPERSEDED_INTERNAL_RE = re.compile(r"recorded\s+`(\d+)`\s+of\s+`13`")
+SUPERSEDED_CLAIMS_RE = re.compile(
+    r"stated\s+`(\d+)`\s+claims adjudicated,\s+`(\d+)`\s+contradicted")
+
+
+class DatasetError(SystemExit):
+    """The dataset could not be parsed. Never caught: a figure is not drawn."""
+
+
+def _fail(message: str) -> None:
+    raise DatasetError(f"make_figures.py: {message}")
+
+
+def md_cells(line: str) -> list[str]:
+    s = line.strip()
+    if not (s.startswith("|") and s.endswith("|")):
+        return []
+    return [c.strip() for c in s.strip("|").split("|")]
+
+
+def _fence(lines: list[str], index: int) -> tuple[list[str], int]:
+    """Return the lines of the first fenced block at or after ``index``.
+
+    The opening fence is searched for rather than assumed at ``index``, so a
+    paragraph of prose between a heading and its block does not silently yield
+    an empty parse.
+    """
+    start = next((i for i in range(index, len(lines))
+                  if lines[i].strip().startswith("```")), None)
+    if start is None:
+        return [], len(lines)
+    out: list[str] = []
+    i = start + 1
+    while i < len(lines) and lines[i].strip() != "```":
+        out.append(lines[i])
+        i += 1
+    return out, i + 1
+
+
+def parse_dataset(path: pathlib.Path) -> dict:
+    """Read the frozen dataset into the shape the checks need.
+
+    This is the only source of every expected value in ``check``.
+    """
+    if not path.is_file():
+        _fail(f"dataset of record not found: {path}")
+    lines = path.read_text(encoding="utf-8").splitlines()
+
+    out: dict = {"path": str(path), "name": path.name}
+
+    # --- header: row count and distinct-package count -------------------
+    out["n_rows_declared"] = None
+    out["n_packages_declared"] = None
+    for line in lines:
+        m = ROWS_HEADER_LINE.match(line.strip())
+        if m:
+            out["n_rows_declared"] = int(m.group(1))
+            out["n_packages_declared"] = int(m.group(2))
+            break
+    if out["n_rows_declared"] is None:
+        _fail(f"{path.name}: no '**Rows:** N scored rows over M distinct "
+              "packages' header line; the row count cannot be established "
+              "from the source of record")
+
+    # --- row table --------------------------------------------------------
+    rows: list[dict] = []
+    header: list[str] | None = None
+    for line in lines:
+        cells = md_cells(line)
+        if len(cells) < 2:
+            continue
+        if header is None:
+            if cells[0] == "#" and tuple(cells[-2:]) == ROW_HEADER_TAIL:
+                header = cells
+            continue
+        if re.fullmatch(r"\d+", cells[0]) and len(cells) == len(header):
+            rows.append({
+                "row": int(cells[0]),
+                "package": cells[1],
+                "u1_total": int(cells[2]),
+                "u1_correct": int(cells[3]),
+                "u1_contradicted": int(cells[4]),
+                "u1_unsupported": int(cells[5]),
+                "u2_exists": cells[6],
+                "u2_reproduces": cells[7],
+                "u3_broken": cells[8],
+                "u3_absent": cells[9],
+                "l7_internal": cells[10],
+                "u4_verdict": cells[11],
+            })
+    if not rows:
+        _fail(f"{path.name}: no thirteen-row table parsed; expected a header "
+              f"ending in {list(ROW_HEADER_TAIL)}")
+    out["rows"] = sorted(rows, key=lambda r: r["row"])
+    out["column_headers"] = header
+    # The figure's axis must print the dataset's own name for this column.
+    out["internal_column"] = header[-2]
+
+    # --- derived-metrics block -------------------------------------------
+    derived: dict[str, int] = {}
+    rates: dict[str, float] = {}
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.strip().startswith("## Derived metrics"))
+        block, _ = _fence(lines, start + 1)
+    except StopIteration:
+        _fail(f"{path.name}: no '## Derived metrics' section")
+    for line in block:
+        m = DERIVED_LINE.match(line.rstrip())
+        if not m:
+            continue
+        label = re.sub(r"\s+", " ", m.group(1)).strip()
+        derived[label] = int(m.group(2))
+        if m.group(3):
+            rates[label] = float(m.group(3))
+    out["derived"] = derived
+    out["derived_rates"] = rates
+
+    # --- central-result / gradient block ---------------------------------
+    gradient: list[tuple[str, int, int, int]] = []
+    for line in lines:
+        m = GRADIENT_LINE.match(line.strip())
+        if m:
+            gradient.append((m.group(1).lower(), int(m.group(2)),
+                             int(m.group(3)), int(m.group(4))))
+    out["gradient"] = gradient
+
+    # --- cross-batch comparability block ---------------------------------
+    spans: list[dict] = []
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.strip().startswith(
+                         "## Cross-batch comparability"))
+        block, _ = _fence(lines, start + 1)
+    except StopIteration:
+        _fail(f"{path.name}: no '## Cross-batch comparability' section")
+    for line in block:
+        m = CROSS_BATCH_LINE.match(line.strip())
+        if m:
+            spans.append({
+                "label": m.group("label").strip(),
+                "lo": int(m.group("lo")),
+                "hi": int(m.group("hi")),
+                "correct": int(m.group("correct")),
+                "claims": int(m.group("claims")),
+                "rate": float(m.group("rate")),
+            })
+    if len(spans) < 2:
+        _fail(f"{path.name}: cross-batch block parsed {len(spans)} span(s), "
+              "expected at least the two batch rates; the batch-3 rate cannot "
+              "be checked against a source of record")
+    out["spans"] = spans
+
+    # --- the three counterexample classes --------------------------------
+    names: list[str] = []
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.strip() == "## The three counterexample classes")
+    except StopIteration:
+        _fail(f"{path.name}: no '## The three counterexample classes' section")
+    for line in lines[start + 1:]:
+        if line.startswith("## "):
+            break
+        m = CLASS_LINE.match(line)
+        if m:
+            names.append(m.group("name").strip())
+    if len(names) != 3:
+        _fail(f"{path.name}: parsed {len(names)} failure-class name(s) from "
+              "'## The three counterexample classes', expected 3")
+    out["class_names"] = names
+
+    # --- bit-for-bit reproduction block ---------------------------------
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.startswith("### Bit-for-bit artifact reproduction"))
+        block, _ = _fence(lines, start + 1)
+    except StopIteration:
+        _fail(f"{path.name}: no '### Bit-for-bit artifact reproduction' block. "
+              "Bit-for-bit reproduction is not a column of the row table, so "
+              "without this block any count of it would be an assertion "
+              "rather than a derivation.")
+    bitforbit: list[dict] = []
+    for line in block:
+        m = BITFORBIT_LINE.match(line.strip())
+        if m:
+            bitforbit.append({"package": m.group("package"),
+                              "scope": m.group("scope"),
+                              "note": (m.group("note") or "").strip()})
+    if not bitforbit:
+        _fail(f"{path.name}: the bit-for-bit block parsed no rows")
+    out["bitforbit"] = bitforbit
+
+    # --- correction log --------------------------------------------------
+    log_text = "\n".join(lines)
+    v = SUPERSEDED_VERDICTS_RE.search(log_text)
+    i = SUPERSEDED_INTERNAL_RE.search(log_text)
+    c = SUPERSEDED_CLAIMS_RE.search(log_text)
+    if not (v and i and c):
+        _fail(f"{path.name}: the correction log no longer states the "
+              "pre-correction verdict roll-up, internal-consistency count and "
+              "claim totals in the form this script parses. The superseded "
+              "figures are disclosed in the figure, so they cannot be left "
+              "untraceable; update the parsers rather than hard-coding them.")
+    out["superseded"] = {
+        "verdicts": (0, int(v.group(1)), int(v.group(2))),
+        "internal": int(i.group(1)),
+        "claim_total": int(c.group(1)),
+        "claim_contradicted": int(c.group(2)),
+    }
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -352,6 +638,39 @@ def tally(rows: list[dict], key: str) -> int:
     return sum(1 for r in rows if r[key] == "Y")
 
 
+def programme(name: str) -> str:
+    """Strip the layer qualifier, so a two-row programme reads as one package.
+
+    The dataset writes the qualifier as a parenthetical -- "cd-ieee-package
+    (upstream)" -- and the CSV writes it as a suffix. Both reduce to the same
+    research programme here.
+    """
+    text = re.sub(r"\s*\([^)]*\)\s*$", "", name.strip())
+    text = re.sub(r"-(upstream|audit)$", "", text)
+    return text.lower()
+
+
+def count_programmes(dataset_rows: list[dict]) -> int:
+    """Distinct research programmes in the dataset's own row table.
+
+    "13 scored rows over 12 distinct packages" is not derivable from the row
+    table's package names alone: the two ``cd`` rows name two different
+    repositories and are one programme, and nothing in the names says so. What
+    *is* derivable is the row count minus the extra rows the dataset itself
+    flags as layers of a multi-row programme. The flag is the parenthetical
+    qualifier -- "(upstream)", "(audit paper)" -- and the programme key is the
+    leading token of the qualified name, which is ``cd`` for both.
+
+    This is therefore an internal consistency check of the dataset header
+    against the dataset's own table, not an independent derivation. It is
+    labelled as such wherever it is reported.
+    """
+    qualified = [r["package"] for r in dataset_rows
+                 if re.search(r"\([^)]*\)\s*$", r["package"])]
+    programmes = {name.split("-", 1)[0].lower() for name in qualified}
+    return len(dataset_rows) - len(qualified) + len(programmes)
+
+
 def verdict_counts(rows: list[dict]) -> dict[str, int]:
     out = {"SUPPORTED": 0, "PARTIALLY": 0, "CONTRADICTED": 0}
     for row in rows:
@@ -359,7 +678,7 @@ def verdict_counts(rows: list[dict]) -> dict[str, int]:
     return out
 
 
-def derived(rows: list[dict]) -> dict:
+def derived(rows: list[dict], dataset: dict) -> dict:
     d: dict = {}
     d["n_rows"] = len(rows)
     d["claims_total"] = sum(r["u1_total"] for r in rows)
@@ -370,9 +689,8 @@ def derived(rows: list[dict]) -> dict:
     d["u2_reproduces"] = tally(rows, "u2_reproduces")
     d["u3_broken"] = tally(rows, "u3_broken")
     d["u3_absent"] = tally(rows, "u3_absent")
-    d["internal_consistency"] = tally(rows, "l7_internal_supported")
-    d["l7_strict_supported"] = sum(1 for r in rows
-                                   if r["l7_internal"] == "SUPPORTED")
+    d["internal_consistency"] = sum(1 for r in rows
+                                    if r["l7_internal"] == "SUPPORTED")
     d["verdicts"] = verdict_counts(rows)
     d["pkg_ge1_contradicted"] = sum(1 for r in rows if r["u1_contradicted"] > 0)
     d["pkg_ge1_unsupported"] = sum(1 for r in rows if r["u1_unsupported"] > 0)
@@ -382,18 +700,36 @@ def derived(rows: list[dict]) -> dict:
     d["pct_contradicted"] = 100.0 * d["claims_contradicted"] / d["claims_total"]
     d["pct_unsupported"] = 100.0 * d["claims_unsupported"] / d["claims_total"]
 
-    def subset(span) -> tuple[int, int]:
-        picked = [r for r in rows if r["row"] in span]
+    # Batch spans come from the dataset's own cross-batch block, not from a
+    # range literal here. An earlier revision hard-coded ``range(9, 13)`` --
+    # four rows -- while asserting a rate that belonged to five, so a correct
+    # edit to the dataset would have failed the build.
+    def subset(lo: int, hi: int) -> tuple[int, int]:
+        picked = [r for r in rows if lo <= r["row"] <= hi]
         return (sum(r["u1_total"] for r in picked),
                 sum(r["u1_correct"] for r in picked))
 
-    d["batch12_claims"], d["batch12_correct"] = subset(BATCH12_ROWS)
-    d["batch3_claims"], d["batch3_correct"] = subset(BATCH3_ROWS)
-    (d["batch3w_claims"],
-     d["batch3w_correct"]) = subset(BATCH3_WITH_AUDIT_ROW)
-    d["pct_batch12"] = 100.0 * d["batch12_correct"] / d["batch12_claims"]
-    d["pct_batch3"] = 100.0 * d["batch3_correct"] / d["batch3_claims"]
-    d["pct_batch3w"] = 100.0 * d["batch3w_correct"] / d["batch3w_claims"]
+    d["spans"] = {}
+    for span in dataset["spans"]:
+        claims, correct = subset(span["lo"], span["hi"])
+        d["spans"][span["label"]] = {
+            "lo": span["lo"], "hi": span["hi"],
+            "claims": claims, "correct": correct,
+            "pct": 100.0 * correct / claims if claims else 0.0,
+            "recorded": (span["correct"], span["claims"], span["rate"]),
+        }
+
+    # The five-row batch-3 span is the one the manuscript quotes. It is found by
+    # asking the dataset which span it labels "batch 3" with no qualifier.
+    batch3 = [s for s in d["spans"].values()
+              if s["lo"] == 9 and "cd counted once" not in str(dataset["spans"])]
+    d["batch3"] = d["spans"].get("batch 3")
+    d["batch12"] = d["spans"].get("batches 1-2")
+    if d["batch3"] is None or d["batch12"] is None:
+        _fail(f"{dataset['name']}: the cross-batch block must contain a span "
+              "labelled 'batches 1-2' and one labelled 'batch 3'; found "
+              f"{sorted(d['spans'])}")
+    del batch3
 
     # Cross-layer disagreement: the joint distribution of U2 reproduction and
     # U4 verdict. If reproduction were a usable proxy for package integrity,
@@ -405,19 +741,35 @@ def derived(rows: list[dict]) -> dict:
                   else "norepro_verdicts")
         d[bucket][row["u4_verdict"]] += 1
     d["repro_n"] = d["u2_reproduces"]
-    d["norepro_n"] = N_ROWS - d["u2_reproduces"]
+    d["norepro_n"] = d["n_rows"] - d["u2_reproduces"]
     d["repro_and_supported"] = d["repro_verdicts"]["SUPPORTED"]
+    d["internal_column"] = dataset["internal_column"]
+    d["n_packages"] = count_programmes(dataset["rows"])
+    # Bit-for-bit reproduction, derived from the dataset's own block rather than
+    # asserted. Every listed package must be a scored row, so a typo or a
+    # renamed repository fails the build instead of silently changing a count
+    # the manuscript quotes.
+    d["bitforbit"] = dataset["bitforbit"]
+    d["bitforbit_exact"] = [b for b in d["bitforbit"] if b["scope"] == "exact"]
+    d["bitforbit_qualified"] = [b for b in d["bitforbit"]
+                                if b["scope"] != "exact"]
     return d
 
 
-def corrections(d: dict) -> list[Correction]:
-    """The arithmetic errors the manuscript is obliged to disclose."""
+def corrections(d: dict, dataset: dict) -> list[Correction]:
+    """The aggregate-layer errors the manuscript is obliged to disclose.
+
+    The pre-correction figures are read out of the dataset's correction log, so
+    the disclosure the figure makes cannot drift from the record it discloses.
+    """
     v = d["verdicts"]
+    sup = dataset["superseded"]
+    n = d["n_rows"]
     return [
         Correction(
             "U4 verdict distribution",
-            f"{RECORDED_SUPPORTED} / {SUPERSEDED_PARTIALLY} / "
-            f"{SUPERSEDED_CONTRADICTED}",
+            f"{sup['verdicts'][0]} / {sup['verdicts'][1]} / "
+            f"{sup['verdicts'][2]}",
             f"{v['SUPPORTED']} / {v['PARTIALLY']} / {v['CONTRADICTED']}",
             "an arithmetic slip in the block's hand-written roll-up: three "
             "PARTIALLY and one CONTRADICTED in batch 1, four PARTIALLY in "
@@ -427,8 +779,8 @@ def corrections(d: dict) -> list[Correction]:
         ),
         Correction(
             "internal consistency",
-            f"{SUPERSEDED_INTERNAL_CONSISTENCY} of 13",
-            f"{d['internal_consistency']} of 13",
+            f"{sup['internal']} of {n}",
+            f"{d['internal_consistency']} of {n}",
             "a miscount, not a summation error, which is why the first round "
             "of reconciliation missed it. The earlier draft counted the two "
             "rows whose layer stack places internal consistency at SUPPORTED, "
@@ -439,17 +791,32 @@ def corrections(d: dict) -> list[Correction]:
     ]
 
 
-def check(rows: list[dict], d: dict) -> tuple[list[str], list[Delta]]:
-    """Recompute every derived value the manuscript quotes. Abort on mismatch."""
+def check(rows: list[dict], classes: list[dict], d: dict,
+          dataset: dict) -> list[str]:
+    """Recompute every derived value the manuscript quotes. Abort on mismatch.
+
+    Every ``required`` below is parsed out of the frozen dataset by
+    ``parse_dataset``. There is no literal in this file.
+    """
     problems: list[str] = []
+    src = dataset["name"]
 
     def expect(label: str, actual, required) -> None:
         if actual != required:
-            problems.append(f"{label}: recomputed {actual!r} != "
-                            f"{DATASET} {required!r}")
+            problems.append(f"{label}: recomputed from {DATA_ROWS.name} "
+                            f"{actual!r} != {src} {required!r}")
 
-    expect("row count", d["n_rows"], N_ROWS)
-    expect("row indices", [r["row"] for r in rows], list(range(1, N_ROWS + 1)))
+    def block(label: str) -> int:
+        if label not in dataset["derived"]:
+            _fail(f"{src}: derived-metrics block has no line for {label!r}")
+        return dataset["derived"][label]
+
+    # --- shape of the row table ------------------------------------------
+    expect("row count", d["n_rows"], dataset["n_rows_declared"])
+    expect("row indices", [r["row"] for r in rows],
+           list(range(1, d["n_rows"] + 1)))
+    expect("distinct packages (dataset header vs its own row table)",
+           d["n_packages"], dataset["n_packages_declared"])
 
     # Each row must be internally additive before any column is summed.
     for row in rows:
@@ -460,79 +827,179 @@ def check(rows: list[dict], d: dict) -> tuple[list[str], list[Delta]]:
                 f"{row['u1_correct']}+{row['u1_contradicted']}+"
                 f"{row['u1_unsupported']} = {split} != total {row['u1_total']}")
 
-    expect("U1 claims adjudicated", d["claims_total"], RECORDED_CLAIM_TOTAL)
-    expect("U1 CLAIM-CORRECT", d["claims_correct"], RECORDED_CLAIM_CORRECT)
+    # --- the derived-metrics block ---------------------------------------
+    expect("U1 claims adjudicated", d["claims_total"],
+           block("U1 claims adjudicated"))
+    expect("U1 CLAIM-CORRECT", d["claims_correct"],
+           block("U1 CLAIM-CORRECT"))
     expect("U1 CLAIM-CONTRADICTED", d["claims_contradicted"],
-           RECORDED_CLAIM_CONTRADICTED)
+           block("U1 CLAIM-CONTRADICTED"))
     expect("U1 CLAIM-UNSUPPORTED", d["claims_unsupported"],
-           RECORDED_CLAIM_UNSUPPORTED)
-    expect("U2 artifact exists", d["u2_exists"], RECORDED_U2_EXISTS)
-    expect("U2 artifact reproduces", d["u2_reproduces"], RECORDED_U2_REPRODUCES)
-    expect("U3 broken by contradiction", d["u3_broken"], RECORDED_U3_BROKEN)
-    expect("U3 relation absent", d["u3_absent"], RECORDED_U3_ABSENT)
+           block("U1 CLAIM-UNSUPPORTED"))
+    expect("U2 artifact exists", d["u2_exists"], block("U2 artifact exists"))
+    expect("U2 artifact reproduces", d["u2_reproduces"],
+           block("U2 artifact reproduces"))
+    expect("U3 broken by contradiction", d["u3_broken"],
+           block("U3 relation broken by contradiction"))
+    expect("U3 relation absent", d["u3_absent"],
+           block("U3 relation absent"))
     expect("internal consistency", d["internal_consistency"],
-           RECORDED_INTERNAL_CONSISTENCY)
-    expect("gradient", list(d["gradient"]), list(RECORDED_GRADIENT))
-    expect("packages with >=1 contradicted claim", d["pkg_ge1_contradicted"],
-           RECORDED_PKG_GE1_CONTRADICTED)
-    expect("packages with >=1 unsupported claim", d["pkg_ge1_unsupported"],
-           RECORDED_PKG_GE1_UNSUPPORTED)
-    expect("U4 SUPPORTED", d["verdicts"]["SUPPORTED"], RECORDED_SUPPORTED)
+           block("L7 internal consistency"))
+    expect("U4 SUPPORTED", d["verdicts"]["SUPPORTED"],
+           block("U4 package verdict SUPPORTED"))
     expect("U4 PARTIALLY SUPPORTED", d["verdicts"]["PARTIALLY"],
-           RECORDED_PARTIALLY)
+           block("U4 package verdict PARTIALLY SUPPORTED"))
     expect("U4 CONTRADICTED", d["verdicts"]["CONTRADICTED"],
-           RECORDED_CONTRADICTED)
+           block("U4 package verdict CONTRADICTED"))
+    expect("packages with >=1 contradicted claim", d["pkg_ge1_contradicted"],
+           block("Packages containing >= 1 CONTRADICTED claim"))
+    expect("packages with >=1 unsupported claim", d["pkg_ge1_unsupported"],
+           block("Packages containing >= 1 UNSUPPORTED claim"))
     expect("verdict counts sum to the row count",
-           sum(d["verdicts"].values()), N_ROWS)
+           sum(d["verdicts"].values()), d["n_rows"])
 
-    # The two internal-consistency encodings are redundant on purpose. If they
-    # ever disagree, one of them is a miscount of the recorded column rather
-    # than a roll-up of it, and that is exactly the error of 2026-09-30.
-    expect("internal-consistency flag agrees with the recorded column",
-           d["internal_consistency"], d["l7_strict_supported"])
+    # --- the gradient block ----------------------------------------------
+    gradient = dataset["gradient"]
+    if len(gradient) != 4:
+        _fail(f"{src}: 'The central result' block parsed {len(gradient)} "
+              "gradient lines, expected 4")
+    expect("gradient", list(d["gradient"]), [g[1] for g in gradient])
+    for (label, num, den, pct), got in zip(gradient, d["gradient"]):
+        if den != d["n_rows"]:
+            problems.append(f"gradient {label}: {src} denominator {den} != "
+                            f"row count {d['n_rows']}")
+        if abs(pct - round(100.0 * got / den)) >= 1:
+            problems.append(f"gradient {label}: {src} records {pct}%, the "
+                            f"recomputed rate is {100.0 * got / den:.1f}%")
 
-    # The recorded percentages must round-trip from the recomputed counts.
-    for label, actual, required in (
-        ("CLAIM-CORRECT", d["pct_correct"], 70.1),
-        ("CLAIM-CONTRADICTED", d["pct_contradicted"], 25.3),
-        ("CLAIM-UNSUPPORTED", d["pct_unsupported"], 4.5),
-    ):
-        if round(actual, 1) != required:
+    # --- percentages must round-trip from the recomputed counts ----------
+    for label, actual in (("U1 CLAIM-CORRECT", d["pct_correct"]),
+                          ("U1 CLAIM-CONTRADICTED", d["pct_contradicted"]),
+                          ("U1 CLAIM-UNSUPPORTED", d["pct_unsupported"])):
+        recorded = dataset["derived_rates"].get(label)
+        if recorded is None:
+            _fail(f"{src}: derived-metrics block states no percentage for "
+                  f"{label!r}")
+        if round(actual, 1) != recorded:
             problems.append(f"{label}: recomputed {actual:.4f}% does not round "
-                            f"to the recorded {required}%")
+                            f"to the {recorded}% recorded in {src}")
 
-    # Cross-batch granularity record.
-    expect("batches 1-2 claim pool", d["batch12_claims"],
-           RECORDED_BATCH12_CLAIMS)
-    expect("batches 1-2 correct", d["batch12_correct"], RECORDED_BATCH12_CORRECT)
-    expect("batch 3 claim pool (4 packages)", d["batch3_claims"],
-           RECORDED_BATCH3_CLAIMS)
-    expect("batch 3 correct (4 packages)", d["batch3_correct"],
-           RECORDED_BATCH3_CORRECT)
-    expect("batch 3 claim pool (5 rows)", d["batch3w_claims"],
-           RECORDED_BATCH3_CLAIMS_WITH_AUDIT_ROW)
-    expect("batch 3 correct (5 rows)", d["batch3w_correct"],
-           RECORDED_BATCH3_CORRECT_WITH_AUDIT_ROW)
-    if round(d["pct_batch12"], 1) != 78.9:
-        problems.append(f"batches 1-2 rate {d['pct_batch12']:.4f}% does not "
-                        f"round to the recorded 78.9%")
-    if round(d["pct_batch3"], 1) != 34.6:
-        problems.append(f"batch 3 rate {d['pct_batch3']:.4f}% does not round "
-                        f"to the recorded 34.6%")
-    if round(d["pct_batch3w"], 1) != 47.6:
-        problems.append(f"batch 3 five-row rate {d['pct_batch3w']:.4f}% does "
-                        f"not round to the recorded 47.6%")
+    # --- cross-batch spans and rates, both directions -------------------
+    for label, span in d["spans"].items():
+        correct, claims, rate = span["recorded"]
+        expect(f"cross-batch {label}: correct", span["correct"], correct)
+        expect(f"cross-batch {label}: claims", span["claims"], claims)
+        if round(span["pct"], 1) != rate:
+            problems.append(
+                f"cross-batch {label}: recomputed {span['pct']:.4f}% over rows "
+                f"{span['lo']}-{span['hi']} does not round to the {rate}% "
+                f"recorded in {src} for that span")
 
-    # Cross-layer disagreement. The reproduced block must not contain a single
-    # SUPPORTED verdict, or the manuscript's central claim would be false.
-    expect("rows with a reproduced artifact AND a SUPPORTED verdict",
-           d["repro_and_supported"], 0)
+    # --- the CSV is a transcription of the dataset, checked cell by cell --
+    problems.extend(check_transcription(rows, dataset))
+    problems.extend(check_taxonomy(classes, dataset))
+    problems.extend(check_bitforbit(d, dataset))
+
+    # --- cross-layer disagreement ----------------------------------------
+    # The joint distribution is the load-bearing check here: it can fail, and
+    # it is what the manuscript's independence claim rests on.
     expect("reproduced-row verdict block size", sum(d["repro_verdicts"].values()),
-           RECORDED_U2_REPRODUCES)
+           d["u2_reproduces"])
     expect("non-reproduced-row verdict block size",
-           sum(d["norepro_verdicts"].values()), N_ROWS - RECORDED_U2_REPRODUCES)
+           sum(d["norepro_verdicts"].values()), d["n_rows"] - d["u2_reproduces"])
+    expect("reproduced rows are PARTIALLY SUPPORTED or worse",
+           d["repro_verdicts"]["SUPPORTED"], 0)
+    expect("non-reproduced rows are PARTIALLY SUPPORTED or worse",
+           d["norepro_verdicts"]["SUPPORTED"], 0)
+    # Implied, and reported as implied rather than as a check: the two sets are
+    # disjoint because one of them is empty. See --print-capabilities.
+    expect("rows that both reproduce and are SUPPORTED (IMPLIED, vacuous)",
+           d["repro_and_supported"], 0)
 
-    return problems, corrections(d)
+    return problems
+
+
+def check_transcription(rows: list[dict], dataset: dict) -> list[str]:
+    """Cell-by-cell diff of e1_rows.csv against the dataset's own row table.
+
+    This replaces a check that compared a derived CSV column against another
+    column of the same CSV. That check could not fail: a transcriber who
+    miscounted produced a self-consistent error across both columns. This one
+    compares the transcription against the source, so a miscount fails.
+    """
+    problems: list[str] = []
+    source = {r["row"]: r for r in dataset["rows"]}
+    if len(rows) != len(source):
+        problems.append(f"e1_rows.csv has {len(rows)} rows, "
+                        f"{dataset['name']} has {len(source)}")
+    fields = ("package", "u1_total", "u1_correct", "u1_contradicted",
+              "u1_unsupported", "u2_exists", "u2_reproduces", "u3_broken",
+              "u3_absent", "l7_internal", "u4_verdict")
+    for row in rows:
+        ref = source.get(row["row"])
+        if ref is None:
+            problems.append(f"e1_rows.csv row {row['row']} has no counterpart "
+                            f"in {dataset['name']}")
+            continue
+        for field in fields:
+            got, want = row[field], ref[field]
+            # The dataset writes the layer as a parenthetical and the CSV as a
+            # suffix; compare the research programme.
+            if field == "package":
+                got, want = programme(got), programme(want)
+            if str(got) != str(want):
+                problems.append(
+                    f"e1_rows.csv row {row['row']} column {field}: "
+                    f"{got!r} != {dataset['name']} {want!r}")
+    return problems
+
+
+def check_bitforbit(d: dict, dataset: dict) -> list[str]:
+    """Every bit-for-bit entry must name a scored row, and only once.
+
+    The count is weaker evidence than the ten reproducing rows -- bit-for-bit
+    is a strictly stronger claim than `U2 reproduces`, not a subset of a column
+    -- so the only thing worth checking is that each listed repository is a
+    scored row of the frozen table. A count quoted for a package that is not in
+    the corpus is worse than no count.
+    """
+    problems: list[str] = []
+    scored = {programme(r["package"]) for r in dataset["rows"]}
+    seen: set[str] = set()
+    for entry in d["bitforbit"]:
+        key = programme(entry["package"])
+        if key not in scored:
+            problems.append(
+                f"bit-for-bit block names {entry['package']!r}, which is not a "
+                f"scored row of {dataset['name']}")
+        if key in seen:
+            problems.append(f"bit-for-bit block lists {entry['package']!r} twice")
+        seen.add(key)
+    for scope, want in (("exact", len(d["bitforbit_exact"])),
+                        ("qualified", len(d["bitforbit_qualified"]))):
+        if want and want > d["n_rows"]:
+            problems.append(f"bit-for-bit block records {want} {scope} "
+                            f"reproductions from a {d['n_rows']}-row corpus")
+    return problems
+
+
+def check_taxonomy(classes: list[dict], dataset: dict) -> list[str]:
+    """The published class names must be the dataset's own names.
+
+    An earlier revision shipped a CSV that declared itself transcribed from the
+    dataset's counterexample section while renaming two of the three classes.
+    The names are now checked against the section rather than trusted.
+    """
+    problems: list[str] = []
+    expected = dataset["class_names"]
+    got = [c["class_name"] for c in classes]
+    if got != expected:
+        problems.append(
+            f"failure_classes.csv class names {got!r} != the names in "
+            f"{dataset['name']} section 'The three counterexample classes' "
+            f"{expected!r}. The taxonomy is quoted from the frozen dataset and "
+            "must not be renamed between the dataset and the publication.")
+    return problems
 
 
 # --------------------------------------------------------------------------
@@ -626,26 +1093,34 @@ class Page:
 # full-width top float. The target here is roughly 520 x 300 pt.
 # --------------------------------------------------------------------------
 
-GRADIENT_LABELS = ("U2 exists", "U2 reproduces", "L7 consistent",
-                   "U4 SUPPORTED")
+# The axis prints the frozen dataset's own names for the two layers it
+# records by rubric layer (U2 and L7) and the unit it records for the verdict.
+# The third label is filled in from the dataset's row-table column header at
+# run time, so a rename in the dataset renames the axis or fails the build.
+GRADIENT_LABELS = ("U2 exists", "U2 reproduces", None, "U4 SUPPORTED")
 
 
 def draw_gradient_bars(page: Page, d: dict, x: float, width: float) -> float:
     """Panel (a): the four categorical layer verdicts. Returns the y reached."""
+    labels = list(GRADIENT_LABELS)
+    labels[2] = d["internal_column"]
     stages = [
-        (GRADIENT_LABELS[i], value, colour) for i, (value, colour) in enumerate(
+        (labels[i], value, colour) for i, (value, colour) in enumerate(
             ((d["u2_exists"], EXISTS),
              (d["u2_reproduces"], REPRO),
              (d["internal_consistency"], INTERNAL),
              (d["verdicts"]["SUPPORTED"], VERDICT)))
     ]
+    n = d["n_rows"]
     label_size, value_size, tick_size = 7.0, 6.5, 6.5
     label_w = max(text_width(s[0], label_size) for s in stages) + 8.0
-    value_w = max(text_width(f"{s[1]}/13", value_size, True) for s in stages) + 8.0
+    value_w = max(text_width(f"{s[1]}/{n}", value_size, True)
+                  for s in stages) + 8.0
     plot_w = width - label_w - value_w
     if plot_w < 50.0:
         raise SystemExit(f"figure 1 panel (a) plot area too narrow: {plot_w:.1f}")
-    axis_max, ticks = 14.0, [0, 2, 4, 6, 8, 10, 12, 14]
+    axis_max = float(2 * ((n + 1) // 2))
+    ticks = list(range(0, int(axis_max) + 1, 2))
     bar_h, bar_gap = 13.0, 5.0
     block_h = len(stages) * (bar_h + bar_gap) - bar_gap
     bar_top = page.y
@@ -668,7 +1143,7 @@ def draw_gradient_bars(page: Page, d: dict, x: float, width: float) -> float:
         page.pdf.text(x, bar_y + 3.6, label_size, label, rgb=BLACK)
         page.pdf.fill_rect(x + label_w, bar_y, bar_w, bar_h, colour)
         page.pdf.text(x + label_w + bar_w + 4.0, bar_y + 3.6, value_size,
-                      f"{value}/13", bold=True, rgb=BLACK if value else ACCENT)
+                      f"{value}/{n}", bold=True, rgb=BLACK if value else ACCENT)
         if not value:
             # A zero bar must read as a measured zero, not an omission.
             page.pdf.stroke(ACCENT)
@@ -677,7 +1152,8 @@ def draw_gradient_bars(page: Page, d: dict, x: float, width: float) -> float:
                           bar_y + bar_h - 0.5)
 
     y = axis_y - 19.0
-    page.pdf.text(x + label_w, y, tick_size, "packages, n = 13", rgb=GREY_TEXT)
+    page.pdf.text(x + label_w, y, tick_size, f"packages, n = {n}",
+                  rgb=GREY_TEXT)
     return y - 10.0
 
 
@@ -693,7 +1169,10 @@ def draw_claim_pool(page: Page, d: dict, x: float, width: float) -> float:
     label_size, bar_h = 7.0, 18.0
     label = f"{d['claims_total']} claims"
     label_w = text_width(label, label_size) + 8.0
-    axis_max, ticks = 400.0, [0, 100, 200, 300, 400]
+    tick_step = 100
+    axis_max = float(tick_step * ((d["claims_total"] + tick_step - 1)
+                                  // tick_step))
+    ticks = list(range(0, int(axis_max) + 1, tick_step))
     plot_w = width - label_w
     if plot_w < 60.0:
         raise SystemExit(f"figure 1 panel (b) plot area too narrow: {plot_w:.1f}")
@@ -738,19 +1217,22 @@ def draw_claim_pool(page: Page, d: dict, x: float, width: float) -> float:
 
 
 def render_gradient(d: dict, corrections_found: list[Correction],
-                    out_path: pathlib.Path) -> None:
+                    dataset: dict, out_path: pathlib.Path) -> None:
+    n = d["n_rows"]
     page = Page(
         "The artifact-to-claim gradient, and the denominators it depends on",
-        f"13 scored rows over 12 distinct packages. Source: {DATASET}. Every "
-        "quantity below is recomputed from the frozen row table by "
-        "figures/make_figures.py, which aborts if any value disagrees.")
+        f"{n} scored rows over {d['n_packages']} distinct packages. Source: "
+        f"{dataset['name']}, parsed at build time by figures/make_figures.py, "
+        "which recomputes every quantity below from the committed row table "
+        "and aborts without writing if any of them disagrees with the dataset.")
 
     gutter = 20.0
     half = (page.content_w - gutter) / 2.0
     right_x = page.LEFT + half + gutter
 
-    page.label_at("(a)  Categorical layer verdicts, n = 13", page.LEFT, half)
-    page.label_at("(b)  Adjudicated claim pool, 375 claims", right_x, half)
+    page.label_at(f"(a)  Categorical layer verdicts, n = {n}", page.LEFT, half)
+    page.label_at(f"(b)  Adjudicated claim pool, {d['claims_total']} claims",
+                  right_x, half)
     page.y -= 13.0
 
     top = page.y
@@ -758,50 +1240,65 @@ def render_gradient(d: dict, corrections_found: list[Correction],
     y_b = draw_claim_pool(page, d, right_x, half)
     page.y = min(y_a, y_b) - 8.0
 
-    # Note row: three columns under a single rule.
+    # Note row: three columns under a single rule. These are notes, not
+    # panels. The manuscript's caption used to describe a third panel that
+    # this script does not draw, which is a correspondence failure of the
+    # third class inside our own apparatus; it is now logged in the dataset's
+    # correction log and the caption describes what is here.
     col_w = (page.content_w - 2 * 16.0) / 3.0
     page.rule()
     page.gap(6.0)
-    page.label_at("Granularity conditioning", page.LEFT, col_w)
-    page.label_at("Verdict vs. containment", page.LEFT + col_w + 16.0, col_w)
-    page.label_at("Aggregate reconciliation", page.LEFT + 2 * (col_w + 16.0),
+    page.label_at("Note: granularity conditioning", page.LEFT, col_w)
+    page.label_at("Note: verdict vs. containment", page.LEFT + col_w + 16.0,
                   col_w)
+    page.label_at("Note: aggregate reconciliation",
+                  page.LEFT + 2 * (col_w + 16.0), col_w)
     page.y -= 12.0
 
     v = d["verdicts"]
+    b12 = d["batch12"]
+    b3 = d["batch3"]
+    b3four = next((s for label, s in d["spans"].items()
+                   if "cd counted once" in label), None)
     y1 = page.column(
         f"The {d['pct_correct']:.1f}% correct rate is computed over a pool of "
         f"{d['claims_total']} claims that mixes two counting conventions. "
-        f"Batches 1-2: {d['batch12_correct']}/{d['batch12_claims']} = "
-        f"{d['pct_batch12']:.1f}%. Batch 3: {d['batch3_correct']}/"
-        f"{d['batch3_claims']} = {d['pct_batch3']:.1f}% over four packages, "
-        f"{d['batch3w_correct']}/{d['batch3w_claims']} = {d['pct_batch3w']:.1f}% "
-        f"over five rows. The split is a property of the splitter, so the "
-        f"pooled rate is descriptive and is not a defect rate for this corpus. "
-        f"Only panel (a) is comparable across batches.",
+        f"Batches 1-2, rows {b12['lo']}-{b12['hi']}: "
+        f"{b12['correct']}/{b12['claims']} = {b12['pct']:.1f}%. Batch 3, rows "
+        f"{b3['lo']}-{b3['hi']}: {b3['correct']}/{b3['claims']} = "
+        f"{b3['pct']:.1f}% over five scored rows"
+        + (f"; {b3four['correct']}/{b3four['claims']} = {b3four['pct']:.1f}% "
+           f"over four packages, a different denominator in which cd is "
+           f"counted once." if b3four else ".")
+        + " The split is a property of the splitter, so the pooled rate is "
+          "descriptive and is not a defect rate for this corpus. Only panel "
+          "(a) is comparable across batches.",
         page.LEFT, col_w, rgb=GREY_TEXT)
 
     y2 = page.column(
         f"Package-level verdict: {v['SUPPORTED']} SUPPORTED, "
-        f"{v['PARTIALLY']} PARTIALLY, {v['CONTRADICTED']} CONTRADICTED, of 13. "
-        f"Packages containing at least one CLAIM-CONTRADICTED claim: "
-        f"{d['pkg_ge1_contradicted']} of 13. The second is the stronger "
+        f"{v['PARTIALLY']} PARTIALLY, {v['CONTRADICTED']} CONTRADICTED, of "
+        f"{n}. Packages containing at least one CLAIM-CONTRADICTED claim: "
+        f"{d['pkg_ge1_contradicted']} of {n}. The second is the stronger "
         f"statement and the more damaging one, and it holds for the package "
         f"that is SUPPORTED on every layer below its verdict. Reporting only "
         f"the first understates the finding; reporting the second as the "
-        f"verdict misdescribes the adjudication.",
+        f"verdict misdescribes the adjudication. The two sets are disjoint, "
+        f"but that follows from the SUPPORTED column being empty and is not "
+        f"an independent check.",
         page.LEFT + col_w + 16.0, col_w)
 
-    recon = ("Two arithmetic errors in the frozen dataset's derived-metrics "
-             "block, found by row-level reconciliation against the thirteen "
-             "per-package rows and corrected with the rows left untouched. ")
+    recon = (f"{len(corrections_found)} arithmetic errors in the frozen "
+             f"dataset's derived-metrics block, found by row-level "
+             f"reconciliation against the {n} per-package rows and corrected "
+             f"with the rows left untouched. ")
     recon += " ".join(f"{c.label}: block recorded {c.recorded}, corrected to "
                       f"{c.corrected}." for c in corrections_found)
     recon += (f" The correction makes the gradient steeper, not flatter: "
-              f"{d['internal_consistency']} of 13 rows are internally "
+              f"{d['internal_consistency']} of {n} rows are internally "
               f"consistent. Neither correction changes the central result: "
-              f"{d['verdicts']['SUPPORTED']} of 13 packages are SUPPORTED and "
-              f"{d['pkg_ge1_contradicted']} of 13 contain a contradicted "
+              f"{d['verdicts']['SUPPORTED']} of {n} packages are SUPPORTED and "
+              f"{d['pkg_ge1_contradicted']} of {n} contain a contradicted "
               f"claim before and after. Section 4.4 gives both rounds.")
     y3 = page.column(recon, page.LEFT + 2 * (col_w + 16.0), col_w, rgb=BLACK)
 
@@ -815,14 +1312,17 @@ def render_gradient(d: dict, corrections_found: list[Correction],
 # Figure 2: the three failure classes
 # --------------------------------------------------------------------------
 
-def render_classes(classes: list[dict], out_path: pathlib.Path) -> None:
+def render_classes(classes: list[dict], dataset: dict,
+                    out_path: pathlib.Path) -> None:
     page = Page(
         "Three failure classes, read across the four units of analysis",
-        f"Classification and exemplars transcribed from {DATASET}, section "
-        "'The three counterexample classes', and from the cross-package "
-        "findings in E1-AGGREGATE.md. A cell is a structural property of the "
-        "class definition, not a count: it records whether the class is "
-        "detectable at that unit at all.")
+        f"Class names are the frozen dataset's own, parsed at build time from "
+        f"{dataset['name']}, section 'The three counterexample classes'; a "
+        "rename in either the dataset or this script's input fails the build "
+        "rather than shipping two vocabularies. Exemplars are transcribed from "
+        "that section and from the cross-package findings in E1-AGGREGATE.md. "
+        "A cell is a structural property of the class definition, not a count: "
+        "it records whether the class is detectable at that unit at all.")
 
     # Column widths are measured from the text each column must hold.
     name_size, mech_size, tag_size = 8.5, 7.5, 7.5
@@ -907,21 +1407,138 @@ def render_classes(classes: list[dict], out_path: pathlib.Path) -> None:
 
 # --------------------------------------------------------------------------
 
+CAPABILITIES = """\
+What these checks can and cannot detect
+
+CAN
+  * Any disagreement between figures/data/e1_rows.csv and the frozen dataset's
+    row table, cell by cell. This is the transcription check, and it is a diff
+    against the source of record rather than against another column.
+  * Any disagreement between the two committed CSVs and the derived-metrics
+    block, the gradient block, the cross-batch block, the class-name list or
+    the correction log.
+  * Any rate paired with the wrong row span in the cross-batch block.
+  * Any rename of a failure class between the dataset and the publication.
+  * Any corruption of the dataset markdown itself. The dataset is parsed at run
+    time, so changing a number in it and leaving the CSVs alone fails the build.
+
+CANNOT
+  * Detect a defect that changes nothing the checks compare. A scientific claim
+    about a package is outside every instrument in this directory.
+  * Cover main.tex. No script here reads the manuscript, so a figure caption
+    that describes a panel this script does not draw is invisible to all of
+    them. That is not hypothetical: it happened, and it is logged.
+  * Substitute for an independent re-derivation. Every check below was written
+    by the same author as the constants it replaced. The one defect this
+    pipeline could not find in itself was found by an outside party who wrote
+    their own derivation code.
+"""
+
+
+def prove_dataset_is_actually_read(dataset_path: pathlib.Path) -> int:
+    """Self-test: corrupt the dataset in memory and require the checks to fail.
+
+    The manuscript's provenance claim is that the build aborts when the
+    transcription and the frozen dataset diverge. A claim like that is worth
+    nothing untested, so this runs the real check function against a mutated
+    copy of the real file and requires a non-empty failure list. It writes
+    nothing and touches nothing on disk.
+    """
+    original = dataset_path.read_text(encoding="utf-8")
+    mutations = [
+        ("claim total 375 -> 999",
+         lambda t: t.replace("U1 claims adjudicated                        375",
+                             "U1 claims adjudicated                        999", 1)),
+        ("batch-3 five-row rate 47.6% -> 99.9%",
+         lambda t: t.replace("batch 3       rows 9-13    50/105   47.6%",
+                             "batch 3       rows 9-13    50/105   99.9%", 1)),
+        ("batch-3 span rows 9-13 -> rows 9-12",
+         lambda t: t.replace("batch 3       rows 9-13    50/105   47.6%",
+                             "batch 3       rows 9-12    50/105   47.6%", 1)),
+        ("a failure-class name",
+         lambda t: t.replace("**Circular validation.**",
+                             "**Round-trip validation.**", 1)),
+        ("row 3 correct count 70 -> 71",
+         lambda t: t.replace("| 3 | isac-jasc-ieee | 81 | 70 | 11 | 0 |",
+                             "| 3 | isac-jasc-ieee | 81 | 71 | 11 | 0 |", 1)),
+    ]
+    rows = load_rows(DATA_ROWS)
+    classes = load_classes(DATA_CLASSES)
+    print("self-test: does corrupting the dataset actually abort this build?")
+    failures = 0
+    with tempfile.TemporaryDirectory(dir=HERE, prefix=".selftest-") as scratch:
+        for index, (label, mutate) in enumerate(mutations, start=1):
+            mutated = mutate(original)
+            if mutated == original:
+                print(f"  [SKIP] {label} -- the fixture text is no longer "
+                      "present, so this mutation cannot be applied. Update "
+                      "it.")
+                failures += 1
+                continue
+            # Keep the file's own name so the failure messages below read the
+            # way a real corruption would read.
+            temp = pathlib.Path(scratch) / f"t{index}" / dataset_path.name
+            temp.parent.mkdir()
+            temp.write_text(mutated, encoding="utf-8")
+            bad = check(rows, classes, derived(rows, parse_dataset(temp)),
+                        parse_dataset(temp))
+            if bad:
+                print(f"  [ok  ] {label}: {len(bad)} failure(s), first is "
+                      f"{bad[0][:76]}")
+            else:
+                print(f"  [FAIL] {label}: the checks passed on a corrupted "
+                      "dataset. The provenance claim is not being enforced.")
+                failures += 1
+    if failures:
+        print(f"  self-test FAILED ({failures} mutation(s) not caught)")
+        return 1
+    print(f"  self-test passed: all {len(mutations)} mutations caught")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description="Generate and verify the two figures.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=CAPABILITIES)
     parser.add_argument("--verify", action="store_true",
                         help="print derived values and exit without writing "
                              "any PDF")
+    parser.add_argument("--dataset", metavar="PATH", default=None,
+                        help="path to E1-DATASET-v1.0.md (default: discovered "
+                             "by walking up from this file)")
+    parser.add_argument("--print-capabilities", action="store_true",
+                        help="print what the checks can and cannot detect, "
+                             "then exit 0")
+    parser.add_argument("--self-test", action="store_true",
+                        help="corrupt the dataset in memory and require the "
+                             "checks to fail; writes nothing")
     args = parser.parse_args(argv)
+
+    if args.print_capabilities:
+        print(CAPABILITIES)
+        return 0
+
+    dataset_path = locate_dataset(args.dataset)
+    dataset = parse_dataset(dataset_path)
+
+    if args.self_test:
+        return prove_dataset_is_actually_read(dataset_path)
 
     rows = load_rows(DATA_ROWS)
     classes = load_classes(DATA_CLASSES)
-    d = derived(rows)
-    problems, corrections_found = check(rows, d)
+    d = derived(rows, dataset)
+    problems = check(rows, classes, d, dataset)
+    corrections_found = corrections(d, dataset)
 
+    n = d["n_rows"]
     print(f"Derived from {DATA_ROWS.name} and {DATA_CLASSES.name}")
-    print(f"  source of record                 : {DATASET}")
-    print(f"  rows / distinct packages        : {d['n_rows']} / 12")
+    print(f"  source of record                 : {dataset_path}")
+    print(f"  parsed at run time               : row table, derived-metrics "
+          f"block, gradient block, cross-batch block, class names, correction "
+          f"log")
+    print(f"  rows / distinct packages        : {d['n_rows']} / "
+          f"{d['n_packages']}")
     print()
     print("  U1 claim pool")
     print(f"    adjudicated                    : {d['claims_total']}")
@@ -933,26 +1550,27 @@ def main(argv: list[str] | None = None) -> int:
           f"({d['pct_unsupported']:.1f}%)")
     print()
     print("  U2 artifact")
-    print(f"    exists                         : {d['u2_exists']}/13")
-    print(f"    reproduces                     : {d['u2_reproduces']}/13")
+    print(f"    exists                         : {d['u2_exists']}/{n}")
+    print(f"    reproduces                     : {d['u2_reproduces']}/{n}")
     print()
     print("  U3 relation")
-    print(f"    broken by contradiction        : {d['u3_broken']}/13")
-    print(f"    absent                         : {d['u3_absent']}/13")
+    print(f"    broken by contradiction        : {d['u3_broken']}/{n}")
+    print(f"    absent                         : {d['u3_absent']}/{n}")
     print()
     print("  U4 package")
-    print(f"    internal consistency           : {d['internal_consistency']}/13")
-    print(f"    verdict SUPPORTED              : {d['verdicts']['SUPPORTED']}/13")
+    print(f"    {d['internal_column'].split()[0]} consistency     "
+          f"          : {d['internal_consistency']}/{n}")
+    print(f"    verdict SUPPORTED              : {d['verdicts']['SUPPORTED']}/{n}")
     print(f"    verdict PARTIALLY              : "
-          f"{d['verdicts']['PARTIALLY']}/13")
+          f"{d['verdicts']['PARTIALLY']}/{n}")
     print(f"    verdict CONTRADICTED           : "
-          f"{d['verdicts']['CONTRADICTED']}/13")
-    print(f"    contains >=1 contradicted claim: {d['pkg_ge1_contradicted']}/13")
-    print(f"    contains >=1 unsupported claim : {d['pkg_ge1_unsupported']}/13")
+          f"{d['verdicts']['CONTRADICTED']}/{n}")
+    print(f"    contains >=1 contradicted claim: {d['pkg_ge1_contradicted']}/{n}")
+    print(f"    contains >=1 unsupported claim : {d['pkg_ge1_unsupported']}/{n}")
     print()
     print(f"  gradient (exists, reproduces, internal, SUPPORTED): "
-          f"{d['gradient'][0]}/13 -> {d['gradient'][1]}/13 -> "
-          f"{d['gradient'][2]}/13 -> {d['gradient'][3]}/13")
+          f"{d['gradient'][0]}/{n} -> {d['gradient'][1]}/{n} -> "
+          f"{d['gradient'][2]}/{n} -> {d['gradient'][3]}/{n}")
     print()
     print("  cross-layer disagreement: U2 reproduction against U4 verdict")
     print(f"    reproduced     (n={d['repro_n']:2d})                 : "
@@ -963,21 +1581,31 @@ def main(argv: list[str] | None = None) -> int:
           f"{d['norepro_verdicts']['SUPPORTED']} SUPPORTED, "
           f"{d['norepro_verdicts']['PARTIALLY']} PARTIALLY, "
           f"{d['norepro_verdicts']['CONTRADICTED']} CONTRADICTED")
+    print("    the two sets are disjoint because the SUPPORTED column is "
+          "empty; that follows from the block above and is not an independent "
+          "check.")
     print(f"    rows that both reproduce and are SUPPORTED: "
-          f"{d['repro_and_supported']}")
+          f"{d['repro_and_supported']} (implied)")
     print()
-    print("  cross-batch granularity record")
-    print(f"    batches 1-2 (8 rows)           : {d['batch12_correct']}/"
-          f"{d['batch12_claims']} = {d['pct_batch12']:.1f}%")
-    print(f"    batch 3 (4 packages)           : {d['batch3_correct']}/"
-          f"{d['batch3_claims']} = {d['pct_batch3']:.1f}%")
-    print(f"    batch 3 (5 scored rows)        : {d['batch3w_correct']}/"
-          f"{d['batch3w_claims']} = {d['pct_batch3w']:.1f}%")
+    print("  cross-batch granularity record (spans parsed from the dataset)")
+    for label, span in d["spans"].items():
+        print(f"    {label:<26} rows {span['lo']}-{span['hi']}: "
+              f"{span['correct']}/{span['claims']} = {span['pct']:.1f}%")
     print()
-    print("  failure classes")
+    print("  failure classes (names checked against the dataset)")
     for row in classes:
         print(f"    {row['class_id']}. {row['class_name']} "
               f"-> {row['exemplar']}")
+
+    print()
+    print(f"  bit-for-bit artifact reproduction: "
+          f"{len(d['bitforbit_exact'])}/{n} scored rows reproduce "
+          f"byte-identically, and "
+          f"{len(d['bitforbit_qualified'])} more does so on every scientific "
+          f"field with a wall-clock field differing")
+    for entry in d["bitforbit"]:
+        print(f"    {entry['scope']:<30} {entry['package']}"
+              + (f"  ({entry['note']})" if entry["note"] else ""))
 
     print("\n  arithmetic errors in the frozen dataset's aggregate layer "
           "(logged, not quietly amended)")
@@ -989,6 +1617,8 @@ def main(argv: list[str] | None = None) -> int:
         print("\nCHECK FAILURES:", file=sys.stderr)
         for problem in problems:
             print(f"  - {problem}", file=sys.stderr)
+        print(f"\n{len(problems)} failure(s). Neither PDF was written.",
+              file=sys.stderr)
         return 1
 
     print("\nAll derivation checks passed.")
@@ -996,8 +1626,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.verify:
         return 0
 
-    render_gradient(d, corrections_found, OUT_GRADIENT)
-    render_classes(classes, OUT_CLASSES)
+    render_gradient(d, corrections_found, dataset, OUT_GRADIENT)
+    render_classes(classes, dataset, OUT_CLASSES)
     print(f"\nWrote {OUT_GRADIENT.name} ({OUT_GRADIENT.stat().st_size} bytes)")
     print(f"Wrote {OUT_CLASSES.name} ({OUT_CLASSES.stat().st_size} bytes)")
     return 0

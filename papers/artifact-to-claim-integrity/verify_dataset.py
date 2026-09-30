@@ -22,13 +22,56 @@ A3  Parse the layer labels in E1-AGGREGATE.md's headline table and assert the
 A4  Re-roll every layer count in E1-AGGREGATE.md from the three batch reports'
     own machine-readable layer columns and assert the counts are unchanged.
 A5  Assert the two pushed copies under research-backlog-repo/audit/ are
-    byte-identical to their local originals, by cmp and by SHA-256.
-A6  Audit the seven in-scope files for stale figure strings and shifted layer
-    labels, and report every occurrence with context.
+    byte-identical to their local originals, by cmp and by SHA-256. Skipped,
+    loudly, in a public clone that has no pushed tree.
+A6  Audit the in-scope files for stale figure strings and shifted layer labels.
+    The stale patterns are PARSED OUT OF THE DATASET'S CORRECTION LOG, not
+    transcribed into this file. See "What this can and cannot detect".
 A7  Print the final gradient.
+A8  Join the frozen row table to the three batch reports on the repository name
+    and diff every U1/U2/L7/U4 cell against the primary records. This is the
+    check that does not exist anywhere else in the pipeline: the row table's
+    own author never ran it.
+A9  Re-derive the cross-batch claim-pool split from the row table and compare
+    it against the dataset's cross-batch block, per span and per report. This is
+    the check that would have caught the 2026-09-30 rate/span mispairing.
 
 Exit status is 0 only when every assertion passes and no stale string is found
 outside a recognised correction record.
+
+What this can and cannot detect
+-------------------------------
+Stated at the top rather than in a limitations section, because an integrity
+instrument that overstates its coverage is the failure class this study is
+about, and this file is inside the study.
+
+CAN
+  * Detect any disagreement between the frozen row table and the three batch
+    reports' own per-row L3/L7/L8 columns (A8). The batch reports are primary
+    evidence and are never transcribed by this author, so this comparison has
+    two independent origins.
+  * Detect a rate paired with the wrong row span (A9). The defect this check
+    exists for was invisible to the earlier instrument set: reconciliation
+    compares sums against sums and a mispaired rate is not a wrong sum.
+  * Detect any pre-correction figure anywhere in the corpus that the dataset's
+    correction log records as corrected (A6). The list of such figures is
+    derived from the log at run time, so logging a new correction automatically
+    arms a new guard instead of requiring this file to be edited.
+  * Detect a layer label whose L-number disagrees with the rubric (A0, A3, A6).
+
+CANNOT
+  * Detect a defect nobody has written down anywhere. This was the central
+    criticism of the earlier revision of A6, which was a literal blocklist of
+    known-bad strings: an instrument that only finds defects someone already
+    wrote down is not an instrument. A6 is now derived, which widens it to
+    every correction the log records, but the residual limitation is the same
+    one and is stated here rather than papered over.
+  * Cover figures/make_figures.py's figure output, or any PDF. It checks the
+    manuscript's numbers, not the rendered figure's geometry.
+  * Substitute for an independent re-derivation. Every check in this file was
+    written by the same author as the corpus it checks. The defects this file
+    could not find in itself were found by an outside auditor who wrote their
+    own derivation code and imported no module of ours.
 
 Usage
 -----
@@ -36,8 +79,9 @@ Usage
     python3 verify_dataset.py --root /path/to/corpus/tree   # throwaway trees
 
 The corpus root is discovered from this script's own location, so no absolute
-path is baked in and the script runs from any checkout at any depth. Pass
---root only to point at a throwaway copy of the tree.
+path is baked in and the script runs from any checkout at any depth, in either
+the author's tree (``research-audit/`` + ``security/``) or a public clone
+(``audit/``). Pass --root only to point at a throwaway copy of the tree.
 """
 
 from __future__ import annotations
@@ -58,33 +102,66 @@ HERE = pathlib.Path(__file__).resolve().parent
 EMDASH = "\u2014"
 ENDASH = "\u2013"
 
-RUBRIC_RELPATH = "security/ARTIFACT-TO-CLAIM-RUBRIC.md"
-DATASET_RELPATH = "research-audit/E1-DATASET-v1.0.md"
-AGGREGATE_RELPATH = "research-audit/E1-AGGREGATE.md"
-BATCH1_RELPATH = "research-audit/E1-BATCH-1.md"
-BATCH2_RELPATH = "research-audit/batch2/REPORT.md"
-BATCH3_RELPATH = "research-audit/batch3/REPORT.md"
-PUSH_AGG_RELPATH = "research-backlog-repo/audit/E1-AGGREGATE.md"
-PUSH_DAT_RELPATH = "research-backlog-repo/audit/E1-DATASET-v1.0.md"
-PUSH_README_RELPATH = "research-backlog-repo/audit/README.md"
-TEX_RELPATH = "research-papers/artifact-to-claim-integrity/main.tex"
-PAPER_README_RELPATH = "research-papers/artifact-to-claim-integrity/README.md"
+# Two layouts. The author's working tree keeps the rubric under security/ and
+# the audit corpus under research-audit/; the public repository flattens the
+# audit corpus to audit/ and versions the rubric file. An earlier revision
+# hard-coded the author's paths, so this script exited 1 in a fresh clone and
+# the typeset table had no covering instrument at all for a third party.
+RUBRIC_RELPATHS = (
+    "security/ARTIFACT-TO-CLAIM-RUBRIC.md",
+    "audit/ARTIFACT-TO-CLAIM-RUBRIC-v1.0.md",
+)
+DATASET_RELPATHS = (
+    "research-audit/E1-DATASET-v1.0.md",
+    "audit/E1-DATASET-v1.0.md",
+)
+AGGREGATE_RELPATHS = (
+    "research-audit/E1-AGGREGATE.md",
+    "audit/E1-AGGREGATE.md",
+)
+BATCH1_RELPATHS = ("research-audit/E1-BATCH-1.md", "audit/E1-BATCH-1.md")
+BATCH2_RELPATHS = ("research-audit/batch2/REPORT.md", "audit/batch2/REPORT.md")
+BATCH3_RELPATHS = ("research-audit/batch3/REPORT.md", "audit/batch3/REPORT.md")
+PUSH_ROOT_RELPATHS = ("research-backlog-repo",)
+PAPER_RELPATHS = (
+    "research-papers/artifact-to-claim-integrity",
+    "papers/artifact-to-claim-integrity",
+)
 
-# Files without which the run would be vacuous or would crash on a raw
-# FileNotFoundError. Checked up front so a missing rubric is reported as a
-# missing rubric and not as a traceback from the middle of a parser.
-REQUIRED_RELPATHS = [
-    RUBRIC_RELPATH,
-    DATASET_RELPATH,
-    AGGREGATE_RELPATH,
-    BATCH1_RELPATH,
-    BATCH2_RELPATH,
-    BATCH3_RELPATH,
-]
+# Populated by resolve_layout(); kept as module-level names so the reporting
+# helpers and the checks can refer to a single resolved layout.
+LAYOUT: dict[str, str] = {}
 
-# Two of the six are enough to identify the tree unambiguously: the rubric and
-# the frozen dataset sit in different top-level directories.
-ROOT_MARKERS = (RUBRIC_RELPATH, DATASET_RELPATH)
+
+def resolve_layout(root: pathlib.Path) -> dict[str, str]:
+    """Choose the first candidate path that exists for each file."""
+    def pick(candidates: tuple[str, ...], what: str) -> str:
+        for relpath in candidates:
+            if (root / relpath).is_file():
+                return relpath
+        raise SystemExit(
+            f"verify_dataset.py: cannot locate the {what}.\n"
+            f"Looked under {root} for any of:\n"
+            + "\n".join(f"  {c}" for c in candidates)
+        )
+
+    layout = {
+        "rubric": pick(RUBRIC_RELPATHS, "rubric"),
+        "dataset": pick(DATASET_RELPATHS, "frozen dataset"),
+        "aggregate": pick(AGGREGATE_RELPATHS, "aggregate report"),
+        "batch1": pick(BATCH1_RELPATHS, "batch 1 report"),
+        "batch2": pick(BATCH2_RELPATHS, "batch 2 report"),
+        "batch3": pick(BATCH3_RELPATHS, "batch 3 report"),
+        "paper": pick(tuple(f"{p}/main.tex" for p in PAPER_RELPATHS),
+                      "manuscript"),
+    }
+    paper_dir = layout["paper"].rsplit("/", 1)[0]
+    layout["paper_dir"] = paper_dir
+    layout["paper_readme"] = f"{paper_dir}/README.md"
+    layout["make_figures"] = f"{paper_dir}/figures/make_figures.py"
+    layout["rows_csv"] = f"{paper_dir}/figures/data/e1_rows.csv"
+    layout["classes_csv"] = f"{paper_dir}/figures/data/failure_classes.csv"
+    return layout
 
 
 def discover_root() -> pathlib.Path:
@@ -92,58 +169,26 @@ def discover_root() -> pathlib.Path:
 
     This script ships inside the tree it verifies, so its own position is the
     only anchor it needs. Nothing here depends on the tree being called
-    ``Documents`` or on living at any particular depth.
+    ``Documents`` or on living at any particular depth. Both the author's layout
+    and a public clone are accepted; the marker for each is the frozen dataset
+    plus a rubric.
     """
     for parent in HERE.parents:
-        if all((parent / marker).is_file() for marker in ROOT_MARKERS):
+        has_dataset = any((parent / p).is_file() for p in DATASET_RELPATHS)
+        has_rubric = any((parent / p).is_file() for p in RUBRIC_RELPATHS)
+        if has_dataset and has_rubric:
             return parent
     searched = "\n  ".join(str(p) for p in HERE.parents) or str(HERE)
     raise SystemExit(
         "verify_dataset.py: cannot locate the corpus root.\n"
-        f"Looked for all of {list(ROOT_MARKERS)} in:\n  {searched}\n"
-        "Run this script from a checkout of the corpus tree, or pass "
-        "--root /path/to/corpus/tree."
-    )
-
-
-def require_inputs(root: pathlib.Path) -> pathlib.Path:
-    """Fail with the complete list of missing inputs, not the first one."""
-    missing = [relpath for relpath in REQUIRED_RELPATHS
-               if not (root / relpath).is_file()]
-    if not missing:
-        return root / RUBRIC_RELPATH
-    listing = "\n  ".join(f"{relpath}  (expected at {root / relpath})"
-                          for relpath in missing)
-    raise SystemExit(
-        f"verify_dataset.py: {len(missing)} required input(s) not found "
-        f"under {root}:\n  {listing}\n"
-        f"The rubric at {RUBRIC_RELPATH} is the file every layer assertion in "
-        "this script is parsed from. Without it there is no source of truth "
-        "for the L-number of any layer, so A0 and A3 cannot run and the "
-        "remaining checks would be vacuous. Check --root, or restore the "
-        "file."
+        f"Looked for the frozen dataset ({DATASET_RELPATHS[0]} or "
+        f"{DATASET_RELPATHS[1]}) together with a rubric, in:\n  {searched}\n"
+        "Run this script from a checkout that contains the audit corpus, or "
+        "pass --root /path/to/corpus/tree."
     )
 
 
 DEFAULT_ROOT = discover_root()
-
-# The seven files this change is permitted to touch, in report order.
-SEVEN_RELPATHS = [
-    AGGREGATE_RELPATH,
-    DATASET_RELPATH,
-    PUSH_AGG_RELPATH,
-    PUSH_DAT_RELPATH,
-    PUSH_README_RELPATH,
-    TEX_RELPATH,
-    PAPER_README_RELPATH,
-]
-
-# Out-of-scope files that are scanned for the same defects and reported, never
-# edited. These carry the same class of defect and must be visible in the run.
-READ_ONLY_EXTRA_RELPATHS = [
-    "research-papers/artifact-to-claim-integrity/figures/make_figures.py",
-    "research-papers/artifact-to-claim-integrity/figures/data/e1_rows.csv",
-]
 
 N_ROWS = 13
 
@@ -518,19 +563,102 @@ def compare_copies(local: pathlib.Path, pushed: pathlib.Path, label: str,
 # A6 -- stale-string and stale-label audit
 # --------------------------------------------------------------------------
 
-STALE_FIGURES = [
-    (r"\b2\s*/\s*13\b", "internal consistency 2/13 (pre-correction)"),
-    (r"\b2 of 13\b", "internal consistency 2 of 13 (pre-correction)"),
+# The earlier revision of this check held a literal list of the pre-correction
+# figures the author already knew about. That is a blocklist: it re-finds the
+# defects that were written down and cannot find any other, which is the only
+# kind that matters. The 2026-09-30 rate/span mispairing was invisible to it,
+# because `34.6` appeared nowhere in this file.
+#
+# The patterns are now DERIVED from the dataset's own correction log at run
+# time. Two kinds are emitted per logged correction:
+#
+#   * the log's own sentence, whitespace-normalised, as a literal pattern.
+#     This is precise and applies to every correction without exception.
+#   * a bare word-boundary pattern for each integer the log records as
+#     superseded, but ONLY for values of 20 or more. A corpus of denominators
+#     contains small integers everywhere -- "L2", "10/13", "7/13" -- and a bare
+#     `7` or `2` pattern fires on correct text dozens of times per file. This
+#     limitation is stated rather than tuned away.
+#
+# A new logged correction therefore arms a new guard without this file being
+# edited, which is the difference between an instrument and a list.
+STALE_PATTERNS = [
+    # Structural framings with no distinctive number attached, which a
+    # value-derived scan cannot produce. These four are the residue that would
+    # otherwise have to be hand-maintained, and they are all superseded
+    # *framings* rather than superseded values.
     (r"\b13\s*,\s*10\s*,\s*2\s*,\s*0\b", "gradient tuple (13, 10, 2, 0)"),
-    (r"\b10/13 -> 2/13\b", "gradient step 2/13"),
-    # Guarded against LaTeX column widths such as p{0.315\columnwidth} and
-    # against version-like or hash-like digit runs.
-    (r"(?<![\d.])315(?![\d.])", "pre-correction claim total 315"),
-    (r"(?<![\d.])94(?![\d.])", "pre-correction contradicted count 94"),
-    (r"(?<![\d.])83\s*%", "pre-correction correct rate 83%"),
+    (r"\b10/13\s*->\s*2/13\b", "gradient step 2/13"),
+    (r"\b2\s+of\s+13\b", "internal consistency 2 of 13 (pre-correction)"),
+    (r"\b2\s*/\s*13\b", "internal consistency 2/13 (pre-correction)"),
     (r"0\s*/\s*7\s*/\s*6", "pre-correction verdict roll-up 0/7/6"),
     (r"[Dd]elta\s*2\b", "the superseded 'Delta 2' framing"),
 ]
+
+# ``label`` -> the log sentence shape, plus the rubric layer name to pair with a
+# logged L-number so the shifted form can be derived too.
+LOG_CORRECTIONS = [
+    (r"stated\s+`(\d+)`\s+claims adjudicated,\s+`(\d+)`\s+contradicted",
+     "pre-freeze claim-level summary", ()),
+    (r"recorded\s+`0`\s+SUPPORTED,\s+`(\d+)`\s+PARTIALLY SUPPORTED,\s+"
+     r"`(\d+)`\s+CONTRADICTED", "post-freeze verdict roll-up", ()),
+    (r"recorded\s+`(\d+)`\s+of\s+`13`", "post-freeze internal consistency", ()),
+    (r"labelled its rows\s+`L(\d)\b", "post-publication layer-label shift",
+     ("Figure", "Method", "Selection", "Internal consistency", "Verdict")),
+]
+
+# Values below this are too common in a corpus of denominators to match bare.
+BARE_VALUE_FLOOR = 20
+
+
+def prose_pattern(sentence: str) -> str:
+    """A literal pattern that tolerates re-typesetting of a logged sentence.
+
+    The same sentence appears across the corpus inside backticks, inside
+    ``$...$``, inside ``\\texttt{}``, and rewrapped across lines. Matching the
+    log's wording verbatim would therefore fire only on the log's own wording,
+    so the formatting delimiters are made optional and internal whitespace is
+    matched loosely.
+    """
+    text = re.sub(r"\s+", " ", sentence).strip()
+    parts: list[str] = []
+    for token in re.split(r"([`$])", text):
+        if token in ("`", "$"):
+            parts.append("[`$]?")
+        else:
+            parts.append(re.escape(token).replace("\\ ", r"\s+"))
+    return "".join(parts)
+
+
+def derive_stale_patterns(dataset_text: str,
+                          rubric: dict[str, int]) -> list[tuple[str, str]]:
+    """Build the stale-figure patterns from the correction log's own text."""
+    found: list[tuple[str, str]] = []
+    for pattern, label, layer_names in LOG_CORRECTIONS:
+        for match in re.finditer(pattern, dataset_text):
+            sentence = re.sub(r"\s+", " ", match.group(0)).strip()
+            found.append((prose_pattern(sentence), f"{label}, log wording"))
+            for group in match.groups():
+                value = int(group)
+                if value >= BARE_VALUE_FLOOR:
+                    # Guard against LaTeX column widths such as
+                    # p{0.315\columnwidth} and against hash-like digit runs.
+                    found.append((rf"(?<![\d.]){value}(?![\d.])",
+                                  f"{label}: superseded value {value}"))
+            if layer_names:
+                first = int(match.group(1))
+                for offset, name in enumerate(layer_names):
+                    stated = first + offset
+                    expected = rubric.get(name)
+                    if expected is None or expected == stated:
+                        continue
+                    name_rx = re.escape(name).replace("\\ ", r"\s+")
+                    found.append(
+                        (rf"\bL{stated}\s*[{EMDASH}{ENDASH}-]+\s*{name_rx}",
+                         f"{label}: {name} stated as L{stated}, rubric says "
+                         f"L{expected}"))
+    return found
+
 
 # A line inside one of these is quoting a caught error as history. That is
 # required by the dataset's own instruction to record corrections, so it is not
@@ -539,7 +667,7 @@ CORRECTION_CONTEXT = re.compile(
     r"correction|corrected|correct |miscount|supersed|pre-freeze|post-freeze|"
     r"post-publication|delta|recorded as|block recorded|block stated|"
     r"block gave|recorded \d|shift|wrong summary|wrong verdict|wrong internal|"
-    r"before this correction|was wrong",
+    r"before this correction|was wrong|mispairing|was never wrong",
     re.I,
 )
 CONTEXT_WINDOW = 4
@@ -563,18 +691,21 @@ def in_code_span(line: str, start: int, end: int) -> bool:
     return before.rstrip().endswith("\\texttt{") and after.lstrip().startswith("}")
 
 
-def audit_stale_figures(root: pathlib.Path, relpaths: list[str]) -> int:
+def audit_stale_figures(root: pathlib.Path, relpaths: list[str],
+                        patterns: list[tuple[str, str]]) -> int:
     flagged = 0
     print()
-    print("  stale figure strings (matches are shown with context; occurrences "
-          "inside a correction record are expected)")
+    print(f"  stale figure strings, {len(patterns)} pattern(s): the "
+          "dataset's correction log parsed at run time, plus 6 structural "
+          "framings (matches are shown with context; occurrences inside a "
+          "correction record are expected)")
     for relpath in relpaths:
         path = root / relpath
         if not path.exists():
             fail("A6", f"{relpath} does not exist")
             continue
         lines = read_lines(path)
-        for pattern, why in STALE_FIGURES:
+        for pattern, why in patterns:
             rx = re.compile(pattern)
             for i, line in enumerate(lines):
                 if not rx.search(line):
@@ -592,7 +723,8 @@ def audit_stale_figures(root: pathlib.Path, relpaths: list[str]) -> int:
 
 
 def audit_stale_labels(root: pathlib.Path, relpaths: list[str],
-                       rubric: dict[str, int]) -> tuple[int, int]:
+                       rubric: dict[str, int], in_scope_paths: list[str]
+                       ) -> tuple[int, int]:
     """Flag any L-label whose number disagrees with the rubric's index.
 
     An occurrence inside a correction record is history, not a live defect: the
@@ -627,7 +759,7 @@ def audit_stale_labels(root: pathlib.Path, relpaths: list[str],
                 hi = min(len(lines), i + CONTEXT_WINDOW)
                 historical = (in_code_span(line, ms, me) or
                               any(CORRECTION_CONTEXT.search(w) for w in lines[lo:hi]))
-                in_scope = relpath in SEVEN_RELPATHS
+                in_scope = relpath in in_scope_paths
                 if historical:
                     tag = "HISTORICAL"
                 elif in_scope:
@@ -643,6 +775,264 @@ def audit_stale_labels(root: pathlib.Path, relpaths: list[str],
                     fail("A6", f"{relpath}:{i}: shifted layer label {raw!r} "
                                f"({canonical} is L{expected} in the rubric)")
     return in_scope_bad, read_only_bad
+
+
+# --------------------------------------------------------------------------
+# A8 -- the frozen row table against the primary batch records
+#
+# This is the check that did not exist anywhere in the pipeline. The frozen row
+# table was transcribed by the same author who wrote this script, so every
+# comparison made against it so far has been a transcription against itself.
+# The three batch reports are primary evidence, were written by three
+# different evaluators, and carry their own per-row L3/L7/L8 columns. Joining
+# on the repository name gives two genuinely independent origins for every U1,
+# U2, L7 and U4 cell.
+# --------------------------------------------------------------------------
+
+def repo_key(record: dict) -> str:
+    """Last path segment of a batch report's repo column."""
+    return record["repo"].rsplit("/", 1)[-1].strip()
+
+
+def dataset_key(name: str) -> str:
+    """The dataset writes the layer as a parenthetical; drop it."""
+    return re.sub(r"\s*\([^)]*\)\s*$", "", name.strip())
+
+
+L8_NORMALISE = {"PARTIALLY SUPPORTED": "PARTIALLY", "SUPPORTED": "SUPPORTED",
+                "CONTRADICTED": "CONTRADICTED", "UNVERIFIABLE": "UNVERIFIABLE"}
+
+
+def check_rows_against_batch_reports(
+        dataset_rows: list[dict], dataset: pathlib.Path,
+        batch_paths: list[pathlib.Path]) -> int:
+    """Diff every transcribed cell against the batch reports' own columns."""
+    primary: dict[str, dict] = {}
+    for path in batch_paths:
+        for rec in parse_batch_layers(path):
+            key = repo_key(rec)
+            if key in primary:
+                fail("A8", f"repository {key!r} appears in more than one batch "
+                           "report; the join is ambiguous")
+            primary[key] = rec
+
+    cells = 0
+    unmatched: list[str] = []
+    for row in dataset_rows:
+        key = dataset_key(row["package"])
+        rec = primary.get(key)
+        if rec is None:
+            unmatched.append(key)
+            continue
+        # L3 is the batch rubric's numerical-claim layer and maps cell for cell
+        # onto the dataset's U1 columns.
+        expectations = (
+            ("U1 total", row["total"], rec["L3 total"]),
+            ("U1 correct", row["correct"], rec["L3 supported"]),
+            ("U1 contradicted", row["contradicted"], rec["L3 contradicted"]),
+            ("U1 unsupported", row["unsupported"], rec["L3 unsupported"]),
+            ("L7 internal", row["internal"], rec["L7"]),
+            ("U4 verdict", row["verdict"],
+             L8_NORMALISE.get(rec["L8"], rec["L8"])),
+            ("U2 exists", "Y" if rec["L1"] == "SUPPORTED" else "N",
+             "Y" if row["exists"] else "N"),
+            ("U2 reproduces", "Y" if rec["L2"] == "SUPPORTED" else "N",
+             "Y" if row["reproduces"] else "N"),
+        )
+        for name, want, got in expectations:
+            cells += 1
+            if str(want) != str(got):
+                fail("A8", f"row {row['n']} ({key}) {name}: frozen table "
+                           f"{want!r} != {rec['_file'].rsplit('/', 1)[-1]} "
+                           f"{got!r}")
+        print(f"  ok  row {row['n']:2d} {key:<32} 8/8 cells agree with "
+              f"{rec['_file'].rsplit('/', 1)[-1]}")
+
+    for key in unmatched:
+        fail("A8", f"frozen row {key!r} has no counterpart in any batch "
+                   "report; the row cannot be traced to primary evidence")
+
+    print(f"  {cells} cells compared across {len(dataset_rows)} rows against "
+          "three independent primary records")
+
+    # Bit-for-bit reproduction is not a column of the row table, so nothing
+    # above constrains it. This checks the one thing that can be checked from
+    # inside the corpus: every repository the dataset lists as reproducing
+    # byte-identically is a scored row. A count quoted for a package outside
+    # the corpus is worse than no count.
+    block = parse_bitforbit(dataset)
+    scored = {dataset_key(r["package"]) for r in dataset_rows}
+    exact = [b for b in block if b["scope"] == "exact"]
+    print()
+    print(f"  bit-for-bit block: {len(exact)} exact, "
+          f"{len(block) - len(exact)} qualified, from "
+          f"{len(dataset_rows)} scored rows")
+    seen: set[str] = set()
+    for entry in block:
+        key = dataset_key(entry["package"])
+        if key not in scored:
+            fail("A8", f"bit-for-bit block names {entry['package']!r}, which "
+                       "is not a scored row of the frozen table")
+        if key in seen:
+            fail("A8", f"bit-for-bit block lists {entry['package']!r} twice")
+        seen.add(key)
+        print(f"    ok  {entry['scope']:<30} {entry['package']}")
+    if not block:
+        fail("A8", "no bit-for-bit block found; any count of bit-for-bit "
+                   "reproduction in the paper would be an assertion")
+    return cells
+
+
+BITFORBIT_LINE = re.compile(
+    r"^(?P<package>[A-Za-z0-9][\w.-]*)\s+"
+    r"(?P<scope>exact|exact-scientific-fields-only)(?:\s\s+(?P<note>.*))?$")
+
+
+def parse_bitforbit(dataset: pathlib.Path) -> list[dict]:
+    lines = read_lines(dataset)
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.startswith("### Bit-for-bit artifact reproduction"))
+    except StopIteration:
+        return []
+    out: list[dict] = []
+    in_block = False
+    for line in lines[start + 1:]:
+        if line.strip().startswith("```"):
+            in_block = not in_block
+            continue
+        if not in_block:
+            continue
+        m = BITFORBIT_LINE.match(line.strip())
+        if m:
+            out.append({"package": m.group("package"),
+                        "scope": m.group("scope"),
+                        "note": (m.group("note") or "").strip()})
+    return out
+
+
+# --------------------------------------------------------------------------
+# A9 -- the cross-batch claim-pool split, re-derived
+#
+# The 2026-09-30 defect was a correct rate attached to the wrong row span.
+# Row-level reconciliation cannot see it: it compares sums against sums, and a
+# mispaired rate is not a wrong sum. What sees it is re-deriving each span from
+# the row table and comparing against the figure the dataset pairs with that
+# span. The spans themselves are then checked against the per-report totals in
+# the batch reports, so the partition is verified and not assumed.
+# --------------------------------------------------------------------------
+
+CROSS_BATCH_LINE = re.compile(
+    r"^(?P<label>.+?)\s+rows\s+(?P<lo>\d+)\s*-\s*(?P<hi>\d+)\s+"
+    r"(?P<correct>\d+)\s*/\s*(?P<claims>\d+)\s+(?P<rate>[\d.]+)%")
+
+
+def parse_cross_batch(path: pathlib.Path) -> list[dict]:
+    lines = read_lines(path)
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.strip().startswith("## Cross-batch comparability"))
+    except StopIteration:
+        fail("A9", f"{path.name} has no '## Cross-batch comparability' section")
+        return []
+    block: list[str] = []
+    in_block = False
+    for line in lines[start + 1:]:
+        if line.strip().startswith("```"):
+            in_block = not in_block
+            continue
+        if in_block:
+            block.append(line.strip())
+    spans = []
+    for line in block:
+        m = CROSS_BATCH_LINE.match(line)
+        if m:
+            spans.append({"label": m.group("label").strip(),
+                          "lo": int(m.group("lo")), "hi": int(m.group("hi")),
+                          "correct": int(m.group("correct")),
+                          "claims": int(m.group("claims")),
+                          "rate": float(m.group("rate"))})
+    return spans
+
+
+def report_totals(paths: list[pathlib.Path]) -> list[tuple[str, int, int, int]]:
+    """(label, rows, claims, correct) re-rolled from one batch report."""
+    out = []
+    for path in paths:
+        recs = parse_batch_layers(path)
+        out.append((path.stem, len(recs),
+                    sum(int(r["L3 total"]) for r in recs),
+                    sum(int(r["L3 supported"]) for r in recs)))
+    return out
+
+
+def check_cross_batch(dataset_rows: list[dict], dataset: pathlib.Path,
+                      batch_paths: list[pathlib.Path]) -> None:
+    spans = parse_cross_batch(dataset)
+    if len(spans) < 2:
+        fail("A9", f"cross-batch block parsed {len(spans)} span(s), expected "
+                   "at least the two batch rates")
+        return
+
+    by_index = {r["n"]: r for r in dataset_rows}
+    print()
+    print(f"  {'span':<40} {'dataset':>17}  {'row table':>17}  status")
+    for span in spans:
+        picked = [by_index[i] for i in range(span["lo"], span["hi"] + 1)
+                  if i in by_index]
+        if len(picked) != span["hi"] - span["lo"] + 1:
+            fail("A9", f"cross-batch span {span['label']!r} names rows "
+                       f"{span['lo']}-{span['hi']}, which the row table does "
+                       "not contain")
+            continue
+        claims = sum(r["total"] for r in picked)
+        correct = sum(r["correct"] for r in picked)
+        rate = 100.0 * correct / claims if claims else 0.0
+        label = span["label"]
+        if len(label) > 40:
+            label = label[:37] + "..."
+        stated = f"{span['correct']}/{span['claims']} = {span['rate']}%"
+        recomputed = f"{correct}/{claims} = {rate:.1f}%"
+        ok = (claims == span["claims"] and correct == span["correct"]
+              and round(rate, 1) == span["rate"])
+        if not ok:
+            fail("A9", f"cross-batch span {span['label']!r} (rows "
+                       f"{span['lo']}-{span['hi']}): dataset records {stated}, "
+                       f"the row table gives {correct}/{claims} = "
+                       f"{rate:.4f}%")
+        print(f"  rows {span['lo']}-{span['hi']} {label:<33} {stated:>17}  "
+              f"{recomputed:>17}  {'ok' if ok else 'MISMATCH'}")
+
+    # The partition itself, against the primary records. Batches 1 and 2 must
+    # sum to rows 1-8 and batch 3 to rows 9-13 for the comparison above to mean
+    # anything at all. A span that is not one of those two partitions -- the
+    # four-package denominator, which counts cd once -- is checked against the
+    # row table above and is deliberately not held to a report total.
+    print()
+    print("  per-report claim-pool totals, re-rolled from the batch reports")
+    totals = report_totals(batch_paths)
+    # (rows, claims, correct) for each partition.
+    b12 = (sum(t[1] for t in totals[:2]), sum(t[2] for t in totals[:2]),
+           sum(t[3] for t in totals[:2]))
+    b3 = (totals[2][1], totals[2][2], totals[2][3])
+    partitions = {"batches 1-2 (reports 1+2)": (1, b12),
+                  "batch 3 (report 3, five rows)": (9, b3)}
+    for label, (first, got) in partitions.items():
+        print(f"    {label:<36} rows {first}-{first + got[0] - 1}: "
+              f"{got[2]}/{got[1]} = {100.0 * got[2] / got[1]:.4f}%")
+    if b12[0] != 8 or b3[0] != 5:
+        fail("A9", f"the batch reports supply {b12[0]}+{b3[0]} rows; the "
+                   f"dataset's cross-batch block assumes 8+5")
+    else:
+        print("    ok  the reports supply 8 rows to batches 1-2 and 5 to "
+              "batch 3, which is the partition the dataset's spans assume")
+    for span in spans:
+        for first, got in partitions.values():
+            if span["lo"] == first and span["hi"] == first + got[0] - 1:
+                if span["claims"] != got[1] or span["correct"] != got[2]:
+                    fail("A9", f"cross-batch span {span['label']!r}: the batch "
+                               f"reports give {got[2]}/{got[1]}, the dataset "
+                               f"records {span['correct']}/{span['claims']}")
 
 
 # --------------------------------------------------------------------------
@@ -662,7 +1052,12 @@ def main() -> int:
     print("script: %s" % HERE)
     print("root: %s" % root)
 
-    rubric_path = require_inputs(root)
+    LAYOUT.update(resolve_layout(root))
+    print("layout:")
+    for key in sorted(LAYOUT):
+        print(f"  {key:<14} {LAYOUT[key]}")
+
+    rubric_path = root / LAYOUT["rubric"]
 
     # ---- A0 -------------------------------------------------------------
     section("A0  canonical layer table, read from the rubric")
@@ -674,7 +1069,7 @@ def main() -> int:
 
     # ---- A1 -------------------------------------------------------------
     section("A1  recompute dataset aggregates from the thirteen rows")
-    dataset = root / DATASET_RELPATH
+    dataset = root / LAYOUT["dataset"]
     rows = parse_dataset_rows(dataset)
     derived = parse_derived_block(dataset)
 
@@ -766,13 +1161,13 @@ def main() -> int:
 
     # ---- A3 -------------------------------------------------------------
     section("A3  aggregate headline labels against the rubric")
-    aggregate = root / AGGREGATE_RELPATH
+    aggregate = root / LAYOUT["aggregate"]
     check_aggregate_labels(aggregate, rubric)
 
     # ---- A4 -------------------------------------------------------------
     section("A4  aggregate counts re-rolled from the three batch reports")
-    batch_paths = [root / BATCH1_RELPATH, root / BATCH2_RELPATH,
-                   root / BATCH3_RELPATH]
+    batch_paths = [root / LAYOUT["batch1"], root / LAYOUT["batch2"],
+                   root / LAYOUT["batch3"]]
     batch_rows = {rel(root, p): parse_batch_layers(p) for p in batch_paths}
     n_batch_rows = sum(len(v) for v in batch_rows.values())
     print(f"  batch reports supply {n_batch_rows} rows: " +
@@ -803,19 +1198,48 @@ def main() -> int:
 
     # ---- A5 -------------------------------------------------------------
     section("A5  pushed copies byte-identical to local originals")
-    compare_copies(dataset, root / PUSH_DAT_RELPATH, "E1-DATASET-v1.0.md", root)
-    compare_copies(aggregate, root / PUSH_AGG_RELPATH, "E1-AGGREGATE.md", root)
+    push_root = next((root / p for p in PUSH_ROOT_RELPATHS
+                      if (root / p).is_dir()), None)
+    if push_root is None:
+        note("A5 skipped: no research-backlog-repo/ under this root. That tree "
+             "exists only in the author's working copy, so a public clone has "
+             "nothing to compare against. Skipped loudly rather than silently, "
+             "because in a public clone the pushed copies are the ONLY copy and "
+             "the check has nothing to prove.")
+    else:
+        compare_copies(dataset, push_root / "audit" / dataset.name,
+                       dataset.name, root)
+        compare_copies(aggregate, push_root / "audit" / aggregate.name,
+                       aggregate.name, root)
 
     # ---- A6 -------------------------------------------------------------
     section("A6  stale-string and stale-label audit")
-    scan = SEVEN_RELPATHS + READ_ONLY_EXTRA_RELPATHS
-    in_scope_bad, read_only_bad = audit_stale_labels(root, scan, rubric)
-    audit_stale_figures(root, scan)
+    dataset_text = dataset.read_text(encoding="utf-8")
+    patterns = STALE_PATTERNS + derive_stale_patterns(dataset_text, rubric)
+    in_scope_paths = [LAYOUT["aggregate"], LAYOUT["dataset"],
+                      LAYOUT["paper"], LAYOUT["paper_readme"],
+                      LAYOUT["make_figures"], LAYOUT["rows_csv"],
+                      LAYOUT["classes_csv"]]
+    if push_root is not None:
+        in_scope_paths += [rel(root, push_root / "audit" / dataset.name),
+                           rel(root, push_root / "audit" / aggregate.name),
+                           rel(root, push_root / "audit" / "README.md")]
+    in_scope_paths = [p for p in in_scope_paths if (root / p).is_file()]
+    in_scope_bad, read_only_bad = audit_stale_labels(root, in_scope_paths,
+                                                     rubric, in_scope_paths)
+    audit_stale_figures(root, in_scope_paths, patterns)
     if read_only_bad:
         print()
-        print(f"  {read_only_bad} shifted layer label(s) remain in files outside the")
-        print("  seven this change may edit. They are reported, not fixed here:")
-        print("  see the report for the paths and the reason they are out of scope.")
+        print(f"  {read_only_bad} shifted layer label(s) remain in files outside "
+              "the in-scope set. They are reported, not fixed here.")
+
+    # ---- A8 -------------------------------------------------------------
+    section("A8  frozen row table against the three primary batch records")
+    check_rows_against_batch_reports(rows, dataset, batch_paths)
+
+    # ---- A9 -------------------------------------------------------------
+    section("A9  cross-batch claim-pool split, re-derived from the rows")
+    check_cross_batch(rows, dataset, batch_paths)
 
     # ---- A7 -------------------------------------------------------------
     section("A7  final gradient")

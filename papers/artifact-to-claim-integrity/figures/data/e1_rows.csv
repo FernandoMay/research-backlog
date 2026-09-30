@@ -1,14 +1,22 @@
-row,package,u1_total,u1_correct,u1_contradicted,u1_unsupported,u2_exists,u2_reproduces,u3_broken,u3_absent,l7_internal,l7_internal_supported,u4_verdict
-1,adan-ieee-package,24,17,3,4,Y,Y,Y,Y,CONTRADICTED,N,PARTIALLY
-2,camae-paper,52,47,5,0,Y,Y,Y,N,CONTRADICTED,N,PARTIALLY
-3,isac-jasc-ieee,81,70,11,0,Y,Y,Y,N,CONTRADICTED,N,CONTRADICTED
-4,sc-ieee-package,38,34,4,0,Y,N,Y,N,SUPPORTED,Y,PARTIALLY
-5,ems-ieee-package,18,12,3,3,Y,Y,Y,Y,CONTRADICTED,N,PARTIALLY
-6,qce-ieee-package,18,11,5,2,Y,Y,Y,Y,CONTRADICTED,N,PARTIALLY
-7,quantum-k-sat-ieee-package,25,13,11,1,Y,Y,Y,Y,CONTRADICTED,N,PARTIALLY
-8,sra-ieee-package,14,9,5,0,Y,Y,Y,N,CONTRADICTED,N,PARTIALLY
-9,icft2026-package,25,11,13,1,Y,N,Y,Y,CONTRADICTED,N,CONTRADICTED
-10,mega-constellation-optimization,16,6,6,4,Y,N,Y,Y,CONTRADICTED,N,CONTRADICTED
-11,h266-drl-iccpr2026-package,19,8,11,0,Y,Y,Y,N,CONTRADICTED,N,CONTRADICTED
-12,cd-ieee-package-upstream,21,3,17,1,Y,Y,Y,Y,CONTRADICTED,N,CONTRADICTED
-13,cd-covert-anomaly-detection,24,22,1,1,Y,Y,Y,Y,CONTRADICTED,N,PARTIALLY
+# Verbatim transcription of the thirteen-row table in E1-DATASET-v1.0.md,
+# the frozen dataset of record. One CSV column per dataset column: there is no
+# derived column here, and make_figures.py diffs every cell of this file against
+# the dataset's own table rather than against another column of this file.
+#
+# `package` drops the dataset's layer qualifier -- "cd-ieee-package (upstream)"
+# is `cd-ieee-package-upstream` -- because the CSV has one row per scored row and
+# the row index already carries the layer.
+row,package,u1_total,u1_correct,u1_contradicted,u1_unsupported,u2_exists,u2_reproduces,u3_broken,u3_absent,l7_internal,u4_verdict
+1,adan-ieee-package,24,17,3,4,Y,Y,Y,Y,CONTRADICTED,PARTIALLY
+2,camae-paper,52,47,5,0,Y,Y,Y,N,CONTRADICTED,PARTIALLY
+3,isac-jasc-ieee,81,70,11,0,Y,Y,Y,N,CONTRADICTED,CONTRADICTED
+4,sc-ieee-package,38,34,4,0,Y,N,Y,N,SUPPORTED,PARTIALLY
+5,ems-ieee-package,18,12,3,3,Y,Y,Y,Y,CONTRADICTED,PARTIALLY
+6,qce-ieee-package,18,11,5,2,Y,Y,Y,Y,CONTRADICTED,PARTIALLY
+7,quantum-k-sat-ieee-package,25,13,11,1,Y,Y,Y,Y,CONTRADICTED,PARTIALLY
+8,sra-ieee-package,14,9,5,0,Y,Y,Y,N,CONTRADICTED,PARTIALLY
+9,icft2026-package,25,11,13,1,Y,N,Y,Y,CONTRADICTED,CONTRADICTED
+10,mega-constellation-optimization,16,6,6,4,Y,N,Y,Y,CONTRADICTED,CONTRADICTED
+11,h266-drl-iccpr2026-package,19,8,11,0,Y,Y,Y,N,CONTRADICTED,CONTRADICTED
+12,cd-ieee-package-upstream,21,3,17,1,Y,Y,Y,Y,CONTRADICTED,CONTRADICTED
+13,cd-covert-anomaly-detection,24,22,1,1,Y,Y,Y,Y,CONTRADICTED,PARTIALLY

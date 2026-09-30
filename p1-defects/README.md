@@ -11,6 +11,7 @@ Defect reports from the P1 research-hardening sweep: audit of research packages 
 | [001](DEFECT-001-LEO.md) | `leo-routing-itft2026-package`, `i01-leo-edge-orchestration` | U3 correspondence failure; problem-definition, within-document contradiction, temporal provenance; ablation design not identifiable | Open, nothing corrected |
 | [002](DEFECT-002-CRL.md) | `s01-crl-metacognitive` | Instrument failure — baseline has no causal path from stressor to metric; dormant mechanism; absent stressed mode | Open, nothing corrected |
 | [003](DEFECT-003-QCE.md) | `qce-ieee-package` | Category misattribution — supervised logistic regression labelled RL; "Pareto-optimal" with no referent; QAOA ansatz that is exhaustive enumeration | Open, nothing corrected |
+| [004](DEFECT-004-SGN.md) | `sgn-ieee-package` | Decoder indexing error — `np.unpackbits` dilutes 1 bit/pixel to 8, publishing chance as a result; artifact holds no numbers | Open, nothing corrected |
 
 ## Method
 
@@ -34,4 +35,6 @@ DEFECT-002 adds a third profile, and it is the one that a reproducibility check 
 
 DEFECT-003 adds a fourth: an artifact that is sound, numbers that are real and correctly traced, and a defect located entirely in the vocabulary attached to them — and disclosed rather than concealed. Across four reports the defect has appeared in the function that computes the number, in the instrument that measures it, in the document that describes it, and in the words that name it. Only one of those four is reachable by re-running the code.
 
-**The sweep's own standing conclusion:** reproducibility is not a scientific verdict. It is the weakest of the four layers, and every package in this corpus reproduces.
+**The sweep's own standing conclusion:** reproducibility is not a scientific verdict. Every package in this corpus reproduces, and the five reports locate the defect in five different places: the function that computes the number, the instrument that measures it, the document that describes it, the words that name it, and the decoder that reads it back.
+
+Only the first of those is reachable by re-running the code. A package can be fully reproducible and still have no result worth trusting.

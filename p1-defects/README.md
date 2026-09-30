@@ -10,6 +10,7 @@ Defect reports from the P1 research-hardening sweep: audit of research packages 
 |---|---|---|---|
 | [001](DEFECT-001-LEO.md) | `leo-routing-itft2026-package`, `i01-leo-edge-orchestration` | U3 correspondence failure; problem-definition, within-document contradiction, temporal provenance; ablation design not identifiable | Open, nothing corrected |
 | [002](DEFECT-002-CRL.md) | `s01-crl-metacognitive` | Instrument failure — baseline has no causal path from stressor to metric; dormant mechanism; absent stressed mode | Open, nothing corrected |
+| [003](DEFECT-003-QCE.md) | `qce-ieee-package` | Category misattribution — supervised logistic regression labelled RL; "Pareto-optimal" with no referent; QAOA ansatz that is exhaustive enumeration | Open, nothing corrected |
 
 ## Method
 
@@ -30,3 +31,7 @@ A report is written before any repair. Repairs are designed against the complete
 DEFECT-001 established a controlled contrast: two packages, both reproducible, with opposite failure modes. That is an empirical argument for keeping reproduction and correspondence as independent layers rather than one quality score, and it connects directly to the layered method in `../papers/artifact-to-claim-integrity/`.
 
 DEFECT-002 adds a third profile, and it is the one that a reproducibility check cannot see at all: a package that reproduces perfectly, whose paper correctly refuses to interpret its own result, and whose prescribed next experiment does not exist. Nothing about that is detectable by re-running anything.
+
+DEFECT-003 adds a fourth: an artifact that is sound, numbers that are real and correctly traced, and a defect located entirely in the vocabulary attached to them — and disclosed rather than concealed. Across four reports the defect has appeared in the function that computes the number, in the instrument that measures it, in the document that describes it, and in the words that name it. Only one of those four is reachable by re-running the code.
+
+**The sweep's own standing conclusion:** reproducibility is not a scientific verdict. It is the weakest of the four layers, and every package in this corpus reproduces.

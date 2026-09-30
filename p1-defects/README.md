@@ -13,6 +13,8 @@ Defect reports from the P1 research-hardening sweep: audit of research packages 
 | [003](DEFECT-003-QCE.md) | `qce-ieee-package` | Category misattribution — supervised logistic regression labelled RL; "Pareto-optimal" with no referent; QAOA ansatz that is exhaustive enumeration | Open, nothing corrected |
 | [004](DEFECT-004-SGN.md) | `sgn-ieee-package` | Decoder indexing error — `np.unpackbits` dilutes 1 bit/pixel to 8, publishing chance as a result; artifact holds no numbers | Open, nothing corrected |
 | [005](DEFECT-005-ISAC.md) | `isac-jasc-ieee` | Circular validation — estimation error drawn from the CRLB it validates; Fisher derivation absent; σ² consumed as σ; range-Doppler figure is noise | Open, nothing corrected |
+| [006](DEFECT-006-QUANTUM.md) | `quantum-k-sat-ieee-package` | "Measurement" is a top-10 exact-amplitude oracle; "variational parameters" are random search; the depolarising channel shrinks the norm | Open, nothing corrected |
+| [**SWEEP**](SWEEP-CONSOLIDATION.md) | all 7 rows | Cross-report synthesis; where the defect was located each time | **Sweep closed, no repairs started** |
 
 ## Method
 

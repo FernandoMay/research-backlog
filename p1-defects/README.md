@@ -15,6 +15,13 @@ Defect reports from the P1 research-hardening sweep: audit of research packages 
 | [005](DEFECT-005-ISAC.md) | `isac-jasc-ieee` | Circular validation — estimation error drawn from the CRLB it validates; Fisher derivation absent; σ² consumed as σ; range-Doppler figure is noise | Open, nothing corrected |
 | [006](DEFECT-006-QUANTUM.md) | `quantum-k-sat-ieee-package` | "Measurement" is a top-10 exact-amplitude oracle; "variational parameters" are random search; the depolarising channel shrinks the norm | Open, nothing corrected |
 | [**SWEEP**](SWEEP-CONSOLIDATION.md) | all 7 rows | Cross-report synthesis; where the defect was located each time | **Sweep closed, no repairs started** |
+| [**SPEC**](P1-REPAIR-SPEC-v1.0.md) | all 7 rows | Repair specification: property, pre-fix falsifier, non-criteria per row | **Specification only, no repair begun** |
+
+## Order of work
+
+The sweep is closed and no repair has begun. [`P1-REPAIR-SPEC-v1.0.md`](P1-REPAIR-SPEC-v1.0.md) is the governing document: every repair requires a property specified in advance, a pre-fix falsifier observed failing, an implementation, an independent re-run, a regenerated artifact, and a claim reconciliation. A repair is not validated by producing a different number.
+
+**Acceptance of the specification is a precondition for touching any of the seven packages.**
 
 ## Method
 

@@ -6,37 +6,44 @@ quantitative claim in the manuscript traces to a file on disk, and the figure
 script re-derives the aggregates from the frozen row table and aborts if any
 value disagrees.
 
-**Status: compiled and verified.** 17 pages, three `pdflatex` passes, zero
+**Status: compiled and verified.** 19 pages, three `pdflatex` passes, zero
 errors, zero undefined references, zero undefined citations, zero overfull
-boxes. Six `Underfull \vbox` page-fill warnings and no `Underfull \hbox`: ACM
-`sigconf` runs `\flushbottom`, so these appear wherever a page break leaves
-slack, and none is a line overflowing or a figure mis-sized. Both figures are
-embedded as vector PDF Form XObjects (2 Form XObjects, 0 Image XObjects,
-0 JPEG/DCTDecode streams).
+boxes, zero LaTeX and package warnings. Five `Underfull \vbox` page-fill
+warnings and no `Underfull \hbox`: ACM `sigconf` runs `\flushbottom`, so these
+appear wherever a page break leaves slack, and none is a line overflowing or a
+figure mis-sized. Both figures are embedded as vector PDF Form XObjects
+(2 Form XObjects, 0 Image XObjects, 0 JPEG/DCTDecode streams).
 
 ---
 
 ## Quick path
 
 ```bash
+# Run from the directory holding this README; no absolute path is baked in.
+cd research-papers/artifact-to-claim-integrity
+
 # 1. Verify the figures reproduce from the committed data (read-only, exits 0)
 python3 figures/make_figures.py --verify
 
 # 2. Verify the corpus: aggregates, layer labels, byte-identity, stale strings
-#    (read-only, exits 0; use --root to point at a throwaway tree)
+#    (read-only, exits 0; discovers the corpus root from its own location)
 python3 verify_dataset.py
 
 # 3. Regenerate both figures (rewrites the two PDFs, byte-stable in content)
 python3 figures/make_figures.py
 
 # 4. Compile the manuscript
-cd /Users/fmf/Documents/research-papers/artifact-to-claim-integrity
 /Library/TeX/texbin/pdflatex -interaction=nonstopmode main.tex   # x3
 ```
 
 No third-party Python packages are required. `make_figures.py` is
 standard-library only and emits vector PDF with a built-in base-14 font
 writer, so it runs on any machine with a Python 3 interpreter.
+`verify_dataset.py` is standard-library only too, locates the corpus root by
+walking up from its own path until it finds `security/ARTIFACT-TO-CLAIM-RUBRIC.md`
+and `research-audit/E1-DATASET-v1.0.md`, and exits 1 with a named list of what
+is missing if the rubric is absent. Neither script contains a home-directory
+path, so both are runnable by someone who is not the author.
 
 ---
 
@@ -290,17 +297,20 @@ gradient is `13/13 -> 10/13 -> 1/13 -> 0/13`.
 ## TODO markers
 
 Four literal `TODO(...)` markers remain in `main.tex`. None is estimated or
-filled with a placeholder number.
+filled with a placeholder number. Each is a marker for work that is
+outstanding; the limitation it stands for is also stated in prose, so no reader
+has to infer it from a marker alone.
 
-**1. `TODO(per-row U3 reason code)`** --- Section 5.3, line 779.
+**1. `TODO(per-row U3 reason code)`** --- Section 5.3.
 *Wants:* a frozen assignment of each relation-absent row to a specific absence
 mechanism (constructed-and-discarded / replaced / never-built).
 *Blocked because:* the frozen U3 column is binary. The batch reports
 establish the three mechanisms but do not record which rows they were observed
 in. Resolving it is re-adjudication of 8 rows after the fact, which would
-break the freeze this paper reports against.
+break the freeze this paper reports against. The prose states the count and
+the three mechanisms and explicitly declines the row-by-row mapping.
 
-**2. `TODO(single-granularity re-adjudication)`** --- Section 8.3, line 1208.
+**2. `TODO(single-granularity re-adjudication)`** --- Section 8.3.
 *Wants:* the total claim count and the correct rate at one fixed claim
 granularity across all 13 rows.
 *Blocked because:* requires re-adjudicating all 13 rows under the rubric's U1
@@ -308,7 +318,7 @@ definition and re-freezing the dataset. That is a new corpus version, not a
 correction to this one. It is the single change that would most improve the
 paper's quantitative claims.
 
-**3. `TODO(inter-rater reliability)`** --- Section 8.6, line 1264.
+**3. `TODO(inter-rater reliability)`** --- Section 8.6.
 *Wants:* an agreement coefficient over the four-unit scheme.
 *Blocked because:* each batch had a single evaluator (batch 1 a delegated
 agent, batches 2 and 3 separate agents) and no row was double-coded. A second
@@ -316,14 +326,17 @@ adjudicator would have to re-score a sample from the artifacts without access
 to the first adjudicator's findings. The statistic does not exist in the frozen
 record and cannot be reconstructed from it.
 
-**4. `TODO(novelty assessment)`** --- Section 8.7, line 1286.
+**4. `TODO(novelty assessment)`** --- Section 8.7, and stated first-class in
+Section 1.5.
 *Wants:* a positioning review against published work on artifact evaluation
 and reproducibility measurement, with a comparison table against prior
 taxonomies of artifact-to-claim failure.
 *Blocked because:* requires a literature search, an inclusion criterion, and
 verification of the subject packages' own references. None exists in the
 available material, and inventing citations was prohibited for this series.
-This is the gap a reviewer will press hardest.
+This is the gap a reviewer will press hardest, which is why Section 1.5 now
+states in the introduction that the contribution is a reproducible evaluation
+instrument and a primary dataset rather than a demonstrated advance.
 
 ---
 
@@ -331,10 +344,10 @@ This is the gap a reviewer will press hardest.
 
 | Path | Lines | What it is |
 |---|---:|---|
-| `main.tex` | 1602 | The manuscript. ACM `sigconf`, `review` option, single-column 506.3 pt text block. |
-| `main.pdf` | --- | Compiled output, 17 pages. |
+| `main.tex` | 1822 | The manuscript. ACM `sigconf`, `review` option, single-column 506.3 pt text block. |
+| `main.pdf` | --- | Compiled output, 19 pages. |
 | `README.md` | --- | This file. |
-| `verify_dataset.py` | 762 | Cross-file verification. Recomputes the dataset's aggregates from its rows, asserts the aggregate's layer labels against the rubric, re-rolls the layer counts from the batch reports, and proves the two pushed copies are byte-identical. Exits 1 on any mismatch. |
+| `verify_dataset.py` | 852 | Cross-file verification. Recomputes the dataset's aggregates from its rows, asserts the aggregate's layer labels against the rubric, re-rolls the layer counts from the batch reports, and proves the two pushed copies are byte-identical. Discovers the corpus root from its own location; exits 1 on any mismatch or on a missing required input. |
 | `figures/make_figures.py` | 1007 | Stdlib-only figure generator. Recomputes every derived value and aborts on mismatch. |
 | `figures/data/e1_rows.csv` | 14 | Verbatim transcription of the frozen 13-row table. |
 | `figures/data/failure_classes.csv` | 22 | Transcription of the taxonomy section plus the cross-package findings. |
@@ -364,6 +377,27 @@ happens to draw:
 
 On any failure it prints `CHECK FAILURES:` to stderr, lists each mismatch
 against the frozen record, and exits 1 **without writing either PDF**.
+
+### What those guarantees do not prove
+
+Stated because the README would otherwise let a reader over-read them. The
+script establishes that the **presentation layer cannot silently diverge from
+the frozen dataset**. It does not establish that the frozen dataset is
+scientifically correct, that the underlying simulations are valid models of what
+their manuscripts claim, or that the claims it adjudicates were the claims a
+reader would most want adjudicated. The chain from row data to figure is
+verified; the chain from figure to scientific truth is not, and is not claimed.
+
+The boundary is narrower than the word *generated* suggests. The script reads
+`data/e1_rows.csv` and `data/failure_classes.csv` and compares what it derives
+against constants transcribed from the frozen dataset. It does not read
+`main.tex`. `Table I` is typeset by hand from the same transcription, so the
+script's guarantee runs from the row data to the figures and does not cover
+the typeset table. What covers the typeset table is weaker: `verify_dataset.py`
+reads `main.tex` on every run and rejects it if it carries a pre-correction
+figure or a layer label that disagrees with the rubric. That is a guard
+against known defects, not a cell-by-cell diff. Section 3.8 of the manuscript
+states the same limit.
 
 ## The two arithmetic corrections are printed, not asserted
 
@@ -411,23 +445,24 @@ Toolchain facts that cost time to rediscover:
 
 ## Known defect outside this change's edit scope
 
-`figures/make_figures.py` and `figures/data/e1_rows.csv` still carry the same
-class of label error that this change fixed across the seven files it was
-permitted to edit:
+**None outstanding.** This section previously recorded two live instances of
+the label shift in `figures/make_figures.py` and `figures/data/e1_rows.csv`.
+Both have since been corrected, and the note is kept because a README that
+still claimed a fixed defect was wrong would be its own failure class.
 
-- `make_figures.py` line 629 sets `GRADIENT_LABELS` to include
-  `"L6 consistent"`. Internal consistency is **L7**, so the axis label printed
-  into `fig_layer_gradient.pdf` names the wrong layer.
-- `e1_rows.csv` names its boolean column `l6_internal_supported` and carries a
-  second, correctly named `l7_internal` column holding the recorded verdicts.
-  `derived()` computes `internal_consistency` from the misnamed one. The value
-  is correct; only the name is shifted, which is why no count moves.
+Verified current state:
 
-Neither was changed here, because both sit outside the seven files this change
-was allowed to touch. `verify_dataset.py` scans both and reports the first on
-every run as `[STALE, READ-ONLY]` rather than passing over it silently. The fix
-renames a column and a label constant and regenerates the figure, which is a
-separate change with its own compile and its own page-count check.
+- `make_figures.py` `GRADIENT_LABELS` carries `"L7 consistent"`, and
+  `fig_layer_gradient.pdf` therefore prints `L7 consistent` on the gradient
+  axis. Confirmed by decompressing the figure's content streams: 1 occurrence
+  of `L7`, 0 occurrences of `L6`.
+- `e1_rows.csv` names both of its internal-consistency columns `l7_internal`
+  and `l7_internal_supported`, and `make_figures.py` asserts the two agree, so
+  a future miscount of the recorded column fails the build rather than
+  producing a correct count under a wrong name.
+- `verify_dataset.py` scans both files on every run and reports `[STALE,
+  READ-ONLY]` for any label that disagrees with the rubric. It currently
+  reports none.
 
 ## Publication state
 

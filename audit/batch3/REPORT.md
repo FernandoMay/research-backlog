@@ -1,6 +1,6 @@
 # Audit Report — Batch 3
 
-Rubric: `/Users/fmf/Documents/security/ARTIFACT-TO-CLAIM-RUBRIC.md` v1.0, read in full before any repository was opened.
+Rubric: `../../security/ARTIFACT-TO-CLAIM-RUBRIC.md` v1.0, read in full before any repository was opened.
 
 Scope: two new packages audited, two prior packages re-scored under this rubric.
 Write scope: this directory only. Clones at
@@ -19,7 +19,7 @@ Write scope: this directory only. Clones at
 Scoring notes attached to the table:
 
 - `cd-ieee (upstream paper)` is scored against `cd-ieee-package/figures/metrics.json`. The upstream manuscript is the object of the audit, not the audit itself.
-- `cd-audit (paper layer)` is the manuscript at `/Users/fmf/Documents/research-papers/cd-covert-anomaly-detection/`, scored against its own `data/metrics.json`, `data/stats.json`, `data/recovered_*.json` and against the upstream code. It is scored separately because the brief asks for both layers. Its 24 claims are the audit paper's own assertions, not the 21 upstream claims, and the two row counts are not additive.
+- `cd-audit (paper layer)` is the manuscript at `../../research-papers/cd-covert-anomaly-detection/`, scored against its own `data/metrics.json`, `data/stats.json`, `data/recovered_*.json` and against the upstream code. It is scored separately because the brief asks for both layers. Its 24 claims are the audit paper's own assertions, not the 21 upstream claims, and the two row counts are not additive.
 - The `cd-ieee` row is **21** claims, not the 20 of the earlier tally. Reconciliation: I counted the 41-dimension feature-block arithmetic and the primary-user signal model as separate claims, and I folded the two "true only of a different configuration" claims into CONTRADICTED rather than keeping them as a fourth category. The supported count is 3 either way.
 - `L2 = CONTRADICTED` means executed and the output disagreed with the committed artifact. No package in this batch was UNVERIFIABLE: every one of them ran.
 
@@ -555,7 +555,7 @@ Not PARTIALLY SUPPORTED, and the reason is specific. PARTIALLY SUPPORTED require
 # Package 4: cd-ieee (re-score, Job B) — two layers
 
 **Upstream repo:** `FernandoMay/cd-ieee-package` — `cd_simulator.py` (728 lines), `cd_kernel.c` (392 lines), `paper/en/main.tex`, `paper/zh/main.tex`, `presentation/{en,zh}`, `figures/` (5 figures x 2 formats + `metrics.json`).
-**Paper layer:** `/Users/fmf/Documents/research-papers/cd-covert-anomaly-detection/` — `main.tex` (265 lines), `data/metrics.json`, `data/stats.json`, `data/recovered_roc.json`, `data/recovered_scalability.json`, `scripts/{make_figures,stats,recover}.py`, `upstream/cd_simulator.py`, `EVIDENCE.md`. Read-only throughout; nothing in that directory was modified.
+**Paper layer:** `../../research-papers/cd-covert-anomaly-detection/` — `main.tex` (265 lines), `data/metrics.json`, `data/stats.json`, `data/recovered_roc.json`, `data/recovered_scalability.json`, `scripts/{make_figures,stats,recover}.py`, `upstream/cd_simulator.py`, `EVIDENCE.md`. Read-only throughout; nothing in that directory was modified.
 
 ## Artifact identity, established first (R1)
 
@@ -680,7 +680,7 @@ The paper's positive claim is that anomaly detection is well suited to covert de
 
 ## Layer 4b — the audit manuscript, scored against its own artifacts
 
-`/Users/fmf/Documents/research-papers/cd-covert-anomaly-detection/main.tex`, read-only, alongside `data/metrics.json`, `data/stats.json`, `data/recovered_roc.json`, `data/recovered_scalability.json`, `upstream/cd_simulator.py` and the upstream repo.
+`../../research-papers/cd-covert-anomaly-detection/main.tex`, read-only, alongside `data/metrics.json`, `data/stats.json`, `data/recovered_roc.json`, `data/recovered_scalability.json`, `upstream/cd_simulator.py` and the upstream repo.
 
 ### L1 — SUPPORTED. `data/metrics.json` is byte-identical to the upstream artifact; `data/stats.json`, `data/recovered_roc.json` and `data/recovered_scalability.json` are committed; the generator scripts are committed; six figures have committed generators.
 ### L2 — SUPPORTED. I regenerated the upstream artifact independently and obtained the same SHA-256 `4242d117...`; I recovered the sensor series with the committed code and it matches `data/recovered_scalability.json` to the last digit (0.9502083333333333, 0.6360416666666667, 0.7435416666666667, 0.6989583333333333).

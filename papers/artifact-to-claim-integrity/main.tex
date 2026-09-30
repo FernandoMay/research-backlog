@@ -104,10 +104,8 @@ compares sums against sums and therefore could not have found it.
 \label{sec:intro-not}
 
 A reproducible artifact is one that regenerates its own results. That is a
-real and necessary property, and it is the one most of the recent
-methodological literature has made measurable. It is also, on the evidence we
-report here, a much weaker property than the one a reader of a paper actually
-relies on. A reader wants to know that the number in Table~I is the number the
+real and necessary property. It is also, on the evidence we report here, a
+much weaker property than the one a reader of a paper actually relies on. A reader wants to know that the number in Table~I is the number the
 code produces, that the method described in Section~III is the method the
 artifact implements, and that the conclusion in the abstract follows from the
 result in the body. Those are three different questions. Only the first is a
@@ -178,7 +176,8 @@ The study asks four questions, stated so that each can fail.
 
 Our contributions are four. First, a four-unit analytic model --- claim,
 artifact, relation, package --- in which the relation is the unit the earlier
-layer rubrics lacked, and a demonstration that the two failure classes living
+layer rubric, v1.0 of our own, lacked, and a demonstration that the two
+failure classes living
 in the relation are exactly the ones a reproduction check cannot see. Second,
 a frozen, versioned rubric that fixes the unit of analysis before adjudication
 begins, and a correction log that records four defects in the aggregate layer
@@ -191,6 +190,26 @@ packages, with a per-row audit trail and a claim-granularity limitation
 reported rather than buried. Fourth, a taxonomy of three failure classes with
 worked cases, including a near-positive case that answers the obvious
 objection that a corpus of failures is not evidence of anything.
+
+\subsection{Scope of the contribution}
+\label{sec:intro-scope}
+
+We do not yet establish novelty. We have not performed a systematic
+comparison against prior work in artifact evaluation or computational
+reproducibility assessment, and the four-layer structure proposed here has not
+been compared against existing taxonomies of validation failure. A reviewer
+should treat the contribution as a reproducible evaluation instrument and a
+primary dataset, not as a demonstrated advance over prior methodological work.
+
+That paragraph is not a formality, and it belongs here rather than only in the
+limitations, because a marker in a limitations section is easy to read past.
+Section~\ref{sec:threat-novelty} carries the same statement as a standing
+limitation and keeps the marker for the work that is outstanding. We would
+rather a reviewer reach for the reference list and find it empty than find it
+full of plausible citations to work we did not search, because that second
+outcome is this paper's own third failure class --- semantic correspondence
+failure, in which a structure is named after something it does not contain ---
+applied to the manuscript itself.
 
 % ----------------------------------------------------------------------------
 % 2. CONCEPTUAL MODEL
@@ -251,6 +270,22 @@ Relation failures are not arithmetic errors. They survive reproduction and
 they survive a number check, and they are the failure mode a conventional
 reproducibility benchmark cannot detect by construction.
 
+The unit applies to the evaluation apparatus as well as to the artifacts under
+audit, and our own dataset supplies the demonstration. The aggregate summary
+of this corpus reconciled perfectly against its batch reports --- every count
+matched, every roll-up reproduced --- while asserting that a layer named
+\texttt{L6} measured internal consistency, which the rubric and all three
+primary records place at \texttt{L7}. The same shift had propagated, by transcription, into the figure
+script for this manuscript and into the axis label of
+Figure~\ref{fig:gradient}, which has since been corrected. Every count
+involved was correct throughout.
+Section~\ref{sec:correction} documents it in full.
+We name the scope here because it is the scope that matters for method: a
+relation verdict is owed by every layer that asserts what another layer means,
+and a summary layer is such a layer. An evaluation instrument that adjudicates
+correspondence in thirteen packages and not in its own reporting is applying
+its rubric selectively.
+
 \subsection{U4 --- Package}
 \label{sec:model-package}
 
@@ -305,10 +340,12 @@ the later audit manuscript written about it, scored against its own committed
 data. Same research programme, two artifacts, two verdicts; the earlier rubric
 scored them as one and the correction is recorded in Section~\ref{sec:correction}.
 
-The corpus is a convenience sample of one author's own published packages. We
-do not claim it is a sample of anything, and per rule R5 of the rubric it
-characterises nothing outside itself. Section~\ref{sec:threats} states what
-that costs.
+The corpus is a convenience set --- the published packages of one author that
+were auditable --- rather than a probability sample of a defined population.
+We do not claim it is a sample of anything, and per rule R5 of the rubric it
+characterises nothing outside itself. Section~\ref{sec:threat-corpus} states
+what the author control costs, and Section~\ref{sec:threat-n} states why the
+size of the set licenses no inference at all.
 
 \subsection{Frozen rubric v1.1}
 \label{sec:method-rubric}
@@ -451,6 +488,41 @@ explicitly in every package and its \emph{absence} was recorded where the
 absence held, because a hazard checklist that only produces hits is not a
 check.
 
+\subsection{What the generated figures prove, and what they do not}
+\label{sec:method-figures}
+
+Both figures in this paper are produced by a committed script that recomputes
+every derived value it draws and aborts with a non-zero exit, writing neither
+file, if any recomputed value disagrees with the frozen record. The gradient in
+Figure~\ref{fig:gradient} and every row of Table~\ref{tab:metrics} are
+therefore not hand-transcribed: if the transcription and the frozen dataset
+diverged, the build would fail rather than print a number.
+
+That guarantee has a definite shape, and stating its boundary is part of the
+method rather than an apology for it. The script demonstrates that the
+\emph{presentation layer cannot silently diverge from the frozen dataset}. It
+does not demonstrate that the frozen dataset is scientifically correct, that
+the simulations underlying the thirteen packages are valid models of what
+their manuscripts claim to simulate, or that the claims it adjudicates were
+the claims a reader would most want adjudicated. Those are judgements made by
+the rubric and by the evaluator, and they are exactly the judgements a script
+cannot audit. The chain of provenance from the row data to the printed figure
+is verified; the chain from the printed figure to scientific truth is not, and
+is not claimed.
+
+The boundary is narrower than the word \emph{generated} invites a reader to
+assume, so we name it rather than leave it implied. The script reads the row
+table committed beside it and compares what it derives against constants
+transcribed from the frozen dataset. It does not read this manuscript.
+Table~\ref{tab:rows} is typeset by hand from that same transcription, so the
+script's guarantee runs from the row data to the figures and does not cover
+the typeset table. What covers the typeset table is a weaker instrument and we
+name it as weaker: the cross-file scan in \texttt{verify\_dataset.py} reads
+this manuscript on every run and rejects it if it carries a pre-correction
+figure or a layer label that disagrees with the rubric. That is a guard
+against the defects we know about and not a cell-by-cell diff, and a reviewer
+should read it as such.
+
 % ----------------------------------------------------------------------------
 % 4. DATASET
 % ----------------------------------------------------------------------------
@@ -462,8 +534,9 @@ check.
 
 Table~\ref{tab:rows} is the frozen row table of the dataset of record. It is
 reproduced verbatim, and every aggregate in Section~\ref{sec:results} is
-recomputed from it by the committed figure script, which aborts on
-disagreement.
+recomputed from the same row data by the committed figure script, which aborts
+on disagreement. Section~\ref{sec:method-figures} states exactly how far that
+guarantee reaches.
 
 \begin{table}[t]
 \centering
@@ -550,6 +623,19 @@ A paper on integrity cannot ship a dataset whose own summary fails an
 arithmetic check, so the correction record is part of the dataset rather than
 an appendix to it. The dataset was frozen on 2026-09-29, before any drafting.
 
+Four defects were found in the aggregation layer of this study's own dataset,
+across three entries of its correction log. Three were arithmetic and one was
+not, and the division is the result rather than an incidental detail. The
+three arithmetic defects were all found by one procedure --- reconcile the
+summary block against the thirteen per-package rows --- and that procedure is
+now part of the method. The fourth was a semantic correspondence failure inside
+the evaluation apparatus: every count in the summary was correct, and every
+label attached to those counts was attached to the wrong layer. We present the
+arithmetic three first and briefly, and the fourth at length, because the
+arithmetic ones constrain nothing. The same check finds them every time and
+will find them again; the fourth is the one that changed what the method has
+to check.
+
 \textbf{The pre-freeze aggregate error.} The first draft of the
 derived-metrics block stated $315$ claims adjudicated, $94$ contradicted, and
 ``83\% of adjudicated claims hold''. Machine verification of the thirteen rows
@@ -579,22 +665,53 @@ first by hand before the freeze and these two mechanically after it, which is
 why the two errors are of different kinds: a wrong summation and a miscount of
 a column that a summation would not have touched.
 
-\textbf{A third instance, and a limit of the procedure.} The aggregate report
-for this corpus was corrected for the first time only after the manuscript's
-figures were derived, and the defect was not arithmetic at all. Its headline
-table labelled its rows \texttt{L3 --- Figure}, \texttt{L4 --- Method},
-\texttt{L5 --- Selection}, \texttt{L6 --- Internal consistency} and
-\texttt{L7 --- Verdict}. Rubric~v1.0 fixes those names as \texttt{L4 ---
-Figure}, \texttt{L5 --- Method}, \texttt{L6 --- Selection}, \texttt{L7 ---
-Internal consistency} and \texttt{L8 --- Verdict}, and all three batch reports
-score their rows under exactly that mapping. Every label from L3 upward was
-shifted by one and \emph{every count was correct}: 13/13, 10/13, 6/13 figure,
-3/13 method, 7/13 selection, 1/13 internal consistency, 0/13 verdict.
-Re-rolling the thirteen rows against the batch reports' own layer columns
-reproduces all seven counts exactly, so nothing in the arithmetic moved. The
-same file's prose contradicted its own table: it states elsewhere that one
-package is \texttt{SUPPORTED} at L4 on four figures with committed generators,
-which is L4 = Figure under the rubric and not what the table's L4 row said.
+\textbf{The fourth defect, and the one the procedure could not have found.}
+The aggregate report for this corpus was corrected for the first time only
+after the manuscript's figures were derived, and the defect was not arithmetic
+at all. Its headline table labelled its rows \texttt{L3 --- Figure},
+\texttt{L4 --- Method}, \texttt{L5 --- Selection}, \texttt{L6 --- Internal
+consistency} and \texttt{L7 --- Verdict}. Rubric~v1.0 fixes those names as
+\texttt{L4 --- Figure}, \texttt{L5 --- Method}, \texttt{L6 --- Selection},
+\texttt{L7 --- Internal consistency} and \texttt{L8 --- Verdict}, and all three
+batch reports score their rows under exactly that mapping. Every label from L3
+upward was shifted by one and \emph{every count was correct}: 13/13, 10/13,
+6/13 figure, 3/13 method, 7/13 selection, 1/13 internal consistency, 0/13
+verdict. Re-rolling the thirteen rows against the batch reports' own layer
+columns reproduces all seven counts exactly, so nothing in the arithmetic
+moved. The same file's prose contradicted its own table: it states elsewhere
+that one package is \texttt{SUPPORTED} at L4 on four figures with committed
+generators, which is L4 = Figure under the rubric and not what the table's L4
+row said.
+
+\begin{figure}[t]
+\centering
+\caption{The two checks that can be applied to the aggregate, and the verdicts
+they returned on the same file. Reconciliation verifies the counts and passes.
+Correspondence verification verifies the names those counts are attached to
+and fails. The two checks are independent, and only one of them is a check a
+conventional reproducibility pipeline performs.}
+\label{fig:apparatus}
+\small
+\begin{verbatim}
+  batch reports
+      |
+      v
+  aggregate
+      |
+      +-- arithmetic consistency ----> PASS
+      |
+      +-- semantic correspondence --> FAIL
+\end{verbatim}
+\end{figure}
+
+The shape of that figure is the whole argument. The aggregate sits between its
+primary records and the reader, and it was checked against its primary records
+in the one respect a reproduction check is built to verify --- do the numbers
+add up --- and it passed. What failed was the other direction: does the
+summary mean what it says it means. A row-level reconciliation can verify
+$\texttt{sums} = \texttt{sums}$ perfectly while the labels stay shifted by
+one, because the counts are attached to a layer name and the layer name is the
+thing that was wrong. The counts were all correct. The meaning was not.
 
 This is recorded in the dataset's correction log as a third entry, and the
 aggregate file was already public when the defect was found, so the correction
@@ -603,27 +720,43 @@ same class were corrected alongside it, both naming errors in the frozen
 dataset itself: its derived-metrics block labelled the internal-consistency
 line L6, and its cross-batch comparability section described the pooled claim
 figures as the pre-correction $315$ / $263$ / $94$ / $17$ rather than the
-corrected $375$ / $263$ / $95$ / $17$ appearing above it.
+corrected $375$ / $263$ / $95$ / $17$ appearing above it. The same shift had
+also propagated, by transcription, into this manuscript's own figure script,
+where it had reached the axis label printed in
+Figure~\ref{fig:gradient}. The label constant is corrected, the axis label now
+reads L7, and the figure has been regenerated. The counts were never in
+question at any point in that chain; only the name was.
 
-The methodological consequence is sharper than the count of instances. The
-procedure that caught the first three defects compares sums against sums, and
-a label shift is invisible to it: it reconciles perfectly while naming the
-wrong layer. Detecting it required a different check --- parse the layer labels
-in the aggregate and assert that the L1--L8 sequence matches the rubric's names
-in order --- and that assertion is now part of this manuscript's verification
-script, where it is the check that fails if the shift is reintroduced. The
-stricter claim is therefore not that a summary must be arithmetically correct.
-It is that a summary must be checked against the instrument it claims to
-summarise, and a check that only verifies arithmetic verifies half of it.
+The methodological consequence is sharper than the count of instances, and it
+is the reason this defect rather than the other three is the one this section
+leads with. The procedure that caught the first three defects compares sums
+against sums, and a label shift is invisible to it: it reconciles perfectly
+while naming the wrong layer. Detecting it required a different check --- parse
+the layer labels in the aggregate and assert that the L1--L8 sequence matches
+the rubric's names in order --- and that assertion is now part of this
+manuscript's verification script, where it is the check that fails if the
+shift is reintroduced. The stricter claim is therefore not that a summary must
+be arithmetically correct. It is that a summary must be checked against the
+instrument it claims to summarise, and a check that only verifies arithmetic
+verifies half of it.
+
+Read through the units of Section~\ref{sec:model}, the fourth defect is a
+failure of the relation unit and of nothing else: the aggregate existed, was
+derived from records that reproduce, and its relation to the instrument whose
+measurements it reported was broken while its arithmetic held perfectly.
+Section~\ref{sec:tax-apparatus} argues why we treat it as an instance of a
+class already in the taxonomy rather than as a class of its own.
 
 \begin{table}[t]
 \centering
-\caption{Two arithmetic errors in the frozen dataset's derived-metrics block,
-caught by row-level reconciliation against the thirteen per-package rows. The
-row table was correct throughout; the summary block was not. Both corrections
-are recorded in the dataset's correction log, as is a third entry recording a
-layer-label shift in which no count was wrong and which row-level
-reconciliation therefore could not have found.}
+\caption{The two arithmetic corrections, both caught by row-level reconciliation
+against the thirteen per-package rows. The row table was correct throughout;
+the summary block was not. Both are recorded in the dataset's correction log.
+The log's third entry --- the layer-label shift --- has no row in this table
+because it has no arithmetic content: every count in it was already correct
+and only the layer names were wrong, which is why row-level reconciliation
+reconciled it and passed. It is written up in
+Section~\ref{sec:correction} and drawn in Figure~\ref{fig:apparatus}.}
 \label{tab:recon}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -699,8 +832,9 @@ signature of a procedure that was applied rather than performed.
 \label{sec:results}
 
 Table~\ref{tab:metrics} gives the derived metrics, each with its own
-denominator. Every row of that table is recomputed from Table~\ref{tab:rows}
-by \texttt{figures/make\_figures.py}, which exits non-zero and writes nothing
+denominator. Every row of that table is recomputed from the same row data as
+Table~\ref{tab:rows} by \texttt{figures/make\_figures.py}, which exits
+non-zero and writes nothing
 if any recomputed value disagrees with the frozen record. The gradient of
 Figure~\ref{fig:gradient} is the same computation rendered.
 
@@ -925,7 +1059,10 @@ The gap decomposes into three classes. We present them as a taxonomy of
 relations between computational evidence and scientific assertion, not as a
 list of bugs, because each class has a distinct signature in the units of
 Section~\ref{sec:model} and a distinct detection requirement.
-Figure~\ref{fig:classes} renders the signatures.
+Figure~\ref{fig:classes} renders the signatures. One further instance of this
+taxonomy occurred inside our own apparatus rather than inside a corpus package;
+we develop it in Section~\ref{sec:tax-apparatus} and explain there why we
+classify it as an instance of the third class rather than as a fourth one.
 
 \begin{figure}[t]
 \centering
@@ -1071,6 +1208,60 @@ reproduces the artifact in twenty of twenty cells, its published negative
 result is stated correctly in its own results section, and it is the only
 package in the corpus to report that its proposed method underperforms its own
 baseline.
+
+The naming is intact in every case in this class, and that is what makes the
+class coherent. A correspondence failure is not a missing mechanism; it is a
+present vocabulary attached to an absent or different referent. The defect in
+this study's own aggregate layer has exactly that shape: every name was intact,
+every count was correct, and the referent each name attached to was the wrong
+layer. The next subsection treats it.
+
+\subsection{Why the aggregation defect is not a fourth class}
+\label{sec:tax-apparatus}
+
+The layer-label shift documented in Section~\ref{sec:correction} is the most
+consequential single defect this series produced, it is the cleanest available
+demonstration that aggregation integrity is not reducible to internal
+arithmetic consistency, and it is tempting to promote it to a fourth entry in
+the taxonomy. We have not, and the reason is worth stating because the
+taxonomy is the paper's contribution and the temptation points at the paper's
+own thesis.
+
+The aggregate asserted that a layer named \texttt{L6} measured internal
+consistency when the rubric and the primary records call that layer
+\texttt{L7}. The counts were all correct; the meaning was not. That is the
+definition of the third class, applied at a different location in the chain:
+an artifact exists, is derived from records that reproduce, and implements a
+different referent from the one it names. The class is defined by a structural
+relation between a name and a referent, not by where in the chain the name
+lives, and on that definition the aggregate instance is a subtype of semantic
+correspondence failure rather than a sibling of it. Promoting a subtype to a
+sibling is the step at which a taxonomy becomes a list, and three reasons
+concrete to this study make the promotion actively wrong.
+
+First, provenance. The three classes are transcribed from the frozen dataset
+of record, and each has an exemplar with a committed artifact behind it. The
+aggregate defect has no exemplar in that sense: it was found in the
+instrument, not in a corpus package, and asserting it as a peer class would
+require a definition the frozen record does not contain. Second, scope. This
+paper claims the three classes are exhaustive over the thirteen rows in which
+they were found, and Section~\ref{sec:threat-domain} states that scope
+explicitly. The fourth instance was not found in the thirteen rows, so
+extending the taxonomy would silently widen the claim from a corpus finding to
+a general one --- which is precisely the extrapolation rule R5 exists to
+forbid. Third, and decisively for a taxonomy whose stated value is that each
+class carries a distinct detection requirement: the label shift does not
+require a new kind of check. It requires the same check the third class
+already demands, applied one level up --- establish what the code does against
+what the text says, and here, what the summary does against what the instrument
+defines. Two checks differing in where they are pointed is one method.
+
+What the instance does earn is a place in the argument rather than in the
+taxonomy, and we give it one. It is the only case in this series in which
+correspondence failed inside the evaluation apparatus while arithmetic held
+perfectly, which makes it the sharpest available answer to the objection that
+a taxonomy of relation failures is a distinction without a difference. The
+apparatus is not exempt from the apparatus's own rubric.
 
 % ----------------------------------------------------------------------------
 % 7. CASE STUDIES
@@ -1251,24 +1442,47 @@ flattering one. Nothing in this paper is a prevalence estimate, and no
 percentage here should be read as describing packages outside the audited
 rows.
 
-\subsection{Small corpus}
+\subsection{Corpus size, and why no inference is licensed}
 \label{sec:threat-n}
 
 The corpus is thirteen scored rows over twelve distinct packages, drawn from
-one author. We report no interval estimate, no significance test and no
-effect size for any aggregate, because with $n = 13$ over a convenience sample
-none would be meaningful, and computing one would imply a sampling model we
-do not have. A single re-classification moves any package-level rate by roughly
-eight points. The categorical results are robust to that in the sense that the
-headline figures --- zero of thirteen \texttt{SUPPORTED}, thirteen of thirteen
-containing a contradicted claim --- have margin; the intermediate counts do
-not. That sensitivity is not hypothetical here: the intermediate counts are
-exactly the ones the aggregation layer got wrong, on more than one occasion,
-and a further defect was in the names attached to those counts rather than in
-the counts themselves, which is why the correction log of
-Section~\ref{sec:correction} treats a reconciliation step as part of the
-method rather than as a final proofread, and why reconciling against the rows
-is not on its own a sufficient check on a summary layer.
+one author. The absence of any inferential claim here is not a statistical
+power shortfall awaiting more data, and we do not frame it as one. There is no
+power problem to remedy, because the corpus was not constructed as a
+probabilistic sample of any defined population. It is the set of thirteen
+research packages that exist and that were selected because they were
+auditable. No population was defined, no sampling frame exists, and no
+randomisation occurred. An interval estimate, a significance test or an effect
+size would each presuppose a sampling model in which these thirteen rows are
+realisations of a random draw from a superpopulation, and this study has no
+such model and cannot acquire one by auditing more packages under the same
+design. A fourteenth row would be a fourteenth adjudicated case, not a
+fourteenth draw. The correct statement is that \emph{no amount of additional
+data from this design would license this inference}.
+
+Two distinct things follow, and conflating them is how a design limitation
+comes to be misreported as a data limitation. The first is that no
+inferential claim is made, because the design does not license one; that is a
+property of the design and is not contingent on how much data the design
+produces. The second is that the two headline figures have margin on grounds
+that have nothing to do with sampling. $13$ of $13$ and $0$ of $13$ are
+saturated counts: the first is a tally over the audited set and the second is
+the rubric's own verdict rule applied to every row, so no plausible
+reclassification moves either. The intermediate counts --- ten of thirteen
+reproducing, one of thirteen internally consistent, eight of thirteen with an
+absent relation --- are likewise exact tallies of the frozen rows. They are
+reported descriptively, they carry no sampling error, and they should not be
+read as estimates of anything. A reclassification moves them by construction
+rather than by sampling, which is a different objection and the one
+Section~\ref{sec:correction} answers.
+
+That the intermediate counts are the fragile ones is not hypothetical here:
+they are exactly the counts the aggregation layer got wrong, on more than one
+occasion, and on a third occasion the defect lay in the names attached to
+those counts rather than in the counts themselves. This is why the correction
+log of Section~\ref{sec:correction} treats a reconciliation step as part of
+the method rather than as a final proofread, and why reconciling against the
+rows is not on its own a sufficient check on a summary layer.
 
 \subsection{Mixed claim granularity}
 \label{sec:threat-gran}
@@ -1359,6 +1573,8 @@ has been proposed before, whether the three failure classes have been named,
 or whether the same result has been reported on a different corpus. A reviewer
 should treat the novelty of the contribution as open, and the authors accept
 that a reviewer who performs the search we did not may find prior art.
+Section~\ref{sec:intro-scope} states this as a first-class limitation in the
+introduction rather than leaving it to this subsection alone.
 
 \textbf{TODO(novelty assessment): a positioning review against published work
 on artifact evaluation and reproducibility measurement.} This requires a
@@ -1585,8 +1801,12 @@ against the instrument it summarises, not only against itself.
 
 Four limitations are load-bearing and are stated as such. The corpus is
 author-controlled, which is a weakness for any prevalence claim and the only
-way to attribute mechanism. The corpus is thirteen rows, so no interval
-estimate is offered and none would be meaningful. The claim-level figures pool
+way to attribute mechanism. The corpus is thirteen rows and is not a
+probability sample of any defined population, so no interval estimate is
+offered --- not because thirteen rows are too few to support one, but because
+the design licenses none and more rows of the same kind would not change that;
+the two saturated counts the paper rests on do not depend on the argument.
+The claim-level figures pool
 two granularities and are not comparable to any single-batch figure. And no
 novelty assessment against prior work in reproducibility methodology has been
 performed, because neither this manuscript nor the two earlier papers in the

@@ -7,6 +7,9 @@ first and must never be found by hand again.
 
 Checks
 ------
+A0  Read the canonical L1-L8 layer table out of the rubric. Every other layer
+    assertion is relative to this, so it is the source of truth and the reason
+    a missing rubric is a hard failure rather than a skipped check.
 A1  Recompute the verdict distribution and the internal-consistency count from
     the thirteen-row table in E1-DATASET-v1.0.md and assert they equal the
     derived-metrics block.
@@ -30,7 +33,11 @@ outside a recognised correction record.
 Usage
 -----
     python3 verify_dataset.py
-    python3 verify_dataset.py --root /path/to/Documents   # for throwaway trees
+    python3 verify_dataset.py --root /path/to/corpus/tree   # throwaway trees
+
+The corpus root is discovered from this script's own location, so no absolute
+path is baked in and the script runs from any checkout at any depth. Pass
+--root only to point at a throwaway copy of the tree.
 """
 
 from __future__ import annotations
@@ -46,7 +53,7 @@ import sys
 # Locations
 # --------------------------------------------------------------------------
 
-DEFAULT_ROOT = pathlib.Path("/Users/fmf/Documents")
+HERE = pathlib.Path(__file__).resolve().parent
 
 EMDASH = "\u2014"
 ENDASH = "\u2013"
@@ -62,6 +69,63 @@ PUSH_DAT_RELPATH = "research-backlog-repo/audit/E1-DATASET-v1.0.md"
 PUSH_README_RELPATH = "research-backlog-repo/audit/README.md"
 TEX_RELPATH = "research-papers/artifact-to-claim-integrity/main.tex"
 PAPER_README_RELPATH = "research-papers/artifact-to-claim-integrity/README.md"
+
+# Files without which the run would be vacuous or would crash on a raw
+# FileNotFoundError. Checked up front so a missing rubric is reported as a
+# missing rubric and not as a traceback from the middle of a parser.
+REQUIRED_RELPATHS = [
+    RUBRIC_RELPATH,
+    DATASET_RELPATH,
+    AGGREGATE_RELPATH,
+    BATCH1_RELPATH,
+    BATCH2_RELPATH,
+    BATCH3_RELPATH,
+]
+
+# Two of the six are enough to identify the tree unambiguously: the rubric and
+# the frozen dataset sit in different top-level directories.
+ROOT_MARKERS = (RUBRIC_RELPATH, DATASET_RELPATH)
+
+
+def discover_root() -> pathlib.Path:
+    """Locate the corpus root by walking up from this script.
+
+    This script ships inside the tree it verifies, so its own position is the
+    only anchor it needs. Nothing here depends on the tree being called
+    ``Documents`` or on living at any particular depth.
+    """
+    for parent in HERE.parents:
+        if all((parent / marker).is_file() for marker in ROOT_MARKERS):
+            return parent
+    searched = "\n  ".join(str(p) for p in HERE.parents) or str(HERE)
+    raise SystemExit(
+        "verify_dataset.py: cannot locate the corpus root.\n"
+        f"Looked for all of {list(ROOT_MARKERS)} in:\n  {searched}\n"
+        "Run this script from a checkout of the corpus tree, or pass "
+        "--root /path/to/corpus/tree."
+    )
+
+
+def require_inputs(root: pathlib.Path) -> pathlib.Path:
+    """Fail with the complete list of missing inputs, not the first one."""
+    missing = [relpath for relpath in REQUIRED_RELPATHS
+               if not (root / relpath).is_file()]
+    if not missing:
+        return root / RUBRIC_RELPATH
+    listing = "\n  ".join(f"{relpath}  (expected at {root / relpath})"
+                          for relpath in missing)
+    raise SystemExit(
+        f"verify_dataset.py: {len(missing)} required input(s) not found "
+        f"under {root}:\n  {listing}\n"
+        f"The rubric at {RUBRIC_RELPATH} is the file every layer assertion in "
+        "this script is parsed from. Without it there is no source of truth "
+        "for the L-number of any layer, so A0 and A3 cannot run and the "
+        "remaining checks would be vacuous. Check --root, or restore the "
+        "file."
+    )
+
+
+DEFAULT_ROOT = discover_root()
 
 # The seven files this change is permitted to touch, in report order.
 SEVEN_RELPATHS = [
@@ -424,10 +488,11 @@ def parse_aggregate_counts(path: pathlib.Path) -> dict[int, int]:
 # A5 -- pushed copies
 # --------------------------------------------------------------------------
 
-def compare_copies(local: pathlib.Path, pushed: pathlib.Path, label: str) -> None:
+def compare_copies(local: pathlib.Path, pushed: pathlib.Path, label: str,
+                   root: pathlib.Path) -> None:
     for path in (local, pushed):
         if not path.exists():
-            fail("A5", f"{label}: {rel(DEFAULT_ROOT, path)} does not exist")
+            fail("A5", f"{label}: {rel(root, path)} does not exist")
             return
     lb, pb = local.read_bytes(), pushed.read_bytes()
     lsha, psha = hashlib.sha256(lb).hexdigest(), hashlib.sha256(pb).hexdigest()
@@ -439,8 +504,8 @@ def compare_copies(local: pathlib.Path, pushed: pathlib.Path, label: str) -> Non
 
     print(f"  {label}")
     print(f"    cmp      : {'identical' if cmp_ok else 'DIFFER -> ' + proc.stdout.strip()}")
-    print(f"    local    : {lsha}  {rel(DEFAULT_ROOT, local)}")
-    print(f"    pushed   : {psha}  {rel(DEFAULT_ROOT, pushed)}")
+    print(f"    local    : {lsha}  {rel(root, local)}")
+    print(f"    pushed   : {psha}  {rel(root, pushed)}")
     print(f"    sha-256  : {'match' if sha_ok else 'MISMATCH'}")
 
     if not cmp_ok:
@@ -588,16 +653,20 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", type=pathlib.Path, default=DEFAULT_ROOT,
-                    help="Documents root (default: %s)" % DEFAULT_ROOT)
+                    help="corpus root (default: discovered from this "
+                         "script's location, %s)" % DEFAULT_ROOT)
     args = ap.parse_args()
     root: pathlib.Path = args.root.resolve()
 
     print("E1 dataset verification")
+    print("script: %s" % HERE)
     print("root: %s" % root)
+
+    rubric_path = require_inputs(root)
 
     # ---- A0 -------------------------------------------------------------
     section("A0  canonical layer table, read from the rubric")
-    rubric = load_rubric_layers(root / RUBRIC_RELPATH)
+    rubric = load_rubric_layers(rubric_path)
     for name in sorted(rubric, key=lambda n: rubric[n]):
         print(f"  L{rubric[name]} {name}")
     if len(rubric) != 8:
@@ -734,8 +803,8 @@ def main() -> int:
 
     # ---- A5 -------------------------------------------------------------
     section("A5  pushed copies byte-identical to local originals")
-    compare_copies(dataset, root / PUSH_DAT_RELPATH, "E1-DATASET-v1.0.md")
-    compare_copies(aggregate, root / PUSH_AGG_RELPATH, "E1-AGGREGATE.md")
+    compare_copies(dataset, root / PUSH_DAT_RELPATH, "E1-DATASET-v1.0.md", root)
+    compare_copies(aggregate, root / PUSH_AGG_RELPATH, "E1-AGGREGATE.md", root)
 
     # ---- A6 -------------------------------------------------------------
     section("A6  stale-string and stale-label audit")

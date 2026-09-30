@@ -44,10 +44,10 @@ U2 artifact reproduces                       10    (10/13)
 U3 relation broken by contradiction          13    (13/13)
 U3 relation absent                            8    ( 8/13)
 
-L6 internal consistency                       2    ( 2/13)
+L7 internal consistency                       1    ( 1/13)
 U4 package verdict SUPPORTED                  0    ( 0/13)
-U4 package verdict PARTIALLY SUPPORTED        7    ( 7/13)
-U4 package verdict CONTRADICTED               6    ( 6/13)
+U4 package verdict PARTIALLY SUPPORTED        8    ( 8/13)
+U4 package verdict CONTRADICTED               5    ( 5/13)
 
 Packages containing >= 1 CONTRADICTED claim  13    (13/13)
 Packages containing >= 1 UNSUPPORTED claim     8    ( 8/13)
@@ -57,7 +57,7 @@ Packages containing >= 1 UNSUPPORTED claim     8    ( 8/13)
 
 A pre-freeze draft summary stated that "12 of 13 packages have claims contradicted by their own artifacts." That figure was wrong in both directions of its construction and is superseded.
 
-- **Package verdict is CONTRADICTED: 6/13.** A verdict is a judgement about the whole.
+- **Package verdict is CONTRADICTED: 5/13.** A verdict is a judgement about the whole.
 - **Package contains at least one contradicted claim: 13/13.** Every package in the set contains at least one falsified claim.
 
 The second is the stronger statement and the more damaging one, and it holds even for the one package that is `SUPPORTED` on layers L1-L6: the `cd` audit manuscript holds 22 of 24 claims and its single contradicted claim is a sample-standard-deviation estimator disclosure (its Table I says n−1, its own `data/stats.json` carries both estimators, and the printed values are `ddof=0`).
@@ -68,7 +68,7 @@ Reporting the verdict distribution without also reporting the `13/13` would unde
 
 The per-claim rates in rows 1-8 (batches 1 and 2) and rows 9-13 (batch 3) were produced at **different claim granularities**. Batch 3 split compound sentences into separate atomic claims, yielding 34.6% against batches 1-2's 78.9%. This is a difference in counting convention, not in package quality, and the batch 3 auditor flagged it unprompted.
 
-**The pooled `315 / 263 / 94 / 17` figures above are therefore an aggregate across two conventions and must be reported as such.** A future round should fix claim granularity in the rubric before adjudication begins, which v1.1's U1 definition is intended to do for any second corpus.
+**The pooled `375 / 263 / 95 / 17` figures above are therefore an aggregate across two conventions and must be reported as such.** A future round should fix claim granularity in the rubric before adjudication begins, which v1.1's U1 definition is intended to do for any second corpus.
 
 The layer and package verdicts are categorical and remain comparable across batches. They are the defensible result. The claim rates are indicative.
 
@@ -77,7 +77,7 @@ The layer and package verdicts are categorical and remain comparable across batc
 ```
 artifact exists                13/13   100%
 artifact reproduces            10/13    77%
-internal consistency            2/13    15%
+internal consistency            1/13     8%
 package survives whole          0/13     0%
 ```
 
@@ -88,6 +88,23 @@ The gradient is monotone and survives the unit correction. Correct numerical out
 Recorded because a paper on integrity cannot ship a dataset whose own summary fails an arithmetic check.
 
 **2026-09-29, pre-freeze.** The first draft of the derived-metrics block stated `315` claims adjudicated, `94` contradicted, and "83% of adjudicated claims hold". Machine verification of the thirteen rows gives `375` adjudicated, `95` contradicted, `70.1%` correct. The error was in the summary block only; every row total in the table above was correct and each row sums correctly. Caught by hand-check against the rows before any citation. Corrected in place; the pre-correction values are not quoted anywhere in this series.
+
+**2026-09-30, post-freeze.** Two further figures in the same derived-metrics block were wrong, and both were caught by the same procedure: a row-level reconciliation that sums the thirteen per-package rows and compares the sum against the summary block. Neither touched a row. The row table, every per-package row total and every per-claim figure were correct before this correction and are correct after it; the failures were entirely in the aggregation layer, which is the layer this dataset exists to audit in the artifacts.
+
+1. **Verdict distribution.** The block recorded `0` SUPPORTED, `7` PARTIALLY SUPPORTED, `6` CONTRADICTED. The roll-up is `0 / 8 / 5`. The error is an arithmetic slip in the hand-written roll-up: batch 1 gives three `PARTIALLY` and one `CONTRADICTED`, batch 2 gives four `PARTIALLY`, batch 3 gives one `PARTIALLY` and four `CONTRADICTED`, which is eight and five, not seven and six. All three batch reports agree with the rows on this point. Corrected to `0 / 8 / 5`.
+2. **Internal consistency (L7).** The block recorded `2` of `13`. The roll-up of the recorded internal-consistency column is `1` of `13`: only `sc-ieee-package` (row 4) carries `SUPPORTED` in it. This is a miscount, not a summation error, and the draft's own working is visible in the paper that reported it: `cd`'s audit manuscript (row 13) was counted on the basis of its layer stack placing L1-L6 at `SUPPORTED`, but its recorded verdict in this column is `CONTRADICTED`, and that is the column in question. The contradiction is a sample-standard-deviation disclosure: Table I states n−1, the package's own `data/stats.json` carries both estimators, and the printed values are `ddof=0`. Corrected to `1` of `13`.
+
+Neither correction changes the central result; both make it steeper, because a lower internal-consistency rate is a stronger claim about the corpus than a higher one. The gradient now reads `13/13` exists, `10/13` reproduces, `1/13` internally consistent, `0/13` surviving whole. The central claim, the three failure classes and all mechanism evidence in the batch reports are unaffected, and no batch report is amended: the reports were right and the summary was wrong.
+
+**2026-09-30, post-publication.** A third defect was found in the aggregation layer after the two above, and it is of a different kind from both: **the counts were never wrong.** It is a layer-*label* shift, and it is recorded here because a count that reconciles perfectly can still be attached to the wrong layer.
+
+1. **`E1-AGGREGATE.md`, headline table.** The table labelled its rows `L3 — Figure`, `L4 — Method`, `L5 — Selection`, `L6 — Internal consistency`, `L7 — Verdict: SUPPORTED`. `ARTIFACT-TO-CLAIM-RUBRIC.md` v1.0 fixes those names as `L4 — Figure`, `L5 — Method`, `L6 — Selection`, `L7 — Internal consistency`, `L8 — Verdict`, and all three batch reports score their rows under exactly that mapping, using the table header `L1 | L2 | L3 total | L3 supported | L3 contradicted | L3 unsupported | L4 | L5 | L6 | L7 | L8`. Every label from L3 upward in the aggregate was therefore off by one, and every count was correct: 13/13, 10/13, 6/13 figure, 3/13 method, 7/13 selection, 1/13 internal consistency, 0/13 verdict. Re-rolling the thirteen rows against the batch reports' layer columns reproduces all seven counts exactly, so the numbers were sound and only the labels moved. The same file's own prose contradicted its own table: it states elsewhere that `h266` is `SUPPORTED` at L4 on four figures with committed generators, which is L4 = Figure under the rubric and not what the table's L4 row said. Corrected in place; no count was altered.
+2. **This file, derived-metrics block.** The block labelled the internal-consistency line `L6 internal consistency` and the second correction above was headed `Internal consistency (L6)`. Internal consistency is L7. The row table in this file already used `L7 internal`, so the block and the table disagreed about the name of the same column while agreeing about its value. Corrected in place.
+3. **This file, cross-batch comparability section.** That section described the pooled figures as `315 / 263 / 94 / 17`. The pooled figures above it are `375 / 263 / 95 / 17`; `315` and `94` are the pre-correction values that the first entry above states are not quoted in this series. The section was describing a pool that no longer exists in the file. Corrected in place.
+
+The third and fourth of these could not have been caught by the row-level reconciliation that caught the first two, because reconciliation compares sums against sums and these are naming errors. They were caught by a different check: parse the aggregate's layer labels and assert that the sequence matches the rubric's names in order. That check is now part of the manuscript's verification script, and it is the assertion that fails if the shift is reintroduced.
+
+Because `E1-AGGREGATE.md` was already public when this was found, the correction is post-publication and cannot be made silently: the file is corrected, and this entry is the record. Nothing in the central result moves. The gradient still reads `13/13`, `10/13`, `1/13`, `0/13`, and the three failure classes and all mechanism evidence are unaffected. No batch report and no rubric file is amended: the reports were right and the summary was wrong, which is now the third recorded instance of the same fact.
 
 ## The three counterexample classes
 

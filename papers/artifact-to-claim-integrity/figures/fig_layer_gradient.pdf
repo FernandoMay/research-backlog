@@ -1,0 +1,540 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 520 396] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> /ProcSet [/PDF /Text] >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 8426 >>
+stream
+q
+1 0 0 1 0 -604.50 cm
+0.0000 0.0000 0.0000 rg
+BT
+/F2 12.00 Tf
+44.00 959.00 Td
+(The artifact-to-claim gradient, and the denominators it depends on) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 8.00 Tf
+44.00 944.00 Td
+(13 scored rows over 12 distinct packages. Source: E1-DATASET-v1.0.md \(frozen 2026-09-29, corrected 2026-09-30\).) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 8.00 Tf
+44.00 933.50 Td
+(Every quantity below is recomputed from the frozen row table by figures/make_figures.py, which aborts if any value) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 8.00 Tf
+44.00 923.00 Td
+(disagrees.) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.50 Tf
+44.00 912.50 Td
+(\(a\)  Categorical layer verdicts, n = 13) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.50 Tf
+270.00 912.50 Td
+(\(b\)  Adjudicated claim pool, 375 claims) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+106.45 828.50 106.45 899.50 m 106.45 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+104.65 819.00 Td
+(0) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+123.49 828.50 123.49 899.50 m 123.49 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+121.69 819.00 Td
+(2) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+140.53 828.50 140.53 899.50 m 140.53 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+138.73 819.00 Td
+(4) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+157.57 828.50 157.57 899.50 m 157.57 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+155.77 819.00 Td
+(6) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+174.62 828.50 174.62 899.50 m 174.62 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+172.81 819.00 Td
+(8) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+191.66 828.50 191.66 899.50 m 191.66 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+188.04 819.00 Td
+(10) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+208.70 828.50 208.70 899.50 m 208.70 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+205.08 819.00 Td
+(12) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+225.74 828.50 225.74 899.50 m 225.74 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+222.12 819.00 Td
+(14) Tj
+ET
+0.6200 0.6200 0.6200 RG
+0.80 w
+106.45 828.50 225.74 828.50 m 225.74 828.50 l S
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+44.00 890.10 Td
+(U2 exists) Tj
+ET
+0.2000 0.4000 0.6200 rg
+106.45 886.50 110.76 13.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 6.50 Tf
+221.22 890.10 Td
+(13/13) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+44.00 872.10 Td
+(U2 reproduces) Tj
+ET
+0.3600 0.5800 0.7800 rg
+106.45 868.50 85.20 13.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 6.50 Tf
+195.66 872.10 Td
+(10/13) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+44.00 854.10 Td
+(L7 consistent) Tj
+ET
+0.7400 0.6200 0.2800 rg
+106.45 850.50 8.52 13.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F2 6.50 Tf
+118.97 854.10 Td
+(1/13) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+44.00 836.10 Td
+(U4 SUPPORTED) Tj
+ET
+0.7400 0.2400 0.1800 rg
+106.45 832.50 0.00 13.00 re
+f
+0.6200 0.2000 0.1600 rg
+BT
+/F2 6.50 Tf
+110.45 836.10 Td
+(0/13) Tj
+ET
+0.6200 0.2000 0.1600 RG
+1.30 w
+106.45 833.00 106.45 845.00 m 106.45 845.00 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+106.45 809.50 Td
+(packages, n = 13) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+311.45 877.50 311.45 899.50 m 311.45 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+309.65 868.00 Td
+(0) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+352.59 877.50 352.59 899.50 m 352.59 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+347.17 868.00 Td
+(100) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+393.73 877.50 393.73 899.50 m 393.73 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+388.31 868.00 Td
+(200) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+434.86 877.50 434.86 899.50 m 434.86 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+429.44 868.00 Td
+(300) Tj
+ET
+0.8800 0.8800 0.8800 RG
+0.50 w
+476.00 877.50 476.00 899.50 m 476.00 899.50 l S
+0.3800 0.3800 0.3800 rg
+BT
+/F1 6.50 Tf
+470.58 868.00 Td
+(400) Tj
+ET
+0.6200 0.6200 0.6200 RG
+0.80 w
+311.45 877.50 476.00 877.50 m 476.00 877.50 l S
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+270.00 887.10 Td
+(375 claims) Tj
+ET
+0.3000 0.5200 0.3800 rg
+311.45 881.50 108.19 18.00 re
+f
+0.7400 0.3600 0.2000 rg
+419.64 881.50 39.08 18.00 re
+f
+0.6000 0.5800 0.5600 rg
+458.72 881.50 6.99 18.00 re
+f
+0.3000 0.5200 0.3800 rg
+270.00 857.70 7.00 6.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 6.50 Tf
+280.00 858.50 Td
+(CLAIM-CORRECT 263 \(70.1%\)) Tj
+ET
+0.7400 0.3600 0.2000 rg
+270.00 848.20 7.00 6.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 6.50 Tf
+280.00 849.00 Td
+(CLAIM-CONTRADICTED 95 \(25.3%\)) Tj
+ET
+0.6000 0.5800 0.5600 rg
+270.00 838.70 7.00 6.00 re
+f
+0.0800 0.0800 0.0800 rg
+BT
+/F1 6.50 Tf
+280.00 839.50 Td
+(CLAIM-UNSUPPORTED 17 \(4.5%\)) Tj
+ET
+0.6200 0.6200 0.6200 RG
+0.60 w
+44.00 799.50 476.00 799.50 m 476.00 799.50 l S
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.50 Tf
+44.00 785.50 Td
+(Granularity conditioning) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.50 Tf
+193.33 785.50 Td
+(Verdict vs. containment) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F2 8.50 Tf
+342.67 785.50 Td
+(Aggregate reconciliation) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 773.50 Td
+(The 70.1% correct rate is computed over a) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 764.50 Td
+(pool of 375 claims that mixes two counting) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 755.50 Td
+(conventions. Batches 1-2: 213/270 =) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 746.50 Td
+(78.9%. Batch 3: 28/81 = 34.6% over four) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 737.50 Td
+(packages, 50/105 = 47.6% over five rows.) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 728.50 Td
+(The split is a property of the splitter, so the) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 719.50 Td
+(pooled rate is descriptive and is not a) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 710.50 Td
+(defect rate for this corpus. Only panel \(a\)) Tj
+ET
+0.3800 0.3800 0.3800 rg
+BT
+/F1 7.00 Tf
+44.00 701.50 Td
+(is comparable across batches.) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 773.50 Td
+(Package-level verdict: 0 SUPPORTED, 8) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 764.50 Td
+(PARTIALLY, 5 CONTRADICTED, of 13.) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 755.50 Td
+(Packages containing at least one) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 746.50 Td
+(CLAIM-CONTRADICTED claim: 13 of 13.) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 737.50 Td
+(The second is the stronger statement and) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 728.50 Td
+(the more damaging one, and it holds for) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 719.50 Td
+(the package that is SUPPORTED on every) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 710.50 Td
+(layer below its verdict. Reporting only the) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 701.50 Td
+(first understates the finding; reporting the) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 692.50 Td
+(second as the verdict misdescribes the) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+193.33 683.50 Td
+(adjudication.) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 773.50 Td
+(Two arithmetic errors in the frozen) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 764.50 Td
+(dataset's derived-metrics block, found by) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 755.50 Td
+(row-level reconciliation against the thirteen) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 746.50 Td
+(per-package rows and corrected with the) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 737.50 Td
+(rows left untouched. U4 verdict) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 728.50 Td
+(distribution: block recorded 0 / 7 / 6,) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 719.50 Td
+(corrected to 0 / 8 / 5. internal consistency:) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 710.50 Td
+(block recorded 2 of 13, corrected to 1 of) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 701.50 Td
+(13. The correction makes the gradient) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 692.50 Td
+(steeper, not flatter: 1 of 13 rows are) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 683.50 Td
+(internally consistent. Neither correction) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 674.50 Td
+(changes the central result: 0 of 13) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 665.50 Td
+(packages are SUPPORTED and 13 of 13) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 656.50 Td
+(contain a contradicted claim before and) Tj
+ET
+0.0800 0.0800 0.0800 rg
+BT
+/F1 7.00 Tf
+342.67 647.50 Td
+(after. Section 4.4 gives both rounds.) Tj
+ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000279 00000 n 
+0000000376 00000 n 
+0000000478 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+8956
+%%EOF

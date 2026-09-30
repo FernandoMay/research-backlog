@@ -19,7 +19,7 @@ This directory is separate from `BACKLOG.md`, which remains the single source of
 ```
 artifact exists                13/13   100%
 artifact reproduces            10/13    77%
-internal consistency            2/13    15%
+internal consistency            1/13     8%
 package survives whole          0/13     0%
 ```
 
@@ -38,7 +38,7 @@ Correct numerical outputs are not sufficient evidence of artifact-to-claim integ
 - The corpus was authored primarily by the evaluator's own account, who therefore had direct knowledge of implementation history and publication context. Rules, verdict vocabulary, and package-level criteria were fixed before adjudication to reduce confirmation bias. Negative findings were retained.
 - The corpus is small (13 rows) and deliberately heterogeneous in domain.
 - Per-claim rates come from two different claim granularities and must be read as indicative. Layer and package verdicts are categorical and are the defensible result.
-- The frozen dataset's own summary block initially contained inconsistent aggregate counts, detected by row-level reconciliation before publication and corrected. The correction is retained in the dataset's correction log, because the aggregation layer requires the same audit as the artifacts.
+- The frozen dataset's own aggregation layer failed its consistency check four times, recorded in three entries of the dataset's correction log. Three were arithmetic: before publication on the claim-level totals, and after the freeze on the package verdict distribution and the internal-consistency count, both caught by row-level reconciliation. The fourth was not arithmetic and could not have been caught by reconciliation, because every count was correct: the aggregate's headline table carried its layer labels shifted by one from L3 upward, so 6/13 was labelled L3 Figure when the rubric calls it L4. It was caught by parsing the labels and asserting the sequence against the rubric, and the aggregate file was already public when it was found, so that correction is post-publication. In every instance the thirteen per-package rows were correct and the summary was not, and every correction is retained in the correction log rather than quietly amended, because the aggregation layer requires the same audit as the artifacts.
 
 ## Papers
 

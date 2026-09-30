@@ -17,13 +17,13 @@ The E1 set was 10 packages: `adan`, `camae`, `isac`, `sc`, `ems`, `qce`, `quantu
 |---|---:|---:|---|
 | L1 — Artifact exists | 13 | 0 | **13/13** |
 | L2 — Reproduction | 10 | 3 | **10/13** |
-| L3 — Figure | 6 | 7 | 6/13 |
-| L4 — Method | 3 | 10 | **3/13** |
-| L5 — Selection | 7 | 6 | 7/13 |
-| L6 — Internal consistency | 2 | 11 | **2/13** |
-| L7 — Verdict: SUPPORTED | **0** | — | **0/13** |
+| L4 — Figure | 6 | 7 | 6/13 |
+| L5 — Method | 3 | 10 | **3/13** |
+| L6 — Selection | 7 | 6 | 7/13 |
+| L7 — Internal consistency | 1 | 12 | **1/13** |
+| L8 — Verdict: SUPPORTED | **0** | — | **0/13** |
 
-Verdict distribution: **0 SUPPORTED · 7 PARTIALLY SUPPORTED · 6 CONTRADICTED.**
+Verdict distribution: **0 SUPPORTED · 8 PARTIALLY SUPPORTED · 5 CONTRADICTED.**
 
 ## The gradient
 
@@ -34,7 +34,7 @@ With N=13 and a fixed rubric, it holds, and the gradient is monotone:
 ```
 artifacts exist              13/13  100%
 artifacts reproduce          10/13   77%
-internal consistency          2/13   15%
+internal consistency          1/13    8%
 package survives whole        0/13    0%
 ```
 

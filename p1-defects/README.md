@@ -52,3 +52,21 @@ Only the first of those is reachable by re-running the code. A package can be fu
 `isac-jasc-ieee` is the sharpest case in the set. Its artifact is the most bit-faithful in the sweep, and its central claim is a validation that cannot in principle fail: the estimation error is drawn from the Cramér-Rao bound it is compared against. Reproducing that package exactly reproduces the circularity exactly. It also conceals a second defect — a variance consumed as a standard deviation — because against a real estimator that confusion would have surfaced as an estimator beating the bound.
 
 **A validation that cannot fail also cannot report the failures it would otherwise expose.**
+
+## P1 status — COMPLETE (7/7 closed, 0 open)
+
+| document | what it is |
+|---|---|
+| [P1-CLOSING-SYNTHESIS.md](P1-CLOSING-SYNTHESIS.md) | structural close. **No aggregate score** — the packages differ too much in population, granularity and category for one. Carries the seven profiles, the methodological result, and the list of items left deliberately open. |
+| [corpus/MANIFEST.md](corpus/MANIFEST.md) | where every adjudication, gate log, falsifier log and instrument lives, with each package's branch and tip |
+| [corpus/P1-INSTRUMENT-DEFECTS.md](corpus/P1-INSTRUMENT-DEFECTS.md) | **the audit of the audit.** Ten classes of defect in this sweep's own falsifiers, gates and workflow. None cleaned. |
+
+The `DEFECT-00N-*.md` reports below are the *pre-audit* defect reports, frozen. They
+contain claims this sweep subsequently corrected — notably that `PSO._evaluate` and
+`GA._fitness` are not byte-identical bodies, and that the assignment-runtime column is
+wall-clock and cannot serve as provenance evidence. Where the two disagree, **the
+adjudications in `corpus/adjudications/` are authoritative**, because they rest on
+falsifiers with working positive controls.
+
+**No manuscript text was edited. No published number was corrected. No historical
+figure was made a repair target. No repair was started.**

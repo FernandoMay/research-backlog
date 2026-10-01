@@ -150,7 +150,7 @@ is narrower and is the one the evidence supports.
 | ISAC MIMO `>10 bps/Hz` | **NOT VERIFIED** | explicitly not contradicted; needs a coverage experiment that does not exist |
 | CRL resilience benefit | **NOT SUPPORTED** | the mechanism is causal; the metric cannot resolve the benefit |
 | SGN GAN_Enc / Adaptive_JND decoders | **not repaired** | C9 is the one repairable finding; changing it moves four published claims, so it is a manuscript decision |
-| LEO and ISAC gates | **do not exist** | backfilling now would validate a corpus produced without one |
+| LEO and ISAC gates | **do not exist** | backfilling would validate a corpus produced without one — a different, weaker claim |
 | The 0.963554 / 354.0291 mW observation | **outside every results table** | an exploratory intervention is not a published experiment |
 
 ---
@@ -159,9 +159,24 @@ is narrower and is the one the evidence supports.
 
 Everything is on its remote, verified with `ls-remote` rather than push output.
 
-Durable copy at `p1-defects/corpus/`: **11** adjudications, **4** gate logs,
-**26** falsifier logs including `LOST-AUDIT-EVIDENCE.md`, **30** falsifier and gate
+Durable copy at `p1-defects/corpus/`: **13** adjudications, **5** gate logs,
+**31** falsifier logs including `LOST-AUDIT-EVIDENCE.md`, **30** falsifier and gate
 sources, `MANIFEST.md`, `P1-INSTRUMENT-DEFECTS.md`.
+
+**The gate count is four, not five, and the distinction matters.** Quantum, i01, QCE and
+SGN were adjudicated under the formal gate discipline. CRL has a *publication* gate of
+a different form, preserved but not equivalent. LEO and ISAC have **no gate
+instrument** — the concept postdates their audit.
+
+That gap is **not backfilled**, because the two available claims are different:
+
+```
+running today's gate now  ->  "these trees pass the current gate"          AVAILABLE
+                           ->  "the adjudication was produced under it"    NOT AVAILABLE
+```
+
+A retrospective gate validates a corpus produced without one, which is a weaker claim
+than never having claimed it.
 
 **No manuscript text was edited in any package. No published number was corrected. No
 historical figure was made a repair target. No repair was started.**

@@ -90,17 +90,60 @@ over-reacting to a Git error. A4 nearly lost the object by under-reacting to a G
 operation that reported nothing. Both come from trusting an operation's exit status
 instead of checking the resulting state.
 
-**Principle, adopted permanently.**
+**Principle, adopted permanently — and stronger than `git ls-remote`.**
+
+> **External effects are verified by observable state, never by the message or the exit
+> status of the operation that supposedly produced them.**
 
 ```
-git push
-     ↓
-is this verifiable?
-     ↓
-git ls-remote  →  remote ref == local HEAD ?
-                  yes -> done
-                  no  -> not done, regardless of what the command printed
+operation → message / exit status  ≠  resulting state
 ```
+
+```
+operation
+     ↓
+is the effect observable?
+     ↓
+observe the state directly
+     ↓
+state matches expectation ? yes → done
+                           no  → not done, whatever the command printed
+```
+
+A3 and A4 are the same principle in opposite directions: A3 nearly destroyed the object
+by over-reacting to an error message; A4 nearly lost the object by under-reacting to a
+silent success. Both are failures to check the resulting state.
+
+---
+
+## A4b — the same failure, committed during preservation, in a new form
+
+**Where:** building this corpus.
+
+The preservation script reported `copied 69 files`, `gates 3 files`,
+`falsifier-logs 25 files`. **Every count was accurate and the set was incomplete.**
+Eight QUANTUM artifacts — two adjudications and six falsifier logs — had never been
+copied, because the script used the *parent* directory for QUANTUM while its git
+repository lives one level down. The count of what was copied was right. Nothing
+checked what was *missing*.
+
+Worse, I then read a listing, misread it as evidence that QUANTUM's gate log existed
+outside the corpus, and only caught the real problem when a later completeness check
+compared sets rather than counts.
+
+**The generalisation beyond Git.**
+
+```
+verify a COUNT  ->  "I copied 69 files"
+verify a SET    ->  "every file in every package is present, per class"
+```
+
+A count is evidence that something happened. A set comparison is evidence that nothing
+was left behind. Only the second supports the claim "the corpus is complete".
+
+This instance is the purest form of the sweep's central methodological finding, and it
+was committed by the sweep's own closing step. It is recorded here rather than quietly
+fixed.
 
 ---
 

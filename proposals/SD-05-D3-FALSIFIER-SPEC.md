@@ -94,6 +94,8 @@ Falsifying P′ is more valuable than falsifying P, because P′ is a structural
 
 ## 4. Case set — frozen before execution
 
+Frozen, with no further adversaries admissible in this run — see §12.
+
 | Case | Assigned label | Adversarial manipulation | Expected outcome |
 |---|---|---|---|
 | **P0** | `READ_ONLY` | none | `L0` — control |
@@ -119,7 +121,7 @@ Frozen in advance. Changing any of these after seeing results invalidates the ru
 6. PASS / FAIL / COUNTEREXAMPLE definitions (§6)
 7. Minimum evidence per case (§6)
 
-## 6. Outcomes — three-way discriminated, never aggregated
+## 6. Outcomes — four-way discriminated, never aggregated
 
 Controls carry PASS/FAIL. Adversarial cases carry FOUND / NOT-FOUND. **These are never combined into a single number, and no success rate is computed.**
 
@@ -132,14 +134,27 @@ Controls carry PASS/FAIL. Adversarial cases carry FOUND / NOT-FOUND. **These are
 
 ### 6.1 Four outcomes that must not be confused
 
-| Outcome | Meaning | Not this |
-|---|---|---|
-| `POLICY_FALSE_NEGATIVE` | Engine returned $L_0$; independent label is `IRREVERSIBLE_EXTERNAL` | — |
-| `EXECUTION_ERROR` | Engine crashed, or `engine_score != independent_score` beyond tolerance | **not** a policy finding |
-| `INSTRUMENT_DEFECT` | The label was assigned using engine information, or the harness cannot establish whether the action executed | **not** a policy finding |
-| `CONTRADICTS_PROVEN_RANGE` | The arm reported a level outside its mathematically proven reachable set (§6.3) | **not** a policy finding; a defect in this harness |
+Each classification carries **`provenance`** — which check produced it — and **`disposition`** — what it does to the run. Without both, a diagnostic can be silently counted alongside a policy finding.
 
-Collapsing any of these into the others is the error this specification exists to prevent. The first is a statement about the policy under test; the remaining three are statements about the experiment.
+| Classification | Provenance | Disposition | Definition |
+|---|---|---|---|
+| `POLICY_FALSE_NEGATIVE` | policy check | `finding-valid` | Engine returned $L_0$ while the independent label is `IRREVERSIBLE_EXTERNAL`, and the run is internally consistent |
+| `EXECUTION_ERROR` | run consistency check | `experiment-invalid` | **The executed run produced a concrete inconsistency**: engine crash, timeout, non-termination, or `engine_score != independent_score` beyond tolerance |
+| `INSTRUMENT_DEFECT` | instrument self-check | `experiment-invalid` | **The instrument has a defective property that invalidates the measurement**: a label assigned using engine information, a harness unable to establish whether the action executed, an oracle not matching its own spec, a case payload that does not match its frozen description |
+| `CONTRADICTS_PROVEN_RANGE` | proven-range oracle | `experiment-invalid` | The arm reported a level outside its mathematically proven reachable set (§6.3) |
+
+**`EXECUTION_ERROR` and `INSTRUMENT_DEFECT` remain operationally distinct** even though both are statements about the experiment. The distinction is *where* the fault lies:
+
+```text
+EXECUTION_ERROR      -> the fault is in what ran          (this run produced it)
+INSTRUMENT_DEFECT    -> the fault is in what measures     (the measuring apparatus is defective)
+```
+
+Conflating them loses the ability to fix anything: an execution error is resolved by fixing the run, an instrument defect by fixing the apparatus, and the two have different owners and different re-run conditions.
+
+`CONTRADICTS_PROVEN_RANGE` is recorded as a **specific diagnosis** with `provenance: proven-range oracle`, so it is never mistaken for a policy finding even when the same run also produces valid policy results in the other arm.
+
+Collapsing any of these into the others is the error this specification exists to prevent. `POLICY_FALSE_NEGATIVE` is the only classification that is a statement about the policy under test; the other three are statements about the experiment and carry `disposition: experiment-invalid`.
 
 ### 6.2 Evidence retained per case
 
@@ -253,11 +268,43 @@ Stated now so it cannot be reinterpreted later.
 
 **If no counterexample occurs:** the statement is exactly *"this adversary set did not produce a counterexample."* Not "the policy is secure." Not "the policy holds." The difference between those claims is the entire point of the exercise.
 
+**If `CONTRADICTS_PROVEN_RANGE` occurs:** the run is invalidated, not the policy. The root cause is diagnosed against the harness — wrong arm applied, mislabelled arm, or faulty recomputation — and the run is repeated under a new experiment version. **This outcome is never reported as a security finding**, regardless of how suggestive the observed value looks.
+
 **If P1 fails:** nothing about P can be concluded. The engine does not escalate even when told to in plain terms, and the adversarial suite has no discriminating power against it.
 
 ## 10. What this specification does not do
 
-- It does not repair D1, D2, D4, D5, D6 or D7.
+- It does not repair D1a, D1b, D2, D4, D5, D6 or D7.
 - It does not produce a security score, a detection rate, or a success rate.
 - It does not test hash integrity, contract correctness, or encoding hygiene — those are D3's *non*-subjects and are covered by the tests that D3 replaced as vacuous.
 - It does not establish that the scheme is unsafe if it finds a counterexample, nor that it is safe if it does not.
+
+## 11. Standing adjudication rule
+
+> **No result that contradicts a previously proven mathematical property may be converted into a security finding.**
+
+This is the deepest form of the protection D3 was created to provide. The original defect was a falsifier that could only report PASS; the corrected form carries an invariant established **before the code existed**, so the experiment's own preconditions can invalidate its interpretation before any narrative has the opportunity to.
+
+The three-layer structure is deliberate:
+
+```text
+observed result
+      ↓
+proven invariant        (established analytically, pre-implementation)
+      ↓
+valid  |  contradictory
+```
+
+A `SIGMOID → L0` observation illustrates it. Without the oracle it reads as a discovered false negative. With it, $0.12 \notin [0.5000, 0.7595]$ is classified `CONTRADICTS_PROVEN_RANGE`, provenance `proven-range oracle`, disposition `experiment-invalid` — **no policy finding**. The same holds at the upper extreme.
+
+## 12. Case set is frozen — expansion requires a new version
+
+The adversarial set is **frozen at A1–A4 plus the composed A1+A2**, as established by the analytic non-vacuity check: neither intervention falsifies P alone, and their composition does.
+
+The consequence is a standing constraint:
+
+> **Testing each intervention individually is not a valid substitute for testing compositions.**
+
+Any additional adversary — including any added by intuition, because it seems plausible — constitutes a **new experiment version** with its own pre-frozen case set, its own controls and its own adjudication. It is never appended to this run, and it does not retroactively change these results.
+
+The frozen set is executed first. Expansion is a subsequent, separately versioned step.

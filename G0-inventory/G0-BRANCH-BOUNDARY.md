@@ -32,15 +32,52 @@ from this commit forward:
 
 `audit/g0-estate` was created **from `main`'s tip at `34e63eb`**. It is not a rebase, a cherry-pick, or a graft. There is one history; `main` simply stops receiving audit commits.
 
-## 4. Push state at the time of recording
+## 4. Push state — verified by observed remote state
 
-| Ref | Commit |
+The branch was published. Verification is by **`git ls-remote`**, not by the exit status or message of `git push`. A push that reports success while changing nothing is a known failure mode, and its report is not evidence.
+
+`git ls-remote origin refs/heads/audit/g0-estate` returned:
+
+```
+9c0511d2c00f639ad5c193aaba7a7e93382f1358	refs/heads/audit/g0-estate
+```
+
+### 4.1 Observed remote state, before and after
+
+| Ref | Before | After | Result |
+|---|---|---|---|
+| `origin/audit/g0-estate` | *(absent)* | `9c0511d` | created |
+| `origin/main` | `9d61c09` | `9d61c09` | **unchanged** |
+
+`origin/main` was captured **before** the push as well as after, so "unchanged" is a comparison between two observations rather than an assertion.
+
+### 4.2 State verification
+
+| Check | Result |
 |---|---|
-| `origin/main` | `9d61c09` |
-| `main` (local) | `34e63eb` |
-| `audit/g0-estate` | `34e63eb` |
+| `origin/audit/g0-estate` == local `HEAD` (`9c0511d`) | **equal** |
+| `origin/main` == pre-push value (`9d61c09`) | **equal** |
+| The three boundary/finding records exist in the remote commit | **confirmed** |
+| `p1-defects/` file count in `origin/main` vs `origin/audit/g0-estate` | **91 vs 91**, identical |
 
-**`34e63eb` was never pushed.** The published remote history ends at `9d61c09` (G0-3 wave 1). No audit commit was ever published to `origin/main` beyond that point, so no remote history requires unwinding and no force-push is possible or needed.
+### 4.3 Resulting provenance
+
+```
+origin/main                 9d61c09   [frozen; wave 1, untouched]
+        │
+        └── audit/g0-estate 9c0511d   [boundary + three frozen records]
+
+local main                  34e63eb   [frozen; wave 2, never pushed]
+local audit/g0-estate       9c0511d
+```
+
+`origin/main` carries the audit trail through G0-3 wave 1 and stops there. `origin/audit/g0-estate` carries the isolated trail from wave 2 onward. The two are now separately addressable, which is the property the branch rule existed to create.
+
+### 4.4 What publication does and does not mean
+
+Publishing the branch establishes that **the isolated audit trail has a verifiable remote representation**. It does not mean G0 is complete, and `9c0511d` is not a release. Wave 2 closed 121 repositories; the estate is 534; `METRICS_REPRODUCE` remains undecided.
+
+Local `main` remains at `34e63eb`, one commit ahead of `origin/main`. That commit is frozen and unpushed by design — it is not awaiting a push, and it should not be pushed without a separate decision.
 
 ## 5. Standing constraints, unchanged
 

@@ -1,0 +1,4 @@
+# The raw API response is retained for provenance but is 2.8 MB of JSON that
+# regenerates byte-identically from the recorded endpoint + sha256.
+# Keep the hash, drop the payload from version control.
+raw/*.json

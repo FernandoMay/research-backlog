@@ -1,0 +1,80 @@
+{
+  "proven_range": [
+    0.0302,
+    0.9698
+  ],
+  "f_c_unmodified": true,
+  "adjudicator_source": "SD-05-D3-IMPLEMENTATION/instruments.py (imported, not copied)",
+  "injection_point": "measurement channel, after f_C and before the adjudicator",
+  "checks": [
+    {
+      "group": "legitimate_stays_inside",
+      "case": "read_only",
+      "ok": true
+    },
+    {
+      "group": "legitimate_stays_inside",
+      "case": "high_impact",
+      "ok": true
+    },
+    {
+      "group": "legitimate_stays_inside",
+      "case": "mid",
+      "ok": true
+    },
+    {
+      "group": "legitimate_stays_inside",
+      "case": "all_zero",
+      "ok": true
+    },
+    {
+      "group": "legitimate_stays_inside",
+      "case": "all_one",
+      "ok": true
+    },
+    {
+      "group": "both_channels_corrupted",
+      "case": "below lower bound",
+      "ok": true
+    },
+    {
+      "group": "both_channels_corrupted",
+      "case": "above upper bound",
+      "ok": true
+    },
+    {
+      "group": "boundary_valid",
+      "case": "at lower bound",
+      "ok": true
+    },
+    {
+      "group": "boundary_valid",
+      "case": "at upper bound",
+      "ok": true
+    },
+    {
+      "group": "interior_valid",
+      "case": "r=0.5",
+      "ok": true
+    },
+    {
+      "group": "modes_distinguishable",
+      "case": "single vs both",
+      "ok": true
+    }
+  ],
+  "verdict": "PASS",
+  "demonstrates": [
+    "every legitimate f_C measurement stays inside the proven range",
+    "an out-of-range measurement travelling the real record path is caught",
+    "boundary values are valid rather than violations",
+    "an interior value is not a violation",
+    "single-channel and both-channel corruption are distinguishable"
+  ],
+  "not_established": [
+    "that C is a valid policy",
+    "that C produces any particular result on A1, A2, A1+A2 or A3",
+    "that the range is a security property",
+    "any result about the cross"
+  ]
+}

@@ -1,0 +1,494 @@
+{
+  "provenance": {
+    "spec": "SD-05-D3-FALSIFIER-SPEC.md",
+    "weights": [
+      0.2,
+      0.3,
+      0.3,
+      0.1,
+      0.1
+    ],
+    "gamma": 0.15,
+    "thresholds": [
+      0.3,
+      0.65,
+      0.85
+    ],
+    "arms": [
+      "CLAMP",
+      "SIGMOID"
+    ],
+    "case_set": [
+      "P0",
+      "P1",
+      "A1",
+      "A2",
+      "A1+A2",
+      "A3",
+      "A4"
+    ],
+    "weights_provenance": "submitted prototype AdaptiveRiskEngine default; not a design choice"
+  },
+  "records": [
+    {
+      "case_id": "P0",
+      "arm": "CLAMP",
+      "kind": "control",
+      "inputs": [
+        0.1,
+        0.0,
+        0.0,
+        0.1,
+        0.1
+      ],
+      "inputs_source": "MEASURED",
+      "impact_label": "READ_ONLY",
+      "adversarial_intervention": "none",
+      "expected_policy": "L0",
+      "engine_score": 0.04000000000000001,
+      "independent_score": 0.04000000000000001,
+      "observed_level": "L0",
+      "signature_required": false,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "P1",
+      "arm": "CLAMP",
+      "kind": "control",
+      "inputs": [
+        0.8,
+        1.0,
+        1.0,
+        0.7,
+        0.7
+      ],
+      "inputs_source": "MEASURED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "none",
+      "expected_policy": ">=L2",
+      "engine_score": 1.0,
+      "independent_score": 1.0,
+      "observed_level": "L3",
+      "signature_required": true,
+      "anchor_required": true,
+      "trace_required": true,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "P0",
+      "arm": "SIGMOID",
+      "kind": "control",
+      "inputs": [
+        0.1,
+        0.0,
+        0.0,
+        0.1,
+        0.1
+      ],
+      "inputs_source": "MEASURED",
+      "impact_label": "READ_ONLY",
+      "adversarial_intervention": "none",
+      "expected_policy": "L0",
+      "engine_score": 0.5099986668799655,
+      "independent_score": 0.5099986668799655,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "P1",
+      "arm": "SIGMOID",
+      "kind": "control",
+      "inputs": [
+        0.8,
+        1.0,
+        1.0,
+        0.7,
+        0.7
+      ],
+      "inputs_source": "MEASURED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "none",
+      "expected_policy": ">=L2",
+      "engine_score": 0.7349725994665188,
+      "independent_score": 0.7349725994665188,
+      "observed_level": "L2",
+      "signature_required": true,
+      "anchor_required": true,
+      "trace_required": true,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A1",
+      "arm": "CLAMP",
+      "kind": "adversarial",
+      "inputs": [
+        0.2,
+        1.0,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "impact_understated",
+      "expected_policy": "not_L0",
+      "engine_score": 0.4,
+      "independent_score": 0.4,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A2",
+      "arm": "CLAMP",
+      "kind": "adversarial",
+      "inputs": [
+        0.2,
+        0.01,
+        0.9,
+        0.1,
+        0.2
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "decomposition",
+      "expected_policy": "not_L0",
+      "engine_score": 0.3433000000000001,
+      "independent_score": 0.3433000000000001,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A1+A2",
+      "arm": "CLAMP",
+      "kind": "adversarial",
+      "inputs": [
+        0.2,
+        0.01,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "impact_understated+decomposition",
+      "expected_policy": "not_L0",
+      "engine_score": 0.0733,
+      "independent_score": 0.0733,
+      "observed_level": "L0",
+      "signature_required": false,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "reason": "A1+A2 is IRREVERSIBLE_EXTERNAL but received L0",
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A3",
+      "arm": "CLAMP",
+      "kind": "adversarial",
+      "inputs": [
+        0.05,
+        0.2,
+        0.0,
+        0.05,
+        0.1
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "novelty_suppression",
+      "expected_policy": "not_L0",
+      "engine_score": 0.08650000000000002,
+      "independent_score": 0.08650000000000002,
+      "observed_level": "L0",
+      "signature_required": false,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "reason": "A3 is IRREVERSIBLE_EXTERNAL but received L0",
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A1",
+      "arm": "SIGMOID",
+      "kind": "adversarial",
+      "inputs": [
+        0.2,
+        1.0,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "impact_understated",
+      "expected_policy": "not_L0",
+      "engine_score": 0.598687660112452,
+      "independent_score": 0.598687660112452,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A2",
+      "arm": "SIGMOID",
+      "kind": "adversarial",
+      "inputs": [
+        0.2,
+        0.01,
+        0.9,
+        0.1,
+        0.2
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "decomposition",
+      "expected_policy": "not_L0",
+      "engine_score": 0.5849919090143745,
+      "independent_score": 0.5849919090143745,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A1+A2",
+      "arm": "SIGMOID",
+      "kind": "adversarial",
+      "inputs": [
+        0.2,
+        0.01,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "impact_understated+decomposition",
+      "expected_policy": "not_L0",
+      "engine_score": 0.5183167995552097,
+      "independent_score": 0.5183167995552097,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A3",
+      "arm": "SIGMOID",
+      "kind": "adversarial",
+      "inputs": [
+        0.05,
+        0.2,
+        0.0,
+        0.05,
+        0.1
+      ],
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "novelty_suppression",
+      "expected_policy": "not_L0",
+      "engine_score": 0.5216115264431415,
+      "independent_score": 0.5216115264431415,
+      "observed_level": "L1",
+      "signature_required": true,
+      "anchor_required": false,
+      "trace_required": false,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A4",
+      "arm": "CLAMP",
+      "kind": "frontier",
+      "inputs": null,
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "boundary_probe",
+      "expected_policy": "map_frontier",
+      "engine_score": 0.6969696969696968,
+      "independent_score": 0.6969696969696968,
+      "observed_level": "L0",
+      "frontier_empty": false,
+      "signature_required": false,
+      "anchor_required": false,
+      "trace_required": false,
+      "frontier_supremum": 0.6969696969696968,
+      "score_delta": 0.0,
+      "range_valid": true,
+      "outcome": "FRONTIER_MAPPED",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "reason": "no policy false negative in this case",
+      "all_checks_fired": [
+        "FRONTIER_MAPPED"
+      ]
+    },
+    {
+      "case_id": "A4",
+      "arm": "SIGMOID",
+      "kind": "frontier",
+      "inputs": null,
+      "inputs_source": "DECLARED",
+      "impact_label": "IRREVERSIBLE_EXTERNAL",
+      "adversarial_intervention": "boundary_probe",
+      "expected_policy": "map_frontier",
+      "engine_score": null,
+      "independent_score": null,
+      "observed_level": "none",
+      "frontier_empty": true,
+      "signature_required": false,
+      "anchor_required": false,
+      "trace_required": false,
+      "frontier_supremum": null,
+      "score_delta": null,
+      "range_valid": null,
+      "outcome": "FRONTIER_EMPTY",
+      "provenance": "frontier probe",
+      "disposition": "informational",
+      "reason": "SIGMOID assigns no L0 at any input; the L0 region is empty. Consistent with the arm's proven range.",
+      "all_checks_fired": [
+        "FRONTIER_EMPTY"
+      ]
+    }
+  ],
+  "gate": {
+    "passed": true,
+    "detail": [
+      {
+        "arm": "CLAMP",
+        "case_id": "P0",
+        "observed": "L0",
+        "ok": true
+      },
+      {
+        "arm": "CLAMP",
+        "case_id": "P1",
+        "observed": "L3",
+        "ok": true
+      },
+      {
+        "arm": "SIGMOID",
+        "case_id": "P0",
+        "observed": "L1",
+        "ok": true
+      },
+      {
+        "arm": "SIGMOID",
+        "case_id": "P1",
+        "observed": "L2",
+        "ok": true
+      }
+    ]
+  },
+  "adversarial_ran": true,
+  "frontier_supremum_of_V_under_L0": {
+    "CLAMP": 0.6969696969696968,
+    "SIGMOID": null
+  }
+}

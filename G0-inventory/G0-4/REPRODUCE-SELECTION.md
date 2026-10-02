@@ -242,3 +242,54 @@ Two Z.ai scaffold workspaces contain artifacts belonging to **`fg-supply`**:
 - `workspace-81c65fbf-…` — `upload/FG Supply.pdf`
 
 The `fg-supply` artifacts therefore exist in at least three repositories. Excluding `upload/` from A1 is correct — files fed into an AI coding session are not claims *of that repository* — but the duplication is a structural fact about the estate: **a claim-bearing artifact is not necessarily owned by one repository**, and identity resolution over artifacts must not assume otherwise.
+
+---
+
+## 12. Operational invariants for the 406-repository run
+
+`9db4494` is the **frozen selection instrument**. It is not a reproducibility test, and running it produces no reproducibility result.
+
+### 12.1 Four invariants
+
+1. **The predicate does not modify repositories.** Read-only via API. Nothing cloned, nothing written, no repository altered.
+2. **The 406 are classified, not executed.** No reproduction attempt occurs in this phase. Classification is an inventory judgement, never an execution outcome.
+3. **`REPRODUCE_ELIGIBLE` means only *eligible for a reproduction attempt*.** It asserts that the available inventory contains sufficient evidence to justify an attempt. It asserts nothing about whether the attempt will succeed.
+4. **The result of the 406 is not a reproducibility rate.** No proportion of any classification state may be reported as a rate of reproducibility, non-reproducibility, or scientific validity.
+
+### 12.2 Semantic non-implications
+
+These hold for every repository, without exception, and may not be collapsed:
+
+```text
+ELIGIBLE  ≠  REPRODUCED
+NOT_YET   ≠  NOT_REPRODUCIBLE
+NO_CLAIM  ≠  NO_RESEARCH
+```
+
+`NOT_YET_ELIGIBLE` is a statement about the inventory, not about the science, and is re-evaluated whenever new evidence appears. `NO_PUBLISHED_CLAIM` records that no claim was found **at the inspected depth** and is explicitly not a judgement of value.
+
+### 12.3 B3 is deliberately not relaxed
+
+`mirailand` stays `REPRODUCE_NOT_YET_ELIGIBLE` and goes to manual review. Treating any executable file as a presumed reproduction entrypoint would manufacture eligibility. Losing candidates is preferable to fabricating them; the asymmetry in §10 governs.
+
+## 13. Artifact ↔ repository is not 1:1
+
+G0 must not build the implicit ontology:
+
+```text
+repo → artifacts          (owned, 1:1)
+```
+
+The `upload/FG Supply.pdf` finding shows the relation is not ownership. The permitted form is:
+
+```text
+repo  ←→  artifact          (with membership evidence)
+```
+
+**The same artifact appearing in three repositories does not establish that the three are the same project, and does not make a claim attributable to each of them.** Membership is a claim requiring evidence, in the same way identity is: name similarity and co-location are candidates, never resolutions.
+
+Consequences for this phase:
+
+- An artifact found in several repositories is recorded once per repository **with its path**, and the membership relation is marked unestablished.
+- Classification is per repository and uses only that repository's own paths. No repository inherits another's artifacts.
+- Any future identity resolution over artifacts must treat cross-repository appearance as a **candidate signal only** — the same rule already applied to repository names in G0-2.

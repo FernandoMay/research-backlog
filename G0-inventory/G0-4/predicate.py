@@ -35,11 +35,16 @@ A1_NAME = re.compile(
 A1_EXT = re.compile(r"\.(json|csv|tsv|md|txt|log|yaml|yml|npy|npz|mat|pkl|tex|pdf)$", re.I)
 
 # Locations that never contain the repository's own claims.
-A1_EXCLUDE_DIR = (
-    ".github/", "node_modules/", ".venv/", "venv/", "vendor/", "third_party/",
-    "assets/", "static/", "public/", "upload/", "uploads/", "ios/", "android/",
-    ".dart_tool/", "build/", "dist/", "migrations/", "__macosx/",
-)
+# Matched as PATH COMPONENTS, not as a string prefix. The prefix form only
+# excluded vendor directories at the top level and let nested ones through:
+# newslttr matched inside bakendo/env/lib/python3.10/site-packages/, and
+# socketlab matched inside javascript_implementation/node_modules/.
+A1_EXCLUDE_COMPONENT = {
+    ".github", "node_modules", ".venv", "venv", "env", "virtualenv",
+    "site-packages", "vendor", "third_party", "assets", "static", "public",
+    "upload", "uploads", "ios", "android", ".dart_tool", "build", "dist",
+    "migrations", "__macosx", ".git", "__pycache__", "dist-info", "eggs",
+}
 # A manuscript must be at a paper-like path.
 A1_PAPER = re.compile(
     r"(^|/)(paper|papers|latex|manuscript|manuscripts)/|(^|/)main\.(tex|pdf)$|"
@@ -48,11 +53,15 @@ A1_PAPER = re.compile(
 )
 
 
+def a1_excluded(low):
+    return any(part in A1_EXCLUDE_COMPONENT for part in low.split("/")[:-1])
+
+
 def a1_claim(files):
     hits = []
     for f in files:
         low = f.lower()
-        if low.startswith(A1_EXCLUDE_DIR):
+        if a1_excluded(low):
             continue
         if A1_EXT.search(low) and A1_NAME.search(low):
             hits.append(f)

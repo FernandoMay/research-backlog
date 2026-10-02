@@ -138,11 +138,26 @@ Contract (Soroban/Rust) and ingestion/verification script are reproduced in §7.
 
 Each was verified against the code in §7, not inferred from the prose.
 
-### D1 — The risk formula is not the risk function *(R1: mechanism not implemented)*
+### D1a — The specified risk function cannot reach `L0` or `L3` *(specification-range defect)*
 
-Stated: $\sigma(\cdot)$, a sigmoid. Implemented: `min(max(raw_score, 0.0), 1.0)`, a **clamp**. These are different functions. A clamp reaches exactly 0.0 and 1.0; a sigmoid approaches them and never attains them.
+**Highest-severity item in the D1–D7 set.** Established analytically, before any implementation of the falsifier (`SD-05-D3-FALSIFIER-SPEC.md` §0.5, Finding B).
 
-Measured divergence between the stated formula and the pasted code:
+The specified function is $\sigma(\cdot)$. All five weights are non-negative and all five inputs lie in $[0,1]$, so the pre-activation $x \ge 0$, giving $\sigma(x) \ge \sigma(0) = 0.5$; and $x \le \sum w_i + \gamma = 1.15$, giving $\sigma(x) \le 0.7595$. Reachable range is $[0.5000,\ 0.7595]$ against thresholds $\{0.30, 0.65, 0.85\}$:
+
+| Tier | Condition | Reachable under $\sigma$? |
+|---|---|---|
+| $L_0$ | $r < 0.30$ | **NO** |
+| $L_1$ | $0.30 \le r < 0.65$ | yes |
+| $L_2$ | $0.65 \le r < 0.85$ | yes |
+| $L_3$ | $r \ge 0.85$ | **NO** |
+
+Both unreachable tiers are the two carrying the economic justification — $L_0$ free, $L_3$ multi-party. **The specified function cannot express either extreme of its own policy under its declared domain.** Every action therefore costs the same as every other, and the adaptive tiering is vacuous: the zero-cost tier is dead code, and so is the critical tier that the adversary matrix's most severe attacks are meant to trigger.
+
+This is not a rounding mismatch. It is a statement about what the specification *can express*.
+
+### D1b — Implementation and specification are different functions *(implementation divergence)*
+
+Stated: $\sigma(\cdot)$. Implemented: `min(max(raw_score, 0.0), 1.0)`, a **clamp**. These are different functions. A clamp attains exactly 0.0 and 1.0; a sigmoid approaches and never attains them.
 
 | $U$ | $V$ | $I$ | $N$ | $P$ | code (clamp) | formula ($\sigma$) | $\lvert\Delta \rvert$ | level differs? |
 |---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -151,12 +166,15 @@ Measured divergence between the stated formula and the pasted code:
 | 0.9 | 0.90 | 0.90 | 0.50 | 0.90 | 0.9815 | 0.7274 | 0.2541 | **yes** ($L_3$ vs $L_2$) |
 | 1.0 | 1.00 | 1.00 | 1.00 | 1.00 | 1.0000 | 0.7595 | **0.2405** | **yes** ($L_3$ vs $L_2$) |
 
-Two consequences:
+Three consequences:
 
 1. **The worked example masks the defect.** The single worked case in §7 lands at 0.6205 vs 0.6503 — both $L_2$. A reader checking the example sees agreement and concludes the code matches the math.
 2. **$\gamma$ is hardcoded to `0.15`** in the code while the math carries it as a free parameter with no stated value.
+3. **D1a and D1b are independent defects.** D1a concerns what the specification can express; D1b concerns which function the code implements. Finding D1a does not subsume D1b, and repairing either does not repair the other.
 
-Either the prose or the code is wrong. Both cannot stand.
+### D1 as a frozen counterfactual
+
+D3 runs **both** arms over one frozen case set and one set of independent labels. This is not a repair of D1 and does not resolve it. It is a counterfactual comparison observing what behaviour each candidate specification induces, so that the ambiguity's effect on the security property is measured rather than assumed.
 
 ### D2 — Replay protection is claimed and absent *(R1)*
 

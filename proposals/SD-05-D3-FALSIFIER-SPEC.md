@@ -130,15 +130,16 @@ Controls carry PASS/FAIL. Adversarial cases carry FOUND / NOT-FOUND. **These are
 | A1–A3 | falsification attempt | `COUNTEREXAMPLE` iff level `L0` while label is `IRREVERSIBLE_EXTERNAL`. Otherwise `NOT_FOUND_IN_THIS_CASE`. |
 | A4 | frontier map | Reports the supremum of impact subject to $r < 0.30$. Not pass/fail. |
 
-### 6.1 Three outcomes that must not be confused
+### 6.1 Four outcomes that must not be confused
 
 | Outcome | Meaning | Not this |
 |---|---|---|
 | `POLICY_FALSE_NEGATIVE` | Engine returned $L_0$; independent label is `IRREVERSIBLE_EXTERNAL` | — |
-| `EXECUTION_ERROR` | Engine crashed, or an independent recomputation disagrees with the engine's score | **not** a policy finding |
+| `EXECUTION_ERROR` | Engine crashed, or `engine_score != independent_score` beyond tolerance | **not** a policy finding |
 | `INSTRUMENT_DEFECT` | The label was assigned using engine information, or the harness cannot establish whether the action executed | **not** a policy finding |
+| `CONTRADICTS_PROVEN_RANGE` | The arm reported a level outside its mathematically proven reachable set (§6.3) | **not** a policy finding; a defect in this harness |
 
-Collapsing any of these into the others is the error this specification exists to prevent.
+Collapsing any of these into the others is the error this specification exists to prevent. The first is a statement about the policy under test; the remaining three are statements about the experiment.
 
 ### 6.2 Evidence retained per case
 
@@ -163,18 +164,64 @@ outcome                          # PASS | FAIL | COUNTEREXAMPLE | NOT_FOUND | ER
 
 `risk_score_independent_recompute` exists to separate a policy verdict from an implementation error: if the engine's score and the recomputation disagree, that is `EXECUTION_ERROR`, never `POLICY_FALSE_NEGATIVE`.
 
-## 7. Independence from D1, D2, D4
+The adjudication record is retained alongside, per case:
+
+```text
+engine_score           # as returned by the engine under test
+independent_score      # recomputed outside the engine
+score_delta            # |engine_score - independent_score|, with tolerance
+policy_expected        # from §4, pre-frozen
+policy_observed        # from the execution
+classification         # §6.1
+```
+
+The discrimination is mechanical, not judgemental:
+
+```text
+engine_score != independent_score   -> EXECUTION_ERROR
+engine_score == independent_score
+  AND impact_label == IRREVERSIBLE_EXTERNAL
+  AND policy_observed == L0         -> POLICY_FALSE_NEGATIVE
+```
+
+### 6.3 The proven-range oracle
+
+Finding B established a **mathematical range constraint** before the falsifier was implemented. That constraint is not merely a result — it is an **oracle for the execution itself**.
+
+| Arm | `L0` | `L3` |
+|---|---|---|
+| `CLAMP` | reachable | reachable |
+| `SIGMOID` | **provably unreachable**, $\sigma \ge 0.5 > 0.30$ | **provably unreachable**, $\sigma \le 0.7595 < 0.85$ |
+
+The frozen prediction, stated before any execution:
+
+```text
+SIGMOID arm reports L0  ->  CONTRADICTS_PROVEN_RANGE
+SIGMOID arm reports L3  ->  CONTRADICTS_PROVEN_RANGE
+```
+
+`CONTRADICTS_PROVEN_RANGE` is a **defect in the implementation or test path**, not a security finding. The arm is wrong, the harness applied the wrong arm, or the recomputation is faulty. It is reported as a bug against this harness, never as evidence about the policy.
+
+The value of the oracle is precise: **it converts an apparent security result into a diagnostic.** Without it, a `SIGMOID → L0` observation would read as a discovered weakness in the risk engine. With it, that observation is immediately identified as an inconsistency in the experiment itself — because the range was already proven before the code ran.
+
+The same constraint applies in reverse. A `CLAMP` arm result of exactly 0.0 or exactly 1.0 is consistent with a clamp and would be inconsistent with $\sigma$. Any arm observation outside that arm's proven reachable set is a harness defect, not a finding.
+
+## 7. Independence from D1a, D1b, D2, D4
 
 D3 is **not** blocked on repairing them, and repairing them does **not** license rewriting D3 results.
 
-**D1 is treated as an experimental factor, not a repair.** The specification states $\sigma(\cdot)$; the implementation clamps. Rather than silently choosing one, D3 runs **two arms over the same frozen case set and the same independent labels**:
+**D1 is two independent defects, and D3 touches neither.** `D1a` is a defect of the specification: $\sigma(\cdot)$ cannot reach $L_0$ or $L_3$ over its declared domain. `D1b` is a defect of the implementation: the code computes a clamp. They are distinct, and finding one does not subsume the other — resolving `D1a` would still leave `D1b` open, and vice versa.
 
-| Arm | Risk function |
-|---|---|
-| `CLAMP` | as implemented — `min(max(x, 0), 1)` |
-| `SIGMOID` | as specified — $\sigma(\cdot)$ |
+**Both are treated as experimental factors, not repairs.** Rather than silently choosing one function, D3 runs **two arms over the same frozen case set and the same independent labels**:
 
-A divergence in falsifier outcome between arms is **itself a result**: it quantifies how much the specification ambiguity matters to the security property. D1 remains open and unrepaired; D3 does not depend on resolving it.
+| Arm | Risk function | Corresponds to |
+|---|---|---|
+| `CLAMP` | as implemented — `min(max(x, 0), 1)` | the behaviour that exists now |
+| `SIGMOID` | as specified — $\sigma(\cdot)$ | the behaviour the prose describes |
+
+A divergence in falsifier outcome between arms is **itself a result**: it measures how much the `D1a`/`D1b` ambiguity matters to the security property rather than assuming it. Neither defect is repaired here. `D1a` and `D1b` remain open; D3 does not depend on resolving either.
+
+The run answers *"what properties and failures does the specification that actually exists produce?"* A later repair answers the different question *"what happens after the specification changes?"* One does not retroactively modify the other — the same discipline P1 applied to its adjudications.
 
 **D2 and D4 are untouched.** No cryptographic change, no contract change, no domain-separation change while D3 is in progress. If a future repair to D2 or D4 alters falsifier behaviour, that is a **new execution producing new evidence**, recorded alongside — never a rewrite of the prior result.
 

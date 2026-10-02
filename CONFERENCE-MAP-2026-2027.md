@@ -7,7 +7,7 @@ This file separates confirmed invitations from venue hypotheses. A venue is not 
 | Venue | Known information | Candidate paper/package | Status |
 |---|---|---|---|
 | ICRCV 2026 | Jiangyin, Nov 6-8; deadline Sep 15 in invitation | R-01 Physical Covert THz | Confirm late/open portal |
-| AIBT 2026 | Shanghai, Nov 27-29; deadline Sep 15 in invitation | AB-01 Quantum THz-6G | **CONFLICT — see note below** |
+| AIBT 2026 | Shanghai, Nov 27-29; **deadline Oct 10 — VERIFIED at source 2026-10-02**; ACM ICPS, Ei/Scopus | AB-01 Quantum THz-6G · SD-05 | Open. Portal + page limits unverified |
 | ICMV 2026 SS2 | Information Technologies and Artificial Intelligence | [ICMV SS2 package](https://github.com/FernandoMay/icmv-ss2-quantum-cognitive-ai) | Confirm special-session route |
 | ICMV 2026 SS3 | Transformers in Remote Sensing | V-02 THz remote-sensing reconstruction | Develop session-specific version |
 | ICMV 2026 SS4 | Machine Vision Meets Agriculture 5.0 | V-03 THz image communication for precision agriculture | Develop dataset-backed version |
@@ -19,26 +19,51 @@ This file separates confirmed invitations from venue hypotheses. A venue is not 
 | AI4Science 2026 | Shenzhen, Oct 23-25; deadline not supplied | THz propagation; physics-informed imaging | Obtain official deadline |
 | ICCPR 2026 | Wuxi, Oct 29-Nov 1; prior deadline Sep 5 | H.266 DRL; BCI narrative | Verify extension/status only |
 | ICITES 2026 | Mentioned by `qce-ieee-package` | QCE; SRA; quantum-K-SAT methods | Obtain official CFP |
-| ICCBN 2026 | Chengdu, Nov 27-29; **deadline Oct 25 — SECONDARY_SOURCE, unverified** | SD-04 Network Digital Twins | Obtain official CFP. Not submission-ready |
+| ICCBN 2026 | Chengdu, Nov 27-29; **submission deadline Oct 5 — VERIFIED at source 2026-10-02**; notification Oct 25; IEEE proceedings + Xplore | SD-04 Network Digital Twins | **Effectively closed — 3 days.** No new paper buildable |
 
-## Venue conflicts requiring resolution
+## Venue verification, 2026-10-02 — PRIMARY_SOURCE
 
-### AIBT 2026 — four unresolved conflicts
+Both official sites fetched directly. This supersedes the SECONDARY_SOURCE inbox analysis for **dates and publisher**. The earlier historical records are retained below rather than overwritten, because a discrepancy between a historical record and a current official page is itself a fact worth keeping.
 
-Recorded 2026-10-02. **The AIBT row above is not overwritten by the newer claim; both are retained until the official CFP resolves them.**
-
-| Axis | This map / `BACKLOG.md` / `README.md` | Newer claim (SECONDARY_SOURCE) |
+| | AIBT 2026 | ICCBN 2026 |
 |---|---|---|
-| Deadline | Sep 15, 2026 | Oct 10, 2026 |
-| Paper | AB-01 Quantum THz-6G | SD-05 Proof-Carrying AI Agents |
-| Venue quality | assessed as a mass-mailing call from a predatory or vanity venue (`SECONDARY-SOURCE-gemini-conversation.md` §4.1) — in the same source, later endorsed as methodologically suitable | endorsed, without addressing the prior assessment |
-| Publisher | ACM — "Confirm portal and ACM policy" | IEEE Xplore, Ei Compendex, Scopus |
+| Official source | `aibt.net` | `iccbn.org` |
+| Dates | Nov 27-29, Shanghai | Nov 27-29, Chengdu |
+| **Submission** | **Oct 10** (8 days) | **Oct 5** (3 days) |
+| Notification | Oct 25 | Oct 25 |
+| Registration / camera-ready | Oct 30 / Oct 30 | Oct 31 |
+| Publisher | **ACM International Conference Proceedings Series**, Open Access | IEEE conference proceedings |
+| Indexing | Ei Compendex, Scopus | IEEE Xplore, Ei Compendex, Scopus |
+| Review | Double blind | Double blind |
+| Full-paper length | 4–10 pages, extra pages charged above 5 | 4–5 pages, double-column template |
+| Abstract-only option | 200–400 words | 300–500 words |
+| Co-sponsors | East China Normal University; Southwest Jiaotong University | Xihua University; IEEE Chengdu Section |
 
-**As of 2026-10-02, if the Sep 15 date holds, AIBT closed 17 days ago.** Any plan that still assumes an open AIBT window is proceeding on an unverified date. Nothing here resolves the conflict; only the official CFP does, and the submission gate already requires it.
+### Corrections to prior records
 
-### ICCBN 2026 — added unverified
+1. **AIBT deadline: Sep 15 → Oct 10.** The repo's historical "Sep 15 in invitation" does not match the current official page. Recorded as a discrepancy, not a correction: either the deadline moved or the invitation carried a different date. The earlier "closed 17 days ago" reading was **wrong** and is withdrawn.
+2. **AIBT publisher is ACM ICPS, not IEEE Xplore.** The IEEE Xplore claim originated in the inbox analysis and **does not survive**. It matched the repo's existing "ACM — confirm policy" note.
+3. **ICCBN submission is Oct 5, not Oct 25.** The Oct 25 in the inbox analysis is the **notification** date. Confirmed on the official page.
+4. **The alleged ICCBN extension to Oct 20 is not credible.** It would leave 5 days between submission and notification for double-blind review by a technical program committee, with camera-ready on Oct 31. That contradicts the venue's own stated review process. The extension is **not adopted**.
 
-Entered from an analysis of an institutional mailbox (`fmayf1500@alumno.ipn.mx`) that this repository cannot access. Recorded as SECONDARY_SOURCE; it inherits nothing and verifies nothing. Per the gate above, it is **not** submission-ready until CFP, deadline, publisher, page limit and portal are verified from the official source.
+### ICCBN publication track record — a caveat worth keeping
+
+| Edition | Proceedings |
+|---|---|
+| 2017–2024 | **ACM Digital Library** |
+| 2025 | **IEEE Xplore** (ISBN 979-8-3315-7649-3) |
+
+One year of IEEE output is not a stable publication record. The 2026 claim of IEEE Xplore is plausible and consistent with 2025, but the series changed publisher within the last two editions, so it should be re-verified before being cited as a track record.
+
+### AIBT venue assessment — evidence shifted, judgment not yet settled
+
+`SECONDARY-SOURCE-gemini-conversation.md` §4.1 recorded AIBT as "a mass-mailing call for papers from a predatory or vanity venue". That assessment came from a source that **in the same document** later endorsed AIBT as methodologically suitable, which is why it was not inherited.
+
+New primary evidence: two named Chinese universities as co-sponsors (East China Normal University, Southwest Jiaotong University), ACM ICPS publication, Ei Compendex and Scopus indexing. This is materially inconsistent with the predatory description. It is **not** a clearance — venue reputation is a judgment and one page does not settle it — but the weight of evidence has moved, and the earlier alarm should not be repeated as if unexamined.
+
+### Standing note
+
+The submission portal, page limits and template for **both** venues remain unverified. Only dates and publisher are PRIMARY_SOURCE here.
 
 ## Archived Before 2026-09-09
 

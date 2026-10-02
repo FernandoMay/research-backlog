@@ -1,32 +1,50 @@
 # SD-05 — Proof-Carrying AI Agents: Adaptive Cryptographic Verification of Autonomous Decision Traces
 
-**Proposed target:** AIBT 2026 — **CONFLICTED, see §0**
-**Track as proposed:** Artificial Intelligence & Blockchain Systems
-**Status:** design recorded. **Not submission-ready.** Target venue is unresolved and four implementation defects are open.
+**Target:** AIBT 2026 — deadline **Oct 10, 2026**, verified at source (§0)
+**Track:** Blockchain for AI → Trusted AI and Decentralized AI Systems (Track 4); Systems, Platforms and Experimental Studies (Track 6)
+**Status:** **FROZEN.** Not submission-ready. Seven defects open, D1–D4 structural. Redesign must begin from falsifiers, not from the paper narrative.
 
 ---
 
-## 0. Target venue is unresolved — read before acting on any date below
+## 0. Venue resolved; SD-05 frozen pending redesign
 
-The proposal was drafted against **AIBT 2026, deadline 10 Oct 2026**. The canonical backlog already assigns a **different paper** to that venue with a **different deadline**. Four separate problems, all verified against existing records:
+**Status: FROZEN. Not submission-ready. Not to be rebuilt against a paper narrative before the falsifiers exist.**
 
-| Problem | Existing record | Conflict |
-|---|---|---|
-| Deadline | `CONFERENCE-MAP`: "Sep 15 **in invitation**"; `BACKLOG.md` P0 row: "Sep 15, verify CFP"; `README.md`: Sep 15 | **Sep 15 vs Oct 10** — a month apart |
-| Paper | `AB-01` Quantum-Enhanced Cognitive Resource Optimization for THz-6G, with `proposals/AB-01-QUANTUM-THz6G-OPTIMIZATION-PLAN.md` and `conferences/aibt-2026/` | **AB-01 vs SD-05** — unrelated papers, one venue |
-| Venue quality | `SECONDARY-SOURCE-gemini-conversation.md` §4.1: AIBT assessed as a **mass-mailing call from a predatory or vanity venue**, "not to click links or reply" — and, in the same source, later endorsed as fitting "las exigencias metodológicas" | a source that holds both positions cannot be inherited |
-| Publisher | `BACKLOG.md`: "Confirm portal and **ACM policy**" | unverified |
+### 0.1 Venue — verified at source, 2026-10-02
 
-**Consequence, stated plainly: today is 2026-10-02. If the repository's Sep 15 is correct, AIBT closed 17 days ago and the "start AIBT now" recommendation is moot.** If Oct 10 is correct, there are 8 days.
+| | AIBT 2026 |
+|---|---|
+| Official source | `aibt.net`, fetched directly |
+| Submission deadline | **Oct 10, 2026 — 8 days** |
+| Notification | Oct 25 |
+| Camera-ready | Oct 30 |
+| Event | Nov 27-29, Shanghai |
+| Publisher | **ACM International Conference Proceedings Series**, Open Access |
+| Indexing | Ei Compendex, Scopus |
+| Review | Double blind |
+| Full paper | 4-10 pages, extra pages charged above 5 |
+| Abstract-only | 200-400 words |
+| Co-sponsors | East China Normal University; Southwest Jiaotong University |
 
-Nothing here resolves that. Only the official CFP does, and this repository's own submission gate already requires it:
+**The earlier "closed 17 days ago" reading is withdrawn.** It came from the repository's own stale `Sep 15 in invitation` record, which the official page contradicts. That discrepancy is retained in `CONFERENCE-MAP-2026-2027.md` as a fact, not resolved by fiat.
 
-> `CONFERENCE-MAP-2026-2027.md`: "A venue is not considered submission-ready until its official CFP, deadline, publisher, page limit, and submission portal are verified."
-> Submission gate, rule 1: "Verify the official CFP and whether the deadline is still open."
+The **IEEE Xplore** claim from the inbox analysis does not survive: AIBT publishes in ACM ICPS.
 
-Neither Oct 10 nor AB-01-over-SD-05 may be entered as confirmed on the strength of a secondary source.
+### 0.2 ICCBN is not an alternative
 
-**Provenance of the Oct 10 date.** It originates from an analysis of an institutional mailbox (`fmayf1500@alumno.ipn.mx`) that this repository cannot access. It is a **SECONDARY_SOURCE**, recorded as such, and inherits nothing.
+ICCBN 2026's official submission deadline is **Oct 5 — 3 days**. The Oct 25 figure in the inbox analysis is the **notification** date. The alleged Oct 20 extension fails the venue's own internal consistency: it would leave 5 days for double-blind review before notification, with camera-ready on Oct 31.
+
+**SD-04 Network Digital Twins cannot be built in 3 days.** ICCBN is recorded as effectively closed for this cycle.
+
+### 0.3 Venue reputation — evidence moved, judgment not settled
+
+`SECONDARY-SOURCE-gemini-conversation.md` §4.1 called AIBT a mass-mailing call from a predatory or vanity venue. That source endorsed AIBT in the same document, which is why it was never inherited.
+
+Primary evidence now available: two named Chinese university co-sponsors, ACM ICPS, Ei Compendex and Scopus. This is materially inconsistent with the predatory description. **This is not a clearance.** Venue reputation is a judgment; one page does not settle it. But the alarm should not be repeated as if unexamined.
+
+### 0.4 What is still unverified
+
+Submission portal, template, and page limits for both venues. Only dates and publisher are PRIMARY_SOURCE.
 
 ---
 
@@ -158,9 +176,32 @@ Replaying an already-anchored `TraceRoot` returns **true**. Re-anchoring simply 
 
 ### D3 — The adversary matrix cannot fail *(R2: unidentifiable experiment)*
 
-Rows 1–5 all predict `TraceRoot` check failure at **100%**. That is true by construction: SHA-256 is preimage-resistant, so changing any leaf necessarily changes the root. `test_tamper_detection.py` asserting 100% detection asserts a tautology. **A stage that cannot produce a negative result cannot gate anything.**
+**Instrument category: `NON-DISCRIMINATING-FALSIFIER`.** This is stronger than "a weak test". A non-discriminating falsifier is one where the tested property cannot take the failing value. It is recorded here as a distinct class, because P1's `R2` understates what goes wrong: an R2 defect may still fail sometimes, whereas this suite cannot fail **at all**.
 
-The security question that actually matters is **untested**: can an attacker construct an action that the risk engine scores $r < 0.30$ — receiving $L_0$, no signature, no anchoring, zero cost — while being genuinely high-impact? That attacks the *policy*, not the hash, and it is where an adaptive scheme actually fails. It requires no hash collision at all.
+Rows 1–5 all predict `TraceRoot` check failure at **100%**. That is true by construction: SHA-256 is preimage-resistant, so changing any leaf necessarily changes the root. Formally:
+
+```text
+for every perturbation p in {1..5}:
+    PASS(p)  ==  "hash changed"
+```
+
+`PASS` is a tautology over a property of SHA-256, not evidence about the system under test. `test_tamper_detection.py` asserting 100% detection therefore certifies that hash functions work. **A stage that cannot produce a negative result cannot gate anything** — it can only be reported as PASS, so reporting it as anything else requires overriding the instrument.
+
+The property that actually matters, and that this suite never touches, is the **policy**:
+
+```text
+high-impact action
+        ↓
+   risk engine
+        ↓
+     r < 0.30
+        ↓
+       L0
+        ↓
+no signature · no anchor · zero cost · no on-chain trace
+```
+
+Can an attacker construct an action that the risk engine scores below 0.30 — receiving $L_0$, no signature, no anchoring, no permanent trace — while being genuinely high-impact? That falsifies the **security policy**, which is a different property from cryptographic resistance, and it requires no hash collision whatsoever. It is the test that can fail, and therefore the only one whose PASS means anything.
 
 ### D4 — No domain separation in the Merkle construction
 

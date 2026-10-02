@@ -1,0 +1,87 @@
+{
+  "registry_version": "stub-v1",
+  "tools": 6,
+  "results": [
+    {
+      "property": "registry_integrity",
+      "mode": "STRICT",
+      "passed": true,
+      "detail": "all registered tools resolve to their registered class"
+    },
+    {
+      "property": "registry_integrity",
+      "mode": "VULNERABLE",
+      "passed": false,
+      "detail": "transfer_funds: got 0.0 expected 1.0; grant_access: got 0.0 expected 1.0; send_email: got 0.0 expected 1.0"
+    },
+    {
+      "property": "shadowing_resistance",
+      "mode": "STRICT",
+      "passed": true,
+      "detail": "no substitution, interception, invention or stale version admitted"
+    },
+    {
+      "property": "shadowing_resistance",
+      "mode": "VULNERABLE",
+      "passed": false,
+      "detail": "shadowed local binding downgraded transfer_funds to 0.0; volunteered descriptor downgraded transfer_funds to 0.0; unregistered tool accepted as 0.0 instead of I_UNKNOWN"
+    },
+    {
+      "property": "identity_binding",
+      "mode": "STRICT",
+      "passed": true,
+      "detail": "only exact registered identities resolve"
+    },
+    {
+      "property": "identity_binding",
+      "mode": "VULNERABLE",
+      "passed": false,
+      "detail": "'transfer_funds_v2' resolved to 0.0 instead of I_UNKNOWN; 'TRANSFER_FUNDS' resolved to 0.0 instead of I_UNKNOWN; 'transfer funds' resolved to 0.0 instead of I_UNKNOWN; '' resolved to 0.0 instead of I_UNKNOWN"
+    },
+    {
+      "property": "effect_provenance",
+      "mode": "STRICT",
+      "passed": true,
+      "detail": "provenance label tracks the actual source"
+    },
+    {
+      "property": "effect_provenance",
+      "mode": "VULNERABLE",
+      "passed": true,
+      "detail": "provenance label tracks the actual source"
+    },
+    {
+      "property": "independent_read",
+      "mode": "STRICT",
+      "passed": true,
+      "detail": "agent-side state cannot influence a registry-derived I"
+    },
+    {
+      "property": "independent_read",
+      "mode": "VULNERABLE",
+      "passed": false,
+      "detail": "mutating agent surface downgraded transfer_funds to 0.0"
+    },
+    {
+      "property": "fail_closed_invariant",
+      "mode": "STRICT",
+      "passed": true,
+      "detail": "undetermined class is I_UNKNOWN, never 0"
+    },
+    {
+      "property": "fail_closed_invariant",
+      "mode": "VULNERABLE",
+      "passed": false,
+      "detail": "nope yielded 0.0, not I_UNKNOWN; unknown_tool yielded 0.0, not I_UNKNOWN; TOOL_MISSING yielded 0.0, not I_UNKNOWN; transfer_funds_v2 yielded 0.0, not I_UNKNOWN"
+    }
+  ],
+  "strict_passes_all": true,
+  "vulnerable_passes_any": false,
+  "suite_discriminates": true,
+  "invariant_by_construction": [
+    "effect_provenance"
+  ],
+  "known_limitation": "The vulnerable variant self-reports DECLARED, so effect_provenance holds for it. A real attacker would not self-report. This stub therefore does not test honesty under an uncooperative derivator, and the property must not be cited as evidence that provenance labels are trustworthy against a deliberately concealing implementation.",
+  "verdict": "PASS -- a potentially independent authority source exists",
+  "scope": "Shadowing resistance does NOT establish that I_derived is correct. It establishes only that a potentially independent source of authority exists. Correctness is tested by the I- and I+ controls, which are a later step."
+}

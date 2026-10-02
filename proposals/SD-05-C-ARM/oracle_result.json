@@ -1,0 +1,91 @@
+{
+  "k": 6.0334,
+  "x_mid": 0.575,
+  "thresholds": [
+    0.3,
+    0.65,
+    0.85
+  ],
+  "domain": [
+    0.0,
+    1.15
+  ],
+  "range_check": {
+    "check": "analytic_range",
+    "proven": [
+      0.0302,
+      0.9698
+    ],
+    "observed": [
+      0.030201,
+      0.969799
+    ],
+    "within": true,
+    "matches_to_1e-4": true
+  },
+  "tier_check": {
+    "check": "four_tiers_reachable",
+    "first_reach": {
+      "L0": {
+        "x": 0.0,
+        "r": 0.0302
+      },
+      "L1": {
+        "x": 0.4346,
+        "r": 0.3
+      },
+      "L2": {
+        "x": 0.6776,
+        "r": 0.65
+      },
+      "L3": {
+        "x": 0.8625,
+        "r": 0.85
+      }
+    },
+    "missing": [],
+    "all_reachable": true
+  },
+  "gate_check": {
+    "check": "frozen_gate",
+    "detail": {
+      "P0": {
+        "x": 0.04,
+        "r": 0.03813,
+        "level": "L0",
+        "requires": "L0",
+        "ok": true
+      },
+      "P1": {
+        "x": 1.02,
+        "r": 0.936128,
+        "level": "L3",
+        "requires": "L2+",
+        "ok": true
+      }
+    },
+    "passed": true
+  },
+  "immutability_check": {
+    "check": "no_override_path",
+    "signatures": {
+      "risk": "(u, v, i, n, p)",
+      "f_c": "(x)",
+      "level_of": "(r)",
+      "pre_activation": "(u, v, i, n, p)"
+    },
+    "K_is_module_constant": true,
+    "no_parameter_named_k": true,
+    "thresholds_unchanged": true,
+    "weights_unchanged": true,
+    "gamma_unchanged": true,
+    "passed": true
+  },
+  "verdict": "PASS",
+  "not_established": [
+    "that C is a valid policy",
+    "that C produces any particular result on A1, A2, A1+A2 or A3",
+    "that absence of a structural impossibility means the policy works"
+  ],
+  "oracle_note": "CONTRADICTS_PROVEN_RANGE is unreachable in this implementation because no x in the domain produces a score outside the proven range. That is the correct state: the oracle exists to detect a defect, and here there is none."
+}

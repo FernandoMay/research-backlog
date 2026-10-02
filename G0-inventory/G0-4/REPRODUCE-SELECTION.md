@@ -50,33 +50,70 @@ Three objective elements, checked in this order. The **first** absent element is
 | ID | Element | Test |
 |---|---|---|
 | **B1** | Execution chain | Dependency or build manifest present: `requirements*.txt`, `pyproject.toml`, `setup.py`, `environment.yml`, `package.json`, `Cargo.toml`, `go.mod`, `pom.xml`, `build.gradle`, `Makefile`, `CMakeLists.txt`, `Dockerfile`, `*.cabal`, `Gemfile` |
-| **B2** | Input artifact | Data present, or an acquisition path: `data/`, `dataset/`, `datasets/`, files with extensions `.csv .tsv .npy .npz .mat .pkl .h5 .hdf5 .parquet .arrow .jsonl`, or an acquisition script (`download*.{py,sh}`, `fetch*.{py,sh}`, `get_data*.py`) |
+| **B2** | Input artifact | **Not a blocker — a flag.** Data present, or an acquisition path: `data/`, `dataset/`, `datasets/`, files with extensions `.csv .tsv .npy .npz .mat .pkl .h5 .hdf5 .parquet .arrow .jsonl`, or an acquisition script (`download*.{py,sh}`, `fetch*.{py,sh}`, `get_data*.py`). When absent on a claim-bearing repository, the classification carries `INPUT_ARTIFACT_ABSENT` into execution rather than being downgraded. See §9.1. |
 | **B3** | Execution instruction | Any of: (a) README contains a run/usage/install section heading; (b) a **dedicated instruction document** exists — `REPRODUCE.md`, `REPRODUCE.txt`, `RUN.md`, `USAGE.md`, `INSTRUCTIONS.md`, `HOWTO.md`, `QUICKSTART.md`, `GETTING_STARTED.md`; (c) a probable entrypoint script exists (`main.py`, `run.py`, `train.py`, `evaluate.py`, `experiment.py`) |
 
-B3(b) was **added after validation found it missing**. See §5.1.
+B3(b) was **added after validation found it missing**. See §6.1.
+
+**A `REPRODUCE.md` is candidate documentation, not evidence of reproducibility.** Its presence makes the execution chain *discoverable*, which supports eligibility for an attempt. It does not establish that the repository is reproducible, that its instructions are correct, or that its published results can be regenerated. A repository may ship a `REPRODUCE.md` and still fail to execute; that failure is `EXECUTION_FAILURE`, never `NUMERIC_MISMATCH`.
 
 ### 3.3 Classification
 
 ```text
-A false                    -> NO_PUBLISHED_CLAIM
-A true, B1/B2/B3 present   -> REPRODUCE_ELIGIBLE
-A true, some element absent -> REPRODUCE_NOT_YET_ELIGIBLE
-                               + the single missing element named
+A false                      -> NO_PUBLISHED_CLAIM
+A true, B1 and B3 present    -> REPRODUCE_ELIGIBLE  (+ INPUT_ARTIFACT_ABSENT flag if B2 absent)
+A true, B1 or B3 absent      -> REPRODUCE_NOT_YET_ELIGIBLE  (+ the missing element named)
 ```
 
-`NO_PUBLISHED_CLAIM` means there is nothing to reproduce. It is **not** a reproducibility verdict and **not** a judgement of the repository's value.
+### 3.4 What `REPRODUCE_NOT_YET_ELIGIBLE` means, and what it does not
 
-## 4. What this predicate deliberately does not do
+It means, narrowly:
+
+> **The available inventory does not yet contain sufficient evidence to justify a reproduction attempt under the current protocol.**
+
+It does **not** mean:
+
+- that the repository cannot be reproduced
+- that "we do not know how to reproduce it"
+- that no reproduction is possible in principle
+- anything about whether the published result is correct
+
+The distinction is load-bearing. `NOT_YET_ELIGIBLE` is a statement about **the inventory**, not about the science. Eligibility is re-evaluated whenever new evidence appears.
+
+`NO_PUBLISHED_CLAIM` means no published quantitative claim was found at the inspected depth. It is **not** a reproducibility verdict and **not** a judgement of the repository's value.
+
+## 4. Execution ladder
+
+Once a repository is `REPRODUCE_ELIGIBLE`, execution resolves to exactly one of:
+
+```text
+REPRODUCE_ELIGIBLE
+   ↓
+execution
+   ├── REPRODUCED           published figure regenerated within tolerance
+   ├── NUMERIC_MISMATCH     genuine numerical divergence
+   └── EXECUTION_FAILURE    environment, dependency, dataset, credential, timeout, crash
+```
+
+**`EXECUTION_FAILURE` is independent of `NUMERIC_MISMATCH` and must never be collapsed into it.** A repository that fails because a dataset is unavailable has produced no information about whether its published result is correct. The order is fixed:
+
+1. Classify the execution failure.
+2. Only genuine numerical divergence is a mismatch.
+3. Everything else is `EXECUTION_FAILURE`, a statement about the attempt and never about the result.
+
+This exists so that "I could not reproduce it" cannot silently become "the result is false."
+
+## 5. What this predicate deliberately does not do
 
 - It does not judge whether a claim is **correct**. That is `CLAIM_CORRESPONDS`, a separate layer.
 - It does not attempt regeneration. Eligibility means *an attempt is warranted*, nothing more.
 - It does not rank. No score, no ordering by merit.
 
-## 5. Known limits of this predicate, recorded before the run
+## 6. Known limits of this predicate — stated before the run, amended by what the run found
 
-These are properties of the instrument, stated in advance so a later reader does not have to reverse-engineer them from a failure.
+Stated in advance so a later reader does not have to reverse-engineer them from a failure. §6.1 was confirmed and extended by validation; §9 records what validation then found that was not anticipated here.
 
-### 5.1 `INCOMPLETE-MARKER-VOCABULARY` — third occurrence, found by validation
+### 6.1 `INCOMPLETE-MARKER-VOCABULARY` — third occurrence, found by validation
 
 The first implementation of B3 tested only README section headings and a closed basename whitelist for entrypoints. Applied to the three wave-1 repositories — the one set where independent inspection had already verified that **every published figure traces exactly** — it misclassified **2 of 3** as `REPRODUCE_NOT_YET_ELIGIBLE`, missing element `EXECUTION_INSTRUCTION`.
 
@@ -103,18 +140,6 @@ Had the predicate been applied to the 406 remaining repositories before validati
 
 **L5 — Scaffold and empty repositories.** Generic scaffolds and empty repositories are objects in their own right. A scaffold is not a reproduction candidate; an empty repository has no artifact to reproduce. Both must be classified by inspection, not by the predicate.
 
-## 6. Execution rule, fixed in advance
-
-> **A failed execution never counts as a mismatch automatically.**
-
-The order is fixed:
-
-1. Classify the execution failure (environment, missing dependency, missing dataset, missing credential, timeout, crash, or genuine numerical divergence).
-2. Only if the classification is genuine numerical divergence does a mismatch exist.
-3. Anything else yields `NOT_ATTEMPTED` or `EXECUTION_BLOCKED`, which is a statement about the attempt, never about the published result.
-
-This exists so that "I could not reproduce it" cannot silently become "the result is false."
-
 ## 7. Records to produce
 
 - This document, unchanged, as the predicate of record.
@@ -135,3 +160,85 @@ The three wave-1 repositories were re-collected on 2026-10-02 to serve as the pr
 | `raw/wave1.json` | `fec615e98b76a2f0586c47123126ef717ddfa81e4037c304def6befa11127176` |
 
 This is the audit's own version of the failure it detects elsewhere: an artifact whose evidence was not retained could not be checked by anyone, including by the auditor.
+---
+
+## 9. Defects found by the self-contained ground truth
+
+The first ground truth (wave 1, 3 repositories, all data-backed) could only exercise the data-backed branch of B2. A second ground truth was built specifically to cover classes that could break the predicate. It found **three further defects**, two of them in the permissive direction — the direction that manufactures findings.
+
+### 9.1 B2 — self-contained regeneration was a false negative
+
+`fcstn`: 172 files, **zero data files**, and `RUN_RESULTS.md` publishing `22 passed in 458.39s` plus metric-tensor curvature results. `mandelbrot.py` computes from hardcoded parameters (`center=(-0.5, 0.0)`) against numpy/cupy alone.
+
+Ground truth: **`REPRODUCE_ELIGIBLE`**. Predicate: `REPRODUCE_NOT_YET_ELIGIBLE` on a missing `INPUT_ARTIFACT` that was never needed.
+
+**Cause.** B2 tested "is a data file present" and read absence as "data is required." Absence of a data file does not establish that external data is required — that is an *execution* question.
+
+**Fix.** B2 became a **flag, not a blocker**. A claim-bearing repository with B1 and B3 present is `REPRODUCE_ELIGIBLE` and carries `INPUT_ARTIFACT_ABSENT` into execution, where a genuinely missing dataset becomes `EXECUTION_FAILURE`.
+
+Before this fix, `INPUT_ARTIFACT` was absent on **116 of 121** inspected repositories — 96%. That was never a finding. It was a prediction that B2 was wrong.
+
+### 9.2 A2 — mass false positives on web and mobile repositories
+
+The first metric vocabulary matched:
+
+| Repository | Matched | What it actually was |
+|---|---|---|
+| `rescueM` | `Map` | a navigation screen (`map` was meant for mAP) |
+| `fg-supply` | `AppColors.error` | a Dart colour constant |
+| `travelai` | `Ratio` | the CSS property "Aspect Ratio" |
+| `spaceverses` | `Ratio` | identical |
+
+A bare `\d+` additionally matched hex colours and version numbers anywhere in a 10 KB README. The predicate was not selecting repositories with published claims; it was selecting **web and mobile templates**.
+
+**Fix.** Vocabulary restricted to terms unambiguous in a README; `mAP`, `F1`, `PSNR`, `SSIM`, `BLEU`, `IoU` matched **case-sensitively**; a metric term now counts only when a number appears **within 40 characters** and a result-like unit appears nearby. A bare number is not a result.
+
+Effect on the inspected population: `REPRODUCE_ELIGIBLE` fell from **24 to 8**. All 24 had been A2 false positives.
+
+### 9.3 A1 — assets, foreign uploads, and issue templates counted as claims
+
+| Repository | Path that fired | What it actually was |
+|---|---|---|
+| `workspace-63c46920-…` | `upload/FG Supply.pdf` | a document belonging to a **different project** |
+| `dsltech` | `assets/images/doc.pdf` | a UI image asset |
+| `smart-contract-auditor` | `.github/issue_template/bug_report.md` | a GitHub issue template |
+
+**Cause.** Any `.tex`/`.pdf` anywhere counted as a manuscript, and the token `report` matched a GitHub issue template.
+
+**Fix.** Vendored, template and asset locations are excluded outright (`.github/`, `node_modules/`, `assets/`, `upload/`, `ios/`, `android/`, `build/`, `dist/`, …), and a manuscript must sit at a paper-like path (`paper/`, `latex/`, `manuscript/`, `main.tex`, `*paper.*`).
+
+Effect on the inspected population: `REPRODUCE_ELIGIBLE` fell from **8 to 3**.
+
+### 9.4 B3 — residual, and deliberately not fixed
+
+A repository whose only entrypoint has a non-standard name and which ships no instruction document is classified `REPRODUCE_NOT_YET_ELIGIBLE`. Example: `requirements.txt` + `mandelbrot.py` + a README with no usage section.
+
+**Not fixed**, because the alternative — treating any executable file as an instruction — makes B3 vacuous and destroys its ability to distinguish a discoverable execution chain from an undiscoverable one. This is the same vocabulary defect a fifth time, and it is left standing with its exact trigger recorded rather than papered over.
+
+### 9.5 `SEARCH-API-UNUSABLE` — code search returns confident zeros
+
+GitHub code search returned **0** for `filename:REPRODUCE.md+owner:FernandoMay` and **0** for `repo:FernandoMay/xing-adan-resilience`, which the tree API shows has **18 blobs**. The token carries `repo` scope; the tree API works on the same repository.
+
+**Consequence.** The conclusion "the estate contains no notebooks" is **not obtainable** by this route and was not drawn. Candidate discovery for the notebook class was done from `language == "Jupyter Notebook"` in the snapshot instead, which located 5 repositories.
+
+A search endpoint returning 0 for content that demonstrably exists is the same species as a detector returning 0 for a scaffold: a confident negative from an unvalidated instrument.
+
+## 10. Precision, recall, and the direction of error
+
+The predicate is deliberately **biased toward the restrictive direction**, and the asymmetry is the justification:
+
+| Error | Consequence |
+|---|---|
+| False `REPRODUCE_ELIGIBLE` | manufactures an execution attempt; can manufacture a finding about a result that was never testable |
+| False `REPRODUCE_NOT_YET_ELIGIBLE` | defers work; the repository can be re-evaluated when evidence appears |
+
+A known probable false negative is recorded rather than fixed: **`mirailand`** ships `docs/6im1_mirai_final.pdf` and `docs/mirai onepager.pdf`, which look like a manuscript and a one-pager. Under §9.3 neither fires, because a manuscript must now sit at a paper-like path. `mirailand` is a candidate for manual review.
+
+## 11. Cross-repository artifact duplication
+
+Two Z.ai scaffold workspaces contain artifacts belonging to **`fg-supply`**:
+
+- `workspace-63c46920-…` — `upload/FG Supply.pdf`, plus four UI screenshots (`Calculadora.jpg`, `Dashboard.jpg`, `Login.jpg`, `Menú expandido.jpg`)
+- `workspace-81c65fbf-…` — `upload/FG Supply.pdf`
+
+The `fg-supply` artifacts therefore exist in at least three repositories. Excluding `upload/` from A1 is correct — files fed into an AI coding session are not claims *of that repository* — but the duplication is a structural fact about the estate: **a claim-bearing artifact is not necessarily owned by one repository**, and identity resolution over artifacts must not assume otherwise.

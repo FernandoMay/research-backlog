@@ -19,21 +19,86 @@ inspected depth.
 import re
 
 # --- A1: claim-bearing tree paths ---------------------------------------
+# REWRITTEN after ground-truth validation. The first rule treated any .tex
+# or .pdf anywhere as claim-bearing, which matched UI assets
+# (assets/images/doc.pdf), an uploaded PDF belonging to a DIFFERENT project
+# (upload/fg supply.pdf inside an unrelated scaffold), and a GitHub issue
+# template (.github/issue_template/bug_report.md).
+#
+# Two changes: vendored/template/asset locations are excluded outright, and a
+# manuscript must sit at a paper-like path rather than anywhere.
+
 A1_NAME = re.compile(
     r"(result|metric|benchmark|eval|experiment|performance|report|ablation|accuracy|figure)",
     re.I,
 )
 A1_EXT = re.compile(r"\.(json|csv|tsv|md|txt|log|yaml|yml|npy|npz|mat|pkl|tex|pdf)$", re.I)
 
-# --- A2: quantitative claim in the README -------------------------------
-METRIC_VOCAB = re.compile(
-    r"\b(accuracy|auc|auroc|precision|recall|f1|latency|ms|throughput|error|rmse|mse|mae"
-    r"|bleu|rouge|perplexity|baseline|benchmark|score|rate|ratio|loss|reward|iter|itr|wps"
-    r"|power|mw|w/|db|snr|psnr|ssim|iou|fid|map)\b",
+# Locations that never contain the repository's own claims.
+A1_EXCLUDE_DIR = (
+    ".github/", "node_modules/", ".venv/", "venv/", "vendor/", "third_party/",
+    "assets/", "static/", "public/", "upload/", "uploads/", "ios/", "android/",
+    ".dart_tool/", "build/", "dist/", "migrations/", "__macosx/",
+)
+# A manuscript must be at a paper-like path.
+A1_PAPER = re.compile(
+    r"(^|/)(paper|papers|latex|manuscript|manuscripts)/|(^|/)main\.(tex|pdf)$|"
+    r"(paper|manuscript|article)\.(tex|pdf|md)$",
     re.I,
 )
-UNIT_VOCAB = re.compile(r"(%|\bms\b|\bmw\b|\bwatt|\bdb\b|\bmbps\b|\bdpi\b|\bhz\b|\bkhz\b|\bgb\b|\bmb\b|\bfps\b)", re.I)
-NUMBER = re.compile(r"\d+(?:\.\d+)?")
+
+
+def a1_claim(files):
+    hits = []
+    for f in files:
+        low = f.lower()
+        if low.startswith(A1_EXCLUDE_DIR):
+            continue
+        if A1_EXT.search(low) and A1_NAME.search(low):
+            hits.append(f)
+        elif low.endswith((".tex", ".pdf")) and A1_PAPER.search(low):
+            hits.append(f)
+    return hits
+
+# --- A2: quantitative claim in the README -------------------------------
+# REWRITTEN after ground-truth validation. The first vocabulary produced
+# mass false positives on web and mobile repositories: it matched the
+# navigation screen "Map" (intended for mAP), the Dart colour constant
+# "AppColors.error", and the CSS property "Aspect Ratio". A bare \d+ also
+# matched hex colours and version numbers.
+#
+# Two changes: the vocabulary is restricted to terms that are unambiguous in
+# a README, and a metric term only counts when a number appears WITHIN
+# A2_WINDOW characters of it. A metric published in prose puts the number
+# next to the name; a UI string does not.
+#
+# mAP is matched case-sensitively on purpose. See A2_CASE_SENSITIVE.
+
+A2_METRIC_LOWER = re.compile(
+    r"\b(accuracy|precision|recall|auroc|auc-?roc|rmse|mse|mae|brier|ece"
+    r"|bleu|rouge|perplexity|latency|throughput|snr|psnr|ssim|iou|fid"
+    r"|wer|cer|word error rate|bit error rate|ber|itr|words per minute|wpm)\b",
+    re.I,
+)
+# Ambiguous in a README, therefore matched case-sensitively only.
+A2_METRIC_CASE = re.compile(r"\bmAP\b|\bF1[- ]score\b|\bF1\b|\bPSNR\b|\bSSIM\b|\bBLEU\b|\bIoU\b")
+# Result-like unit must also be adjacent. A bare number is not a result.
+A2_UNIT = re.compile(r"(%|\bms\b|\bmilliseconds?\b|\bdB\b|\bSNR\b|\bMW\b|\bmW\b|\bwatt"
+                     r"|\bdpi\b|\bHz\b|\bMHz\b|\bGB/s\b|\bMbps\b|\bfps\b|\btokens?/s\b)", re.I)
+A2_WINDOW = 40
+
+
+def a2_claim(readme):
+    """True only if a metric term sits next to a number (and ideally a unit)."""
+    for m in list(A2_METRIC_LOWER.finditer(readme)) + list(A2_METRIC_CASE.finditer(readme)):
+        lo, hi = m.start(), m.end()
+        window = readme[max(0, lo - A2_WINDOW): hi + A2_WINDOW]
+        if not re.search(r"\d+(?:\.\d+)?", window):
+            continue          # a metric named but never quantified
+        if not A2_UNIT.search(window):
+            continue          # quantified, but no result-like unit nearby
+        return True
+    return False
 
 # --- B1: execution chain -------------------------------------------------
 B1_MANIFEST = (
@@ -72,8 +137,8 @@ def classify(rec):
     bases = {f.rsplit("/", 1)[-1] for f in low}
 
     # ---- Condition A: does a published claim exist? ----
-    a1 = [f for f in low if A1_EXT.search(f) and (A1_NAME.search(f) or f.endswith((".tex", ".pdf")))]
-    a2 = bool(METRIC_VOCAB.search(readme) and (UNIT_VOCAB.search(readme) or NUMBER.search(readme)))
+    a1 = a1_claim(files)
+    a2 = a2_claim(readme)
     a_evidence = []
     if a1:
         a_evidence.append(f"A1:{len(a1)} claim-bearing path(s)")
@@ -98,10 +163,16 @@ def classify(rec):
     missing = []
     if not b1:
         missing.append("EXECUTION_CHAIN")
-    if not b2:
-        missing.append("INPUT_ARTIFACT")
     if not b3:
         missing.append("EXECUTION_INSTRUCTION")
+
+    # B2 is a FLAG, not a blocker. Ground-truth validation found the blocker
+    # form wrong: absence of a data file does not establish that external data
+    # is required. Whether a missing dataset blocks execution is an execution
+    # question, answerable only by attempting and classifying the failure.
+    flags = []
+    if a and not b2:
+        flags.append("INPUT_ARTIFACT_ABSENT")
 
     if not a:
         state = "NO_PUBLISHED_CLAIM"
@@ -114,9 +185,10 @@ def classify(rec):
         "state": state,
         "A": a, "A_evidence": a_evidence,
         "B1_execution_chain": bool(b1),
-        "B2_input_artifact": bool(b2),
+        "B2_input_artifact_present": bool(b2),
         "B3_execution_instruction": bool(b3),
         "missing": missing,
+        "flags": flags,
         "files_n": len(files),
         "readme_n": len(readme),
     }

@@ -7,7 +7,7 @@ This file separates confirmed invitations from venue hypotheses. A venue is not 
 | Venue | Known information | Candidate paper/package | Status |
 |---|---|---|---|
 | ICRCV 2026 | Jiangyin, Nov 6-8; deadline Sep 15 in invitation | R-01 Physical Covert THz | Confirm late/open portal |
-| AIBT 2026 | Shanghai, Nov 27-29; deadline Sep 15 in invitation | AB-01 Quantum THz-6G | Confirm portal |
+| AIBT 2026 | Shanghai, Nov 27-29; deadline Sep 15 in invitation | AB-01 Quantum THz-6G | **CONFLICT — see note below** |
 | ICMV 2026 SS2 | Information Technologies and Artificial Intelligence | [ICMV SS2 package](https://github.com/FernandoMay/icmv-ss2-quantum-cognitive-ai) | Confirm special-session route |
 | ICMV 2026 SS3 | Transformers in Remote Sensing | V-02 THz remote-sensing reconstruction | Develop session-specific version |
 | ICMV 2026 SS4 | Machine Vision Meets Agriculture 5.0 | V-03 THz image communication for precision agriculture | Develop dataset-backed version |
@@ -19,6 +19,26 @@ This file separates confirmed invitations from venue hypotheses. A venue is not 
 | AI4Science 2026 | Shenzhen, Oct 23-25; deadline not supplied | THz propagation; physics-informed imaging | Obtain official deadline |
 | ICCPR 2026 | Wuxi, Oct 29-Nov 1; prior deadline Sep 5 | H.266 DRL; BCI narrative | Verify extension/status only |
 | ICITES 2026 | Mentioned by `qce-ieee-package` | QCE; SRA; quantum-K-SAT methods | Obtain official CFP |
+| ICCBN 2026 | Chengdu, Nov 27-29; **deadline Oct 25 — SECONDARY_SOURCE, unverified** | SD-04 Network Digital Twins | Obtain official CFP. Not submission-ready |
+
+## Venue conflicts requiring resolution
+
+### AIBT 2026 — four unresolved conflicts
+
+Recorded 2026-10-02. **The AIBT row above is not overwritten by the newer claim; both are retained until the official CFP resolves them.**
+
+| Axis | This map / `BACKLOG.md` / `README.md` | Newer claim (SECONDARY_SOURCE) |
+|---|---|---|
+| Deadline | Sep 15, 2026 | Oct 10, 2026 |
+| Paper | AB-01 Quantum THz-6G | SD-05 Proof-Carrying AI Agents |
+| Venue quality | assessed as a mass-mailing call from a predatory or vanity venue (`SECONDARY-SOURCE-gemini-conversation.md` §4.1) — in the same source, later endorsed as methodologically suitable | endorsed, without addressing the prior assessment |
+| Publisher | ACM — "Confirm portal and ACM policy" | IEEE Xplore, Ei Compendex, Scopus |
+
+**As of 2026-10-02, if the Sep 15 date holds, AIBT closed 17 days ago.** Any plan that still assumes an open AIBT window is proceeding on an unverified date. Nothing here resolves the conflict; only the official CFP does, and the submission gate already requires it.
+
+### ICCBN 2026 — added unverified
+
+Entered from an analysis of an institutional mailbox (`fmayf1500@alumno.ipn.mx`) that this repository cannot access. Recorded as SECONDARY_SOURCE; it inherits nothing and verifies nothing. Per the gate above, it is **not** submission-ready until CFP, deadline, publisher, page limit and portal are verified from the official source.
 
 ## Archived Before 2026-09-09
 

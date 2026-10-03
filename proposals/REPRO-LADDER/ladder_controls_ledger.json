@@ -1,0 +1,39 @@
+{
+  "checks": [
+    {
+      "case": "deterministic identical, nothing moved",
+      "ok": true,
+      "got": "REPRODUCED",
+      "want": "REPRODUCED"
+    },
+    {
+      "case": "deterministic different",
+      "ok": true,
+      "got": "NUMERIC_MISMATCH",
+      "want": "NUMERIC_MISMATCH"
+    },
+    {
+      "case": "runtime different, deterministic identical",
+      "ok": true,
+      "got": "REPRODUCED_WITH_ENVIRONMENT_DEPENDENT_FIELDS",
+      "want": "REPRODUCED_WITH_ENVIRONMENT_DEPENDENT_FIELDS"
+    },
+    {
+      "case": "execution failed",
+      "ok": true,
+      "got": "EXECUTION_FAILURE",
+      "want": "EXECUTION_FAILURE"
+    },
+    {
+      "case": "registry edited after sealing is refused",
+      "ok": true,
+      "got": "NUMERIC_MISMATCH",
+      "want": "NUMERIC_MISMATCH"
+    }
+  ],
+  "echo_fails": 3,
+  "suite_discriminates": true,
+  "verdict": "PASS",
+  "origin": "gap discovered at 3e4a2ef; this outcome did not exist then",
+  "note": "The fourth outcome requires pre-registered field classes. Without sealing, a mismatch could always be excused by relabelling the field, which would make the ladder non-discriminating."
+}

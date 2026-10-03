@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-02",
+  "branch": "publications/2026-board",
+  "protocol": "REPRODUCE.md literal: venv, pip install -r requirements.txt, pytest tests/ -q, python src/<entry>.py",
+  "python": "3.13.13 (/opt/homebrew/bin/python3.13)",
+  "python_3_14_note": "scikit-learn and torch publish no cp314 macOS wheels; 3.13 resolves to wheels",
+  "packages": [
+    {
+      "package": "SD-01 ISCMI",
+      "repo_dir": "sd01/repo",
+      "commit": "78a646b",
+      "entry": "src/experiment.py",
+      "metrics_sha256_head": "2278b9b73cfb3deb840a0895f7e8c80cef6b143c6e107d78ec59015d424addb6",
+      "metrics_sha256_regenerated": "2278b9b73cfb3deb840a0895f7e8c80cef6b143c6e107d78ec59015d424addb6",
+      "identical": true,
+      "env": {
+        "numpy": "2.5.3"
+      }
+    },
+    {
+      "package": "SD-02 INCC",
+      "repo_dir": "sd02/repo",
+      "commit": "1879f91",
+      "entry": "src/simulator.py",
+      "metrics_sha256_head": "a3e5f6d3f6d719de092723d26a954bf8f0ac25615af3ae72d98b5c1c9aba62f9",
+      "metrics_sha256_regenerated": "a3e5f6d3f6d719de092723d26a954bf8f0ac25615af3ae72d98b5c1c9aba62f9",
+      "identical": true,
+      "env": {
+        "numpy": "2.5.3"
+      }
+    },
+    {
+      "package": "SD-03 ICCIT",
+      "repo_dir": "sd03/repo",
+      "commit": "ab4b445",
+      "entry": "src/pipeline_loso_itr.py",
+      "metrics_sha256_head": "e8b097b5b1f767e4061ec8d703423635fa0520d5a3a78324f1d3cf005fcecd06",
+      "metrics_sha256_regenerated": "4124ec3bd69093f9b30d2e2eb8faf4e41247ec18f0f767cfb779234ade8497bf",
+      "identical": false,
+      "env": {
+        "numpy": "2.5.3",
+        "torch": "2.14.1"
+      }
+    }
+  ]
+}

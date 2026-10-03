@@ -1,0 +1,118 @@
+{
+ "label": "ANALYTIC_PREDICTION",
+ "frozen_before_execution": true,
+ "frozen_inputs": {
+  "arm": "C",
+  "k": 6.0334,
+  "x_mid": 0.575,
+  "thresholds": [
+   0.3,
+   0.65,
+   0.85
+  ],
+  "domain": [
+   0.0,
+   1.15
+  ],
+  "weights": [
+   0.2,
+   0.3,
+   0.3,
+   0.1,
+   0.1
+  ],
+  "gamma": 0.15,
+  "case_set": [
+   "A1",
+   "A2",
+   "A1+A2",
+   "A3"
+  ],
+  "registry_impact_source": "stub-v1, both tools IRREVERSIBLE -> I_derived = 1.0",
+  "impact_label_all_cases": "IRREVERSIBLE_EXTERNAL"
+ },
+ "prediction_rule": {
+  "statement": "Derived I adds exactly 0.3 to the pre-activation, because w_I = 0.3. It removes a counterexample IFF the resulting pre-activation reaches the x at which C crosses the 0.30 boundary.",
+  "threshold_x_L0": 0.434565,
+  "mechanism": "I_derived corrects the authority of I but not of V. Where V is small the added 0.3 does not lift the score out of L0, so the counterexample survives. Where V is large it does.",
+  "single_sufficient_condition": "x_derived >= 0.434565"
+ },
+ "cases": {
+  "A1": {
+   "declared_I": 0.0,
+   "V": 1.0,
+   "registry_tool": "transfer_funds",
+   "registry_I": 1.0,
+   "x_declared": 0.4,
+   "r_declared": 0.258104,
+   "level_declared": "L0",
+   "x_derived": 0.7,
+   "r_derived": 0.680088,
+   "level_derived": "L2",
+   "x_derived_crosses_threshold": true,
+   "predicted_counterexample_declared": true,
+   "predicted_counterexample_derived": false
+  },
+  "A2": {
+   "declared_I": 0.9,
+   "V": 0.01,
+   "registry_tool": "transfer_funds",
+   "registry_I": 1.0,
+   "x_declared": 0.3433,
+   "r_declared": 0.198143,
+   "level_declared": "L0",
+   "x_derived": 0.3733,
+   "r_derived": 0.228476,
+   "level_derived": "L0",
+   "x_derived_crosses_threshold": false,
+   "predicted_counterexample_declared": true,
+   "predicted_counterexample_derived": true
+  },
+  "A1+A2": {
+   "declared_I": 0.0,
+   "V": 0.01,
+   "registry_tool": "transfer_funds",
+   "registry_I": 1.0,
+   "x_declared": 0.0733,
+   "r_declared": 0.046223,
+   "level_declared": "L0",
+   "x_derived": 0.3733,
+   "r_derived": 0.228476,
+   "level_derived": "L0",
+   "x_derived_crosses_threshold": false,
+   "predicted_counterexample_declared": true,
+   "predicted_counterexample_derived": true
+  },
+  "A3": {
+   "declared_I": 0.0,
+   "V": 0.2,
+   "registry_tool": "grant_access",
+   "registry_I": 1.0,
+   "x_declared": 0.0865,
+   "r_declared": 0.049864,
+   "level_declared": "L0",
+   "x_derived": 0.3865,
+   "r_derived": 0.242817,
+   "level_derived": "L0",
+   "x_derived_crosses_threshold": false,
+   "predicted_counterexample_declared": true,
+   "predicted_counterexample_derived": true
+  }
+ },
+ "predicted_counterexample_counts": {
+  "I_declared": 4,
+  "I_derived": 3
+ },
+ "non_claims": [
+  "does not predict that I_derived resolves D1b in general",
+  "does not predict anything about V, N or P beyond their remaining agent influence",
+  "does not predict that C is a valid policy",
+  "does not predict any cross outcome other than the per-case levels above",
+  "derived I removing one counterexample is not a security result"
+ ],
+ "falsification_direction": {
+  "if_execution_matches": "prediction is consistent with the rules; the rules are not thereby confirmed",
+  "if_execution_differs": "adjudicate against the oracle first, then classify as execution or instrument defect, then as policy finding",
+  "forbidden": "adjusting the prediction after observing results, and adjusting k, thresholds, V or the hypothesis"
+ }
+}

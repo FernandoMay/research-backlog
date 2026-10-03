@@ -1,0 +1,334 @@
+{
+  "frozen_prediction": "7e22541",
+  "records": [
+    {
+      "case_id": "A1",
+      "impact_authority": "declared",
+      "registry_tool": "transfer_funds",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.2,
+        1.0,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "used_inputs": [
+        0.2,
+        1.0,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "x": 0.4,
+      "r": 0.258104,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A1",
+      "impact_authority": "derived",
+      "registry_tool": "transfer_funds",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.2,
+        1.0,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "used_inputs": [
+        0.2,
+        1.0,
+        1.0,
+        0.1,
+        0.2
+      ],
+      "x": 0.7,
+      "r": 0.680088,
+      "level": "L2",
+      "outcome": "NOT_FOUND_IN_THIS_CASE",
+      "provenance": "policy check",
+      "disposition": "informational",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "NOT_FOUND_IN_THIS_CASE"
+      ]
+    },
+    {
+      "case_id": "A2",
+      "impact_authority": "declared",
+      "registry_tool": "transfer_funds",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.2,
+        0.01,
+        0.9,
+        0.1,
+        0.2
+      ],
+      "used_inputs": [
+        0.2,
+        0.01,
+        0.9,
+        0.1,
+        0.2
+      ],
+      "x": 0.3433,
+      "r": 0.198143,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A2",
+      "impact_authority": "derived",
+      "registry_tool": "transfer_funds",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.2,
+        0.01,
+        0.9,
+        0.1,
+        0.2
+      ],
+      "used_inputs": [
+        0.2,
+        0.01,
+        1.0,
+        0.1,
+        0.2
+      ],
+      "x": 0.3733,
+      "r": 0.228476,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A1+A2",
+      "impact_authority": "declared",
+      "registry_tool": "transfer_funds",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.2,
+        0.01,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "used_inputs": [
+        0.2,
+        0.01,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "x": 0.0733,
+      "r": 0.046223,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A1+A2",
+      "impact_authority": "derived",
+      "registry_tool": "transfer_funds",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.2,
+        0.01,
+        0.0,
+        0.1,
+        0.2
+      ],
+      "used_inputs": [
+        0.2,
+        0.01,
+        1.0,
+        0.1,
+        0.2
+      ],
+      "x": 0.3733,
+      "r": 0.228476,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A3",
+      "impact_authority": "declared",
+      "registry_tool": "grant_access",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.05,
+        0.2,
+        0.0,
+        0.05,
+        0.1
+      ],
+      "used_inputs": [
+        0.05,
+        0.2,
+        0.0,
+        0.05,
+        0.1
+      ],
+      "x": 0.0865,
+      "r": 0.049864,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    },
+    {
+      "case_id": "A3",
+      "impact_authority": "derived",
+      "registry_tool": "grant_access",
+      "registry_impact": 1.0,
+      "impact_source": "REGISTRY",
+      "declared_inputs": [
+        0.05,
+        0.2,
+        0.0,
+        0.05,
+        0.1
+      ],
+      "used_inputs": [
+        0.05,
+        0.2,
+        1.0,
+        0.05,
+        0.1
+      ],
+      "x": 0.3865,
+      "r": 0.242817,
+      "level": "L0",
+      "outcome": "POLICY_FALSE_NEGATIVE",
+      "provenance": "policy check",
+      "disposition": "finding-valid",
+      "score_delta": 0.0,
+      "range_valid": true,
+      "all_checks_fired": [
+        "POLICY_FALSE_NEGATIVE"
+      ]
+    }
+  ],
+  "gate": {
+    "passed": true,
+    "detail": {
+      "P0": {
+        "level": "L0",
+        "ok": true
+      },
+      "P1": {
+        "level": "L3",
+        "ok": true
+      }
+    }
+  },
+  "prediction_comparison": [
+    {
+      "case_id": "A1",
+      "impact_authority": "declared",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    },
+    {
+      "case_id": "A1",
+      "impact_authority": "derived",
+      "predicted_level": "L2",
+      "observed_level": "L2",
+      "consistent": true
+    },
+    {
+      "case_id": "A2",
+      "impact_authority": "declared",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    },
+    {
+      "case_id": "A2",
+      "impact_authority": "derived",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    },
+    {
+      "case_id": "A1+A2",
+      "impact_authority": "declared",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    },
+    {
+      "case_id": "A1+A2",
+      "impact_authority": "derived",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    },
+    {
+      "case_id": "A3",
+      "impact_authority": "declared",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    },
+    {
+      "case_id": "A3",
+      "impact_authority": "derived",
+      "predicted_level": "L0",
+      "observed_level": "L0",
+      "consistent": true
+    }
+  ],
+  "prediction_consistent": true,
+  "verdict": "CONSISTENT_WITH_FROZEN_PREDICTION"
+}

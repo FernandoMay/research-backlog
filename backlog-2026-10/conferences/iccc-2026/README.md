@@ -8,15 +8,17 @@
 |---|---|
 | Backlog ID | `A-08` (assigned 2026-10-14) |
 | Venue | ICCC 2026 (Chengdu, China, December 11–14, 2026) |
-| Track | Computer Architecture, Systems, and Networking |
+| Track | Track 2: AI for Sciences, Engineering, and Technologies — sub-topic "AI for Agents (multi-agent systems, agent-based models)" |
 | Working title | Adaptive Edge-Cloud Orchestration for Distributed Multi-Agent Cognitive Runtimes |
 | Enfoque (rendered in ENGLISH) | Framework for distributed orchestration of AI agents across edge devices and the cloud, minimising latency and guaranteeing fault tolerance over heterogeneous networks |
-| Repo | `TBD — none` |
+| Repo | [xing-core](https://github.com/FernandoMay/xing-core) |
 | Submission link | `TBD — none` |
 | Submission date | `TBD — none` |
 | Official deadline | **2026-10-20** (email said Nov 20) (from Inbox 2026-10; source: [inbox-2026-10/04-iccc-2026/README.md](../inbox-2026-10/04-iccc-2026/README.md)) |
 | Inbox classification | `Contradicted` |
 | Retrieved | 2026-10-14 |
+
+**Topic decision (2026-10-14):** Title kept. Anchored to the **multi-agent** line via `xing-core` (distributed agent runtime; `xing-iccia2026` supplies the stochastic simulator and CSV evaluation base). Track confirmed against the venue's verbatim "AI for Agents" sub-topic. Momentum: ICCC deadline 2026-10-20 (six days) — tight but the topic-to-track fit is a direct match.
 
 ## Evidence gate (rules.md §3)
 

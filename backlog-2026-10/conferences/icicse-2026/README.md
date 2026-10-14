@@ -1,4 +1,4 @@
-# A-11 — ICICSE 2026, Cross-Platform Desktop Shell Architecture with Liquid Glass Rendering and Native IPC Integration
+# A-11 — ICICSE 2026, A Reproducible Conformance Harness for Reinforcement-Learned Multi-Agent Scheduling
 
 **Status: `Proposed` — proposal only; no manuscript, no run; all numeric claims blocked.**
 
@@ -8,15 +8,17 @@
 |---|---|
 | Backlog ID | `A-11` (assigned 2026-10-14) |
 | Venue | ICICSE 2026 (Chongqing, China, December 27–29, 2026) |
-| Track | Computer Information Science & Software Engineering |
-| Working title | Cross-Platform Desktop Shell Architecture with Liquid Glass Rendering and Native IPC Integration |
-| Enfoque (rendered in ENGLISH) | Software architecture patterns for advanced, distributed user interfaces (Flutter/Linux/GLSL) with high-performance inter-process communication (IPC) channels |
-| Repo | `TBD — none` |
+| Track | Computer Information Science & Software Engineering — Track 4 sub-topics "Reinforcement Learning" |
+| Working title | A Reproducible Conformance Harness for Reinforcement-Learned Multi-Agent Scheduling |
+| Enfoque (rendered in ENGLISH) | A reproducible conformance harness plus RL-based scheduling for distributed multi-agent workloads, with measurable quality attributes and pinned toolchains |
+| Repo | [xing-core](https://github.com/FernandoMay/xing-core) |
 | Submission link | `TBD — none` |
 | Submission date | `TBD — none` |
 | Official deadline | **2026-11-15** (email said Nov 10) (from Inbox 2026-10; source: [inbox-2026-10/06-icicse-2026/README.md](../inbox-2026-10/06-icicse-2026/README.md)) |
 | Inbox classification | `Contradicted` |
 | Retrieved | 2026-10-14 |
+
+**Topic decision (2026-10-14):** Pivoted away from the desktop-shell topic (derived from a personal demo, with no research line or backing asset) to a **multi-agent + RL** topic that hits ICICSE's Track 4 (RL / embodied AI / quantum AI). Momentum: `xing-core` conformance tests supply the harness base. Deadline 2026-11-15.
 
 ## Evidence gate (rules.md §3)
 

@@ -1,4 +1,4 @@
-# A-12 — ICETC 2026, Adaptive Cognitive Offloading in Human-AI Collaborative Interfaces
+# A-12 — ICETC 2026, Brainwave-Driven Adaptive Cognitive Offloading for Assistive Learning
 
 **Status: `Proposed` — proposal only; no manuscript, no run; all numeric claims blocked.**
 
@@ -8,15 +8,17 @@
 |---|---|
 | Backlog ID | `A-12` (assigned 2026-10-14) |
 | Venue | ICETC 2026 (Porto, Portugal, December 14–17, 2026) |
-| Track | Artificial Intelligence, VR/AR and Ubiquitous Computing |
-| Working title | Adaptive Cognitive Offloading in Human-AI Collaborative Interfaces |
-| Enfoque (rendered in ENGLISH) | Study of the impact of AI cognitive support on reducing mental load and increasing precision in adaptive interfaces |
-| Repo | `TBD — none` |
+| Track | Track 8: Assistive Technology and Inclusive Education — sub-topic "Brainwave-Based Assistive Learning" |
+| Working title | Brainwave-Driven Adaptive Cognitive Offloading for Assistive Learning |
+| Enfoque (rendered in ENGLISH) | BCI (EEG) signals drive adaptive cognitive offloading in assistive-learning interfaces; study of mental-load reduction and task-precision effects |
+| Repo | [fcstn](https://github.com/FernandoMay/fcstn) |
 | Submission link | `TBD — none` |
 | Submission date | `TBD — none` |
 | Official deadline | **2026-10-30** (email said Nov 10) (from Inbox 2026-10; source: [inbox-2026-10/05-icetc-2026/README.md](../inbox-2026-10/05-icetc-2026/README.md)) |
 | Inbox classification | `Contradicted` |
 | Retrieved | 2026-10-14 |
+
+**Topic decision (2026-10-14):** Merged the **BCI / cognitive-interfaces** line into the cognitive-offloading theme, against ICETC's only BCI track (Track 8, "Brainwave-Based Assistive Learning"). Momentum: `fcstn` (NDAN/BCI engine, 22 tests) and the A-06 BCI draft supply the asset base. Deadline: official page 2026-10-30 (news says 2026-10-10).
 
 ## Evidence gate (rules.md §3)
 

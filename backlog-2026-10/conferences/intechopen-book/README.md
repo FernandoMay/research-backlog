@@ -18,6 +18,8 @@
 | Inbox classification | `Verified established` |
 | Retrieved | 2026-10-14 |
 
+**Topic decision (2026-10-14):** Title kept. It matches the book's own subject areas (AI-Human Interactions, AI Dependence, Digital Well-Being) and the **human-AI** line. Momentum: the ~150-word proposal is already drafted in [`PROPOSAL-DRAFT.md`](PROPOSAL-DRAFT.md); proposal deadline 2026-10-14 (today).
+
 ## Evidence gate (rules.md §3)
 
 No number may appear until a linked, reproducible run exists. Current state: **no run** — all numeric claims blocked.

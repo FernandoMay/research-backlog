@@ -1,4 +1,4 @@
-# A-13 — ECCS 2027, Decentralized Cognitive Routing Protocols for Resilience in AI-Driven Wireless Networks
+# A-13 — ECCS 2027, Decentralized Cognitive Routing for Resilient THz-Enabled Multi-Agent Wireless Networks
 
 **Status: `Proposed` — proposal only; no manuscript, no run; all numeric claims blocked.**
 
@@ -8,15 +8,17 @@
 |---|---|
 | Backlog ID | `A-13` (assigned 2026-10-14) |
 | Venue | ECCS 2027 (Vienna, Austria, June 2–4, 2027) |
-| Track | Track 1: Communication Theory, Fundamentals & AI-Driven Systems |
-| Working title | Decentralized Cognitive Routing Protocols for Resilience in AI-Driven Wireless Networks |
-| Enfoque (rendered in ENGLISH) | Use of distributed AI agents for dynamic, decentralised route selection in next-generation communication networks (6G and edge networks) |
-| Repo | `TBD — repo not verified` |
+| Track | Track 3: Terahertz Communications |
+| Working title | Decentralized Cognitive Routing for Resilient THz-Enabled Multi-Agent Wireless Networks |
+| Enfoque (rendered in ENGLISH) | Distributed AI agents for dynamic, decentralised route selection in THz-enabled next-generation (6G) networks, with resilience under churn and link/node failure |
+| Repo | [leo-routing-itft2026-package](https://github.com/FernandoMay/leo-routing-itft2026-package) |
 | Submission link | `TBD — none` |
 | Submission date | `TBD — none` |
 | Official deadline | **2027-01-05** (from Inbox 2026-10; source: [inbox-2026-10/01-eccs-2027/README.md](../inbox-2026-10/01-eccs-2027/README.md)) |
 | Inbox classification | `Verified established` |
 | Retrieved | 2026-10-14 |
+
+**Topic decision (2026-10-14):** Anchored to ECCS's verbatim `Track 3: Terahertz Communications` (which maps to backlog A-01 / A-03), fusing the **THz/6G** line with cognitive multi-agent routing. Momentum: `leo-routing-itft2026-package` (NSGA-II + Q-learning simulator, JSON metrics) is a ready baseline; deadline 2027-01-05 gives the most room of this batch — **the item with the best chance of producing a real, reproducible run**.
 
 ## Evidence gate (rules.md §3)
 

@@ -1,4 +1,4 @@
-# A-09 — RAAI 2026, Conformal Uncertainty Calibration for Decision-Making Loops in Autonomous Intelligent Agents
+# A-09 — RAAI 2026, Fuzzy-Calibrated Conformal Prediction for Safe Action Selection in Autonomous Agents
 
 **Status: `Proposed` — proposal only; no manuscript, no run; all numeric claims blocked.**
 
@@ -9,14 +9,16 @@
 | Backlog ID | `A-09` (assigned 2026-10-14) |
 | Venue | RAAI 2026 (Singapore, December 18–20, 2026) |
 | Track | Artificial Intelligence, Machine Learning and Deep Learning |
-| Working title | Conformal Uncertainty Calibration for Decision-Making Loops in Autonomous Intelligent Agents |
-| Enfoque (rendered in ENGLISH) | Adaptive, calibrated conformal prediction to bound uncertainty in real-time autonomous agents before they execute actions in critical environments |
+| Working title | Fuzzy-Calibrated Conformal Prediction for Safe Action Selection in Autonomous Agents |
+| Enfoque (rendered in ENGLISH) | Fuzzy-calibrated (adaptive) conformal prediction that bounds uncertainty before an autonomous agent executes an action; abstain / reject / defer decision rules for critical environments |
 | Repo | [iscmi-01-fuzzy-conformal](https://github.com/FernandoMay/iscmi-01-fuzzy-conformal) |
 | Submission link | `TBD — none` |
 | Submission date | `TBD — none` |
 | Official deadline | **2026-11-01** (from Inbox 2026-10; source: [inbox-2026-10/03-raai-2026/README.md](../inbox-2026-10/03-raai-2026/README.md)) |
 | Inbox classification | `Verified established` |
 | Retrieved | 2026-10-14 |
+
+**Topic decision (2026-10-14):** Sharpened from a generic calibration topic to a **fuzzy-calibrated conformal** topic, merging the A-04 fuzzy-conformal asset with agentic action selection. Momentum: `iscmi-01-fuzzy-conformal` already packaged (SD-01); deadline 2026-11-01 gives room for a real run. Fits the venue's AI/ML track.
 
 ## Evidence gate (rules.md §3)
 

@@ -1,4 +1,4 @@
-# A-10 — CSAI 2026, Semantic Compression and Vector Orchestration in Multimodal Agentic Infrastructure
+# A-10 — CSAI 2026, Semantic Context Compression and Vector Orchestration for Distributed Multi-Agent Memory
 
 **Status: `Proposed` — proposal only; no manuscript, no run; all numeric claims blocked.**
 
@@ -9,14 +9,16 @@
 | Backlog ID | `A-10` (assigned 2026-10-14) |
 | Venue | CSAI 2026 (Beijing, China, December 18–21, 2026) |
 | Track | Foundation Models & Advanced Artificial Intelligence |
-| Working title | Semantic Compression and Vector Orchestration in Multimodal Agentic Infrastructure |
-| Enfoque (rendered in ENGLISH) | Semantic compression and accelerated vector retrieval to optimise complex context passing in distributed multi-agent systems |
-| Repo | `TBD — none` |
+| Working title | Semantic Context Compression and Vector Orchestration for Distributed Multi-Agent Memory |
+| Enfoque (rendered in ENGLISH) | Semantic context compression and accelerated vector retrieval to optimise memory and context passing across distributed multi-agent systems |
+| Repo | [xing-core](https://github.com/FernandoMay/xing-core) |
 | Submission link | `TBD — none` |
 | Submission date | `TBD — none` |
 | Official deadline | **2026-11-05** (from Inbox 2026-10; source: [inbox-2026-10/07-csai-2026/README.md](../inbox-2026-10/07-csai-2026/README.md)) |
 | Inbox classification | `Verified established` |
 | Retrieved | 2026-10-14 |
+
+**Topic decision (2026-10-14):** Narrowed "multimodal" to **distributed multi-agent memory**, aligning to the **multi-agent + semantic** line. Momentum: `xing-core` ships a memory component and conformance harness; `sc-ieee-package` is an adjacent semantic-encoding asset. Deadline 2026-11-05.
 
 ## Evidence gate (rules.md §3)
 

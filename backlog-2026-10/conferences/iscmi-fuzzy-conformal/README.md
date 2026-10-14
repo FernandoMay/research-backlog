@@ -17,6 +17,18 @@ Source: [`../inbox-2026-10/08-iscmi-2026/README.md`](../inbox-2026-10/08-iscmi-2
 
 **Reported, not evidenced:** the author reports abstract `VA263-A`, *"Fuzzy-Calibrated Conformal Prediction for Adaptive Uncertainty-Aware AI"*, approved by committee reviewers. Recorded as `User-asserted` per [`rules.md`](../../rules.md) — no decision artifact is on file. The venue's email asks for registration before 2026-10-15 (or a reply naming the participation mode) and states the final registration deadline as 2026-10-25; neither date is published on the official site.
 
+## Cross-reference 2026-10-14 — the shared asset gained an A-09 extension
+
+The shared repository [iscmi-01-fuzzy-conformal](https://github.com/FernandoMay/iscmi-01-fuzzy-conformal)
+now carries an **A-09** extension (fuzzy-calibrated conformal safe action
+selection) with a reproducible run on public proxy datasets — see
+[`../raai-2026/README.md`](../raai-2026/README.md) and asset PR
+[#1](https://github.com/FernandoMay/iscmi-01-fuzzy-conformal/pull/1).
+
+This advances the shared asset but **does not clear A-04's blocked claim**: the
+proxy run uses `digits` / `wine` / `iris`, not MIMIC-III or UCI. The MIMIC-III /
+UCI tabular evaluation required by the blocked-claims table below was not run.
+
 ## At a glance
 
 | Field | Value |

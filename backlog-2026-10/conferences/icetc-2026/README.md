@@ -46,5 +46,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 ## Next real action
 
 Design a controlled, reproducible user study protocol (task, conditions, counterbalancing, power analysis, ethics/IRB considerations, validated instruments), specify adaptive offloading policy and logging, create a data/analysis manifest, and link to reproducible analysis code (with seeds); no numbers to be published until data collection/analysis run is linked and reproducible.
-
-(End of file)

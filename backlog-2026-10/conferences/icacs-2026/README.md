@@ -45,5 +45,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 ## Next real action
 
 Extend the [xing-core](https://github.com/FernandoMay/xing-core) conformance harness into a concrete measurement harness for agent-economy execution (durability metric definitions, failure taxonomy, auditable settlement traces) that can produce reproducible runs with pinned versions and seeds; no numbers to be published until that linked run exists.
-
-(End of file)

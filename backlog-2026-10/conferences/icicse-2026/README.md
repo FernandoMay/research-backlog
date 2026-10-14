@@ -45,5 +45,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 ## Next real action
 
 Define reproducible microbenchmarks for GPU rendering (frame times) and IPC channels (latency/throughput/jitter) on a documented target matrix (Flutter/Linux/GLSL), create an architecture specification with measurable quality attributes, and produce a linked run with pinned toolchains and environment manifest; no numbers to be published until that run exists.
-
-(End of file)

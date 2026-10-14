@@ -47,5 +47,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 ## Next real action
 
 Draft chapter proposal (grounded in this enfoque), explicitly separate conceptual claims from any empirical ones (mark empirical as blocked), and build a citation inventory of canonical primary sources (do NOT invent citations); produce a concrete proposal draft with verified references only.
-
-(End of file)

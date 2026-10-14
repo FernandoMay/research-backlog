@@ -16,5 +16,3 @@ This paper presents the DSL Bank Durability Study, a blind adversarial audit of 
 - settlement authority
 - verification
 - reproducible evidence
-
-(End of file)

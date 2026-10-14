@@ -20,5 +20,3 @@ This chapter offers a conceptual analysis of decision delegation in autonomous m
 
 ## Fee boundary (honest note)
 The IntechOpen chapter fee is **EUR 1,650**, payable only if the full chapter is accepted. The proposal itself is free. Any waivers are granted only in specific cases (not guaranteed) as stated by IntechOpen; no installment plan is assumed.
-
-(End of file)

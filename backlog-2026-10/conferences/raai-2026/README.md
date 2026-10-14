@@ -72,5 +72,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 2. Add stronger selective-prediction baselines (MC-dropout, temperature scaling) and citations (closes the "Baselines" gap).
 3. Add latency/timing measurements for the abstention policy (closes the "Real-time constraints" gap).
 4. Draft the manuscript against the RAAI 2026 template (deadline 2026-11-01).
-
-(End of file)

@@ -27,5 +27,3 @@
 
 - This is a time-critical submission artifact (documentation only). No code changes.
 - Abstract draft is 150–250 words, grounded in the actual manuscript content; keywords extracted from source (DSL Bank, Solana payment rails, blind adversarial audit, durable payments, settlement authority, verification, reproducible evidence).
-
-(End of file)

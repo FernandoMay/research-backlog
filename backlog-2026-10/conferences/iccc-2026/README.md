@@ -44,5 +44,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 ## Next real action
 
 Define a minimal synthetic benchmark (heterogeneous network traces + agent workload) and a test harness to measure latency and fault-tolerance; create a reproducible environment manifest (versions, seeds, hardware profile) before any numeric claims; no numbers to be published until linked run exists.
-
-(End of file)

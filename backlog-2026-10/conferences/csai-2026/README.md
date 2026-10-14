@@ -45,5 +45,3 @@ Canonical search terms (3–6). **do NOT invent citations.** Only record verifie
 ## Next real action
 
 Define reproducible multimodal benchmarks for distributed multi-agent context passing, specify semantic compression fidelity metrics (task-grounded, not only reconstruction), implement vector orchestration harness with pinned indices/datasets/seeds, and produce a linked run; no numbers to be published until that run exists.
-
-(End of file)
